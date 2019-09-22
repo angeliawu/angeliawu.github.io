@@ -1,9 +1,9 @@
 /*global Phaser*/
-import * as ChangeScene from './ChangeScene.js'
+//import * as ChangeScene from './ChangeScene.js'
 
 export default class Scene1 extends Phaser.Scene {
   constructor () {
-    super('Scene1');
+    super('Scene0');
   }
 
   init (data) {
@@ -13,13 +13,14 @@ export default class Scene1 extends Phaser.Scene {
   preload () {
     // Preload assets
     this.load.image("tiles", "./assets/tilesets/tuxmon-sample-32px-extruded.png");
-    this.load.tilemapTiledJSON("map", "./assets/tilemaps/tuxemon-town.json")
+    this.load.tilemapTiledJSON("map", "./assets/tilesets/tuxemon-town.json")
     this.load.atlas("atlas","./assets/atlas/atlas.png","./assets/atlas/atlas.json")
+    this.load.image("crate", "./assets/tilesets/crate.png")
   }
 
 
   create() {
-    ChangeScene.addSceneEventListeners(this);
+    //ChangeScene.addSceneEventListeners(this);
     //load map
     const map = this.make.tilemap({ key: "map"});
 
@@ -41,11 +42,15 @@ export default class Scene1 extends Phaser.Scene {
       .setScrollFactor(0);
     //worldLayer.setCollisionBetween(12, 44);
     worldLayer.setCollisionByProperty({ collides: true});
-    aboveLayer.setDepth(10);
+    //aboveLayer.setDepth(10);
     const spawnPoint = map.findObject(
       "Objects",
       obj => obj.name === "Spawn Point"
     );
+
+
+
+
 
 
   //player attributes
@@ -103,6 +108,30 @@ export default class Scene1 extends Phaser.Scene {
 
   // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
   camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+  //Crate attributes
+  var crate = map.createFromObjects('Objects','cratePoint', {key: 'crate'});
+  var crateGroup = this.physics.add.group();
+  crateGroup.children.iterate(function(child) {
+    //  Give each star a slightly different bounce
+    child.setBounceX(Phaser.Math.FloatBetween(0.4, 0.8));
+    child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+  });
+  this.physics.add.collider(crateGroup, worldLayer);
+  this.physics.add.collider(this.player, crateGroup);
+  this.physics.add.collider(crateGroup, crateGroup);
+
+  for(var i = 0; i < crate.length; i++){
+    crateGroup.add(crate[i]);
+    crate[i]
+    .body
+    .CollideWorldBounds = true;
+    crate[i]
+    .body.bounce.set(0.1);
+    crate[i]
+    .body.setDrag(10000,10000);
+
+  }
+
 
 
 
