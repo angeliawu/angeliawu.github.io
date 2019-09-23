@@ -15,7 +15,10 @@ export default class Scene1 extends Phaser.Scene {
     this.load.image("tiles", "./assets/tilesets/tuxmon-sample-32px-extruded.png");
     this.load.tilemapTiledJSON("map", "./assets/tilesets/tuxemon-town.json")
     this.load.atlas("atlas","./assets/atlas/atlas.png","./assets/atlas/atlas.json")
-    this.load.image("crate", "./assets/tilesets/crate.png")
+    this.load.image("crate", "./assets/crate.png")
+
+    //Loads potato player sprite
+    this.load.image("potato", "./assets/potato.png");
   }
 
 
@@ -48,61 +51,11 @@ export default class Scene1 extends Phaser.Scene {
       obj => obj.name === "Spawn Point"
     );
 
-
-
-
-
-
   //player attributes
-  this.player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, "atlas", "misa-front").setSize(30, 40).setOffset(0, 24);
+  this.player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, "potato").setScale(0.25);
   this.physics.add.collider(this.player, worldLayer);
 
   this.cursors = this.input.keyboard.createCursorKeys();
-  const anims = this.anims;
-    anims.create({
-      key: "misa-left-walk",
-      frames: anims.generateFrameNames("atlas", {
-        prefix: "misa-left-walk.",
-        start: 0,
-        end: 3,
-        zeroPad: 3
-      }),
-      frameRate: 10,
-      repeat: -1
-    });
-    anims.create({
-      key: "misa-right-walk",
-      frames: anims.generateFrameNames("atlas", {
-        prefix: "misa-right-walk.",
-        start: 0,
-        end: 3,
-        zeroPad: 3
-      }),
-      frameRate: 10,
-      repeat: -1
-    });
-    anims.create({
-      key: "misa-front-walk",
-      frames: anims.generateFrameNames("atlas", {
-        prefix: "misa-front-walk.",
-        start: 0,
-        end: 3,
-        zeroPad: 3
-      }),
-      frameRate: 10,
-      repeat: -1
-    });
-    anims.create({
-      key: "misa-back-walk",
-      frames: anims.generateFrameNames("atlas", {
-        prefix: "misa-back-walk.",
-        start: 0,
-        end: 3,
-        zeroPad: 3
-      }),
-      frameRate: 10,
-      repeat: -1
-    });
   const camera = this.cameras.main;
   camera.startFollow(this.player);
 
@@ -121,7 +74,7 @@ export default class Scene1 extends Phaser.Scene {
   this.physics.add.collider(crateGroup, crateGroup);
 
   for(var i = 0; i < crate.length; i++){
-    crateGroup.add(crate[i]);
+    crateGroup.add(crate[i].setScale(0.25));
     crate[i]
     .body
     .CollideWorldBounds = true;
@@ -129,7 +82,6 @@ export default class Scene1 extends Phaser.Scene {
     .body.bounce.set(0.1);
     crate[i]
     .body.setDrag(10000,10000);
-
   }
 
 
@@ -161,22 +113,5 @@ export default class Scene1 extends Phaser.Scene {
 
     // Normalize and scale the velocity so that player can't move faster along a diagonal
     this.player.body.velocity.normalize().scale(speed);
-    if (this.cursors.left.isDown) {
-      this.player.anims.play("misa-left-walk", true);
-    } else if (this.cursors.right.isDown) {
-      this.player.anims.play("misa-right-walk", true);
-    } else if (this.cursors.up.isDown) {
-      this.player.anims.play("misa-back-walk", true);
-    } else if (this.cursors.down.isDown) {
-      this.player.anims.play("misa-front-walk", true);
-    } else {
-      this.player.anims.stop();
-    // If we were moving, pick and idle frame to use
-    if (prevVelocity.x < 0) this.player.setTexture("atlas", "misa-left");
-    else if (prevVelocity.x > 0) this.player.setTexture("atlas", "misa-right");
-    else if (prevVelocity.y < 0) this.player.setTexture("atlas", "misa-back");
-    else if (prevVelocity.y > 0) this.player.setTexture("atlas", "misa-front");
-    }
-
     }
   }
