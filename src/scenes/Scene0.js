@@ -117,6 +117,7 @@ export default class Scene1 extends Phaser.Scene {
   this.crateGroup.children.iterate(function(child) {
     child.setImmoveable(false);
     child.refreshBody();
+    child.setScale(0.4);
   });
   this.physics.add.collider(this.crateGroup, worldLayer, function(s1){
     var b1 = s1.body;
@@ -143,7 +144,6 @@ export default class Scene1 extends Phaser.Scene {
   this.LgcrateGroup.children.iterate(function(child) {
     child.setImmoveable(false);
     child.refreshBody();
-    child.body.setScale(2);
   });
   this.physics.add.collider(this.LgcrateGroup, worldLayer, function(s1){
     var b1 = s1.body;
