@@ -154,9 +154,8 @@ export default class Scene0 extends Phaser.Scene {
 
   update (time, delta) {
     // Update the scene
-    if(this.WinGame){
-      this.scene.start('WinScene');
-      this.WinGame=false;
+    if(this.gameOver){
+      this.scene.start('GameOverScene');
       return;
     }
     const speed = 60;
@@ -199,7 +198,7 @@ export default class Scene0 extends Phaser.Scene {
 
     }
     endScene(player, winPoint){
-      this.WinGame = true;
+      this.gameOver = true;
     }
     spill(player, spill){
       this.timeCheck = this.time.now;
