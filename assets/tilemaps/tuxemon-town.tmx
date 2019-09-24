@@ -3552,7 +3552,7 @@
   <object id="304" name="cratePoint" x="512" y="1120">
    <point/>
   </object>
-  <object id="305" name="lgCratePoint" gid="491" x="320" y="1120" width="64" height="32"/>
+  <object id="305" name="LCratePoint" gid="491" x="320" y="1120" width="64" height="32"/>
   <object id="309" name="winPoint" x="544" y="928">
    <point/>
   </object>

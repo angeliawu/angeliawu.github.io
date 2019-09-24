@@ -238,7 +238,7 @@
                  "gid":491,
                  "height":32,
                  "id":305,
-                 "name":"lgCratePoint",
+                 "name":"LCratePoint",
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -267,8 +267,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":823.333333333333,
-                 "y":983.333333333333
+                 "x":823.333,
+                 "y":983.333
                 }, 
                 {
                  "height":0,

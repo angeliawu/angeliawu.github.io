@@ -106,6 +106,30 @@ export default class Scene0 extends Phaser.Scene {
     crate[i]
     .body.setDrag(100);
   }
+  //Large Crate attributes
+  var Lcrate = map.createFromObjects('Objects','LCratePoint', {key: 'Lcrate'});
+  this.LcrateGroup = this.physics.add.group();
+  this.LcrateGroup.children.iterate(function(child) {
+    child.setImmoveable(false);
+    child.refreshBody();
+  });
+  this.physics.add.collider(this.LcrateGroup, worldLayer, function(s1){
+    var b1 = s1.body;
+    b1.stop();
+  });
+  this.physics.add.collider(this.player, this.LcrateGroup);
+  this.physics.add.collider(this.crateGroup,this.LcrateGroup);
+
+  for(var i = 0; i < Lcrate.length; i++){
+    this.LcrateGroup.add(Lcrate[i]);
+    Lcrate[i]
+    .body
+    .CollideWorldBounds = true;
+    Lcrate[i]
+    .body.bounce.set(0.1);
+    Lcrate[i]
+    .body.setDrag(100);
+  }
 
   //enemy attributes
   var enemy = map.createFromObjects('Objects','enemyPoint', {key: 'enemy'});
