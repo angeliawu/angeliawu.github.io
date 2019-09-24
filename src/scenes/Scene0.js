@@ -16,6 +16,7 @@ export default class Scene1 extends Phaser.Scene {
     this.load.tilemapTiledJSON("map", "./assets/tilesets/tuxemon-town.json")
     this.load.atlas("atlas","./assets/atlas/atlas.png","./assets/atlas/atlas.json")
     this.load.image("crate", "./assets/tilesets/crate.png")
+    this.load.image("lgcrate", "./assets/tilesets/crate.png")
   }
 
 
@@ -108,27 +109,61 @@ export default class Scene1 extends Phaser.Scene {
 
   // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
   camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+
+
   //Crate attributes
   var crate = map.createFromObjects('Objects','cratePoint', {key: 'crate'});
-  var crateGroup = this.physics.add.group();
-  crateGroup.children.iterate(function(child) {
-    //  Give each star a slightly different bounce
-    child.setBounceX(Phaser.Math.FloatBetween(0.4, 0.8));
-    child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+  this.crateGroup = this.physics.add.group();
+  this.crateGroup.children.iterate(function(child) {
+    child.setImmoveable(false);
+    child.refreshBody();
   });
-  this.physics.add.collider(crateGroup, worldLayer);
-  this.physics.add.collider(this.player, crateGroup);
-  this.physics.add.collider(crateGroup, crateGroup);
+  this.physics.add.collider(this.crateGroup, worldLayer, function(s1){
+    var b1 = s1.body;
+    b1.stop();
+  });
+  this.physics.add.collider(this.player, this.crateGroup);
+  this.physics.add.collider(this.crateGroup,this.crateGroup);
 
   for(var i = 0; i < crate.length; i++){
-    crateGroup.add(crate[i]);
+    this.crateGroup.add(crate[i]);
     crate[i]
     .body
     .CollideWorldBounds = true;
     crate[i]
     .body.bounce.set(0.1);
     crate[i]
-    .body.setDrag(10000,10000);
+    .body.setFriction(200);
+    crate[i]
+    .body.setDrag(1000);
+
+  }
+  var Lgcrate = map.createFromObjects('Objects','lgCratePoint', {key: 'lgcrate'});
+  this.LgcrateGroup = this.physics.add.group();
+  this.LgcrateGroup.children.iterate(function(child) {
+    child.setImmoveable(false);
+    child.refreshBody();
+    child.body.setScale(2);
+  });
+  this.physics.add.collider(this.LgcrateGroup, worldLayer, function(s1){
+    var b1 = s1.body;
+    b1.stop();
+  });
+  this.physics.add.collider(this.player, this.LgcrateGroup);
+  this.physics.add.collider(this.LgcrateGroup,this.crateGroup);
+  this.physics.add.collider(this.LgcrateGroup);
+
+  for(var i = 0; i < Lgcrate.length; i++){
+    this.LgcrateGroup.add(Lgcrate[i]);
+    Lgcrate[i]
+    .body
+    .CollideWorldBounds = true;
+    Lgcrate[i]
+    .body.bounce.set(0.1);
+    Lgcrate[i]
+    .body.setFriction(200);
+    Lgcrate[i]
+    .body.setDrag(1000);
 
   }
 
@@ -140,12 +175,12 @@ export default class Scene1 extends Phaser.Scene {
 
   update (time, delta) {
     // Update the scene
-    const speed = 175;
+    const speed = 60;
     const prevVelocity = this.player.body.velocity.clone();
     // Stop any previous movement from the last frame
     this.player.body.setVelocity(0);
 
-    // Horizontal movement
+    // Horizontal move4ent
     if (this.cursors.left.isDown) {
       this.player.body.setVelocityX(-speed);
     } else if (this.cursors.right.isDown) {
