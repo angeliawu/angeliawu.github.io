@@ -13,7 +13,7 @@ export default class GameOverScene extends Phaser.Scene {
 
   preload () {
     // Preload assets
-    this.load.image('logo', './assets/logo.png');
+    this.load.image('logo', './assets/potato.png');
 
     // Declare variables for center of the scene
     this.centerX = this.cameras.main.width / 2;
@@ -22,7 +22,7 @@ export default class GameOverScene extends Phaser.Scene {
 
   create (data) {
     //add addSceneEventListeners
-    ChangeScene.addSceneEventListeners(this);
+    //ChangeScene.addSceneEventListeners(this);
     //Create the scene
     var text = this.add.text(this.centerX - 20, this.centerY, 'Game Over');
     var score = this.add.text(this.centerX - 20, this.centerY + 25, this.score);
