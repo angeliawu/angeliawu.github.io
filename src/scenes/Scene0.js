@@ -139,6 +139,9 @@ export default class Scene0 extends Phaser.Scene {
     child.setImmoveable(true);
     child.refreshBody();
   });
+  this.physics.add.collider(this.player, this.spillGroup, function(){
+
+  });
   for(var i = 0; i < spill.length; i++){
     this.spillGroup.add(spill[i]);
     spill[i]
