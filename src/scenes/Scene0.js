@@ -89,6 +89,31 @@ export default class Scene1 extends Phaser.Scene {
     .body.setDrag(100);
   }
 
+  //enemy attributes
+  var enemy = map.createFromObjects('Objects','enemyPoint', {key: 'enemy'});
+  this.enemyGroup = this.physics.add.group();
+  this.enemyGroup.children.iterate(function(child) {
+    child.setImmoveable(false);
+    child.refreshBody();
+  });
+  this.physics.add.collider(this.enemyGroup, worldLayer, function(s1){
+    var b1 = s1.body;
+    b1.stop();
+  });
+  this.physics.add.collider(this.player, this.enemyGroup);
+  this.physics.add.collider(this.enemyGroup,this.crateGroup);
+
+  for(var i = 0; i < enemy.length; i++){
+    this.enenmyGroup.add(enemy[i]);
+    enemy[i]
+    .body
+    .CollideWorldBounds = true;
+    enemy[i]
+    .body.bounce.set(0.1);
+    enemy[i]
+    .body.setDrag(100);
+  }
+
 
 
 
