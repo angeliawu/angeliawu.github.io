@@ -16,7 +16,7 @@ export default class Scene1 extends Phaser.Scene {
     this.load.tilemapTiledJSON("map", "./assets/tilesets/tuxemon-town.json");
     this.load.atlas("atlas","./assets/atlas/atlas.png","./assets/atlas/atlas.json");
     this.load.image("crate", "./assets/crate.png");
-    this.load.image("Lcrate", "./assests/Lcrate.png");
+    this.load.image("Lcrate", "./assets/Lcrate.png");
 
     //Loads potato player sprite
     this.load.image("potato", "./assets/potato.png");
