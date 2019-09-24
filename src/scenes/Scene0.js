@@ -1,7 +1,7 @@
 /*global Phaser*/
 //import * as ChangeScene from './ChangeScene.js'
 
-export default class Scene1 extends Phaser.Scene {
+export default class Scene0 extends Phaser.Scene {
   constructor () {
     super('Scene0');
   }
@@ -63,6 +63,25 @@ export default class Scene1 extends Phaser.Scene {
   // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
   camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
+  //win condition
+  var win = map.createFromObjects('Objects','winPoint', {key: 'win'});
+  this.winGroup = this.physics.add.group();
+  this.winGroup.children.iterate(function(child) {
+    child.setImmoveable(true);
+    child.refreshBody();
+  });
+  this.physics.add.collider(this.winGroup, worldLayer, function(s1){
+    var b1 = s1.body;
+    b1.stop();
+  });
+  this.physics.add.collider(this.player, this.winGroup, function(){
+    //for now go to end scene
+    this.scene.start();
+  });
+
+  for(var i = 0; i < win.length; i++){
+    this.winGroup.add(win[i]);
+  }
 
   //Crate attributes
   var crate = map.createFromObjects('Objects','cratePoint', {key: 'crate'});
@@ -157,15 +176,20 @@ export default class Scene1 extends Phaser.Scene {
     enemyView(distance){
       var enemies = this.enemyGroup.getChildewn();
       for ( var i = 0; i < enemies.length; i++){
-        if (Phaser.Math.Distance.Between(this.player.x, this.player.y, enemies[i].x, enemies[i].y ) <= distance)
-          return True;
+        if (Phaser.Math.Distance.Between(this.player.x, this.player.y, enemies[i].x, enemies[i].y ) <= distance){
+          enemyChase(enemies[i]);
+        }else {
+          enemyWander(enemies[i]);
+        }
+
 
       }
     }
-    enemyChase(){
-
+    enemyChase(enemy){
+      var angleBetween = Phaser.Math.angleBetween(enemy.x, enemy.y, this.player.x, this.player.y);
+      enemy.body.velocity.x = Phaser.Math.cos(angleBetween)
     }
-    enemyWander(){
+    enemyWander(enemy){
 
     }
   }

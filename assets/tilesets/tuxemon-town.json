@@ -245,6 +245,42 @@
                  "width":64,
                  "x":320,
                  "y":1120
+                }, 
+                {
+                 "height":0,
+                 "id":309,
+                 "name":"winPoint",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":544,
+                 "y":928
+                }, 
+                {
+                 "height":0,
+                 "id":310,
+                 "name":"",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":823.333333333333,
+                 "y":983.333333333333
+                }, 
+                {
+                 "height":0,
+                 "id":311,
+                 "name":"",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":391.333333333333,
+                 "y":742
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -253,7 +289,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":309,
+ "nextobjectid":312,
  "orientation":"orthogonal",
  "properties":[
         {

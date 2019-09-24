@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="309">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="312">
  <properties>
   <property name="edges" value="clamped"/>
  </properties>
@@ -3553,5 +3553,14 @@
    <point/>
   </object>
   <object id="305" name="lgCratePoint" gid="491" x="320" y="1120" width="64" height="32"/>
+  <object id="309" name="winPoint" x="544" y="928">
+   <point/>
+  </object>
+  <object id="310" x="823.333" y="983.333">
+   <point/>
+  </object>
+  <object id="311" x="391.333" y="742">
+   <point/>
+  </object>
  </objectgroup>
 </map>
