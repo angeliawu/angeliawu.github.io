@@ -2,7 +2,7 @@
 import * as ChangeScene from './ChangeScene.js';
 export default class BootScene extends Phaser.Scene {
   constructor() {
-    super("Boot");
+    super("WinScene");
   }
 
   preload(){
@@ -27,13 +27,10 @@ export default class BootScene extends Phaser.Scene {
 
     this.cameras.main.setBackgroundColor(0x333)
 
-    var text = 'Fried or Flight'
-    var text2 = 'Use the arrows to move, push crates, and avoid the cooks'
-    var text3 = 'Press Space bar to start'
-
-    this.spellOutText(170,75,550,text,60,10, '#fff','Candal');
-    this.spellOutText(175,200,450,text2,20,30, '#fff','Anton');
-    this.spellOutText(250,300,550,text3,30,50, '#fff','Anton');
+    var text = 'You Win!'
+    var text2  = 'Press Space to play again.'
+    this.spellOutText(170,75,550,text,100,10, '#fff','Candal');
+    this.spellOutText(250,300,550,text2,30,10,'#fff','Modak');
   }
 
   spellOutText(x, y, width, text, fontSize, speed, fill, font){

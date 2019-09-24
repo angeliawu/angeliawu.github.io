@@ -1,14 +1,13 @@
 /*global Phaser*/
-//import * as ChangeScene from './ChangeScene.js'
+import * as ChangeScene from './ChangeScene.js'
 
 export default class GameOverScene extends Phaser.Scene {
   constructor () {
     super('GameOverScene');
   }
 
-  init (data) {
+  init () {
     // Initialization code goes here
-    this.score = data.score;
   }
 
   preload () {
@@ -20,13 +19,11 @@ export default class GameOverScene extends Phaser.Scene {
     this.centerY = this.cameras.main.height / 2;
   }
 
-  create (data) {
+  create () {
     //add addSceneEventListeners
     //ChangeScene.addSceneEventListeners(this);
     //Create the scene
-    var text = this.add.text(this.centerX - 20, this.centerY, 'Game Over');
-    var score = this.add.text(this.centerX - 20, this.centerY + 25, this.score);
-
+    var text = this.add.text(this.centerX-50, this.centerY, 'Game Over');
   }
 
   update (time, delta) {
