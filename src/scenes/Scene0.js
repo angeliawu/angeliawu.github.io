@@ -138,14 +138,16 @@ export default class Scene0 extends Phaser.Scene {
     child.setImmoveable(true);
     child.refreshBody();
   });
-  this.physics.add.collider(this.player, this.spillGroup, function(){
-
-  });
+  this.physics.add.overlap(this.player, this.spillGroup, this.spill, null, this);
+  this.physics.add.collider(this.spillGroup, worldLayer);
   for (var i = 0; i < spill.length; i++){
     this.spillGroup.add(spill[i]);
     spill[i]
     .body
     .CollideWorldBounds = true;
+    spill[i]
+    .body
+    .setMaxVelocity(0);
   }
 
   }
@@ -178,18 +180,15 @@ export default class Scene0 extends Phaser.Scene {
 
     // Normalize and scale the velocity so that player can't move faster along a diagonal
     this.player.body.velocity.normalize().scale(speed);
-    }
-
+  }
     enemyView(distance){
-      var enemies = this.enemyGroup.getChildewn();
+      var enemies = this.enemyGroup.getChildren();
       for ( var i = 0; i < enemies.length; i++){
         if (Phaser.Math.Distance.Between(this.player.x, this.player.y, enemies[i].x, enemies[i].y ) <= distance){
           enemyChase(enemies[i]);
         }else {
           enemyWander(enemies[i]);
         }
-
-
       }
     }
     enemyChase(enemy){
@@ -201,6 +200,14 @@ export default class Scene0 extends Phaser.Scene {
     }
     endScene(player, winPoint){
       this.WinGame = true;
+    }
+    spill(player, spill){
+      this.timeCheck = this.time.now;
+      //console.log(timeCheck);
+      this.player.body.setVelocityX(Phaser.Math.Between(-2500, 2500));
+      this.player.body.setVelocityY(Phaser.Math.Between(-2500, 2500));
+      console.log("slip!")
+
     }
 
   }
