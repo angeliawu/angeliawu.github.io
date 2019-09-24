@@ -13,9 +13,10 @@ export default class Scene1 extends Phaser.Scene {
   preload () {
     // Preload assets
     this.load.image("tiles", "./assets/tilesets/tuxmon-sample-32px-extruded.png");
-    this.load.tilemapTiledJSON("map", "./assets/tilesets/tuxemon-town.json")
-    this.load.atlas("atlas","./assets/atlas/atlas.png","./assets/atlas/atlas.json")
-    this.load.image("crate", "./assets/crate.png")
+    this.load.tilemapTiledJSON("map", "./assets/tilesets/tuxemon-town.json");
+    this.load.atlas("atlas","./assets/atlas/atlas.png","./assets/atlas/atlas.json");
+    this.load.image("crate", "./assets/crate.png");
+    this.load.image("Lcrate", "./assests/Lcrate.png");
 
     //Loads potato player sprite
     this.load.image("potato", "./assets/potato.png");
@@ -52,7 +53,7 @@ export default class Scene1 extends Phaser.Scene {
     );
 
   //player attributes
-  this.player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, "potato").setScale(0.25);
+  this.player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, "potato");
   this.physics.add.collider(this.player, worldLayer);
 
   this.cursors = this.input.keyboard.createCursorKeys();
@@ -69,7 +70,6 @@ export default class Scene1 extends Phaser.Scene {
   this.crateGroup.children.iterate(function(child) {
     child.setImmoveable(false);
     child.refreshBody();
-    child.setScale(0.4);
   });
   this.physics.add.collider(this.crateGroup, worldLayer, function(s1){
     var b1 = s1.body;
@@ -79,14 +79,14 @@ export default class Scene1 extends Phaser.Scene {
   this.physics.add.collider(this.crateGroup,this.crateGroup);
 
   for(var i = 0; i < crate.length; i++){
-    crateGroup.add(crate[i].setScale(0.25));
+    this.crateGroup.add(crate[i]);
     crate[i]
     .body
     .CollideWorldBounds = true;
     crate[i]
     .body.bounce.set(0.1);
     crate[i]
-    .body.setDrag(10000,10000);
+    .body.setDrag(100);
   }
 
 
