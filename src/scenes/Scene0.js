@@ -179,7 +179,7 @@ export default class Scene0 extends Phaser.Scene {
   update (time, delta) {
     // Update the scene
     if(this.gameOver){
-      this.scene.start('GameOverScene');
+      this.scene.start('WinScene');
       return;
     }
     const speed = 60;
