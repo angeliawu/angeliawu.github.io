@@ -144,4 +144,19 @@ export default class Scene1 extends Phaser.Scene {
     // Normalize and scale the velocity so that player can't move faster along a diagonal
     this.player.body.velocity.normalize().scale(speed);
     }
+
+    enemyView(distance){
+      var enemies = this.enemyGroup.getChildewn();
+      for ( var i = 0; i < enemies.length; i++){
+        if (Phaser.Math.Distance.Between(this.player.x, this.player.y, enemies[i].x, enemies[i].y ) <= distance)
+          return True;
+
+      }
+    }
+    enemyChase(){
+
+    }
+    enemyWander(){
+
+    }
   }
