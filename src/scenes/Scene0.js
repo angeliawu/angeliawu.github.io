@@ -104,7 +104,7 @@ export default class Scene1 extends Phaser.Scene {
   this.physics.add.collider(this.enemyGroup,this.crateGroup);
 
   for(var i = 0; i < enemy.length; i++){
-    this.enenmyGroup.add(enemy[i]);
+    this.enemyGroup.add(enemy[i]);
     enemy[i]
     .body
     .CollideWorldBounds = true;
@@ -113,10 +113,19 @@ export default class Scene1 extends Phaser.Scene {
     enemy[i]
     .body.setDrag(100);
   }
-
-
-
-
+  //waterspill attributes
+  var spill = map.createFromObjects('Objects','spillPoint', {key: 'spill'});
+  this.spillGroup = this.physics.add.group();
+  this.spillGroup.children.iterate(function(child) {
+    child.setImmoveable(true);
+    child.refreshBody();
+  });
+  for(var i = 0; i < spill.length; i++){
+    this.spillGroup.add(spill[i]);
+    spill[i]
+    .body
+    .CollideWorldBounds = true;
+  }
 
   }
 
