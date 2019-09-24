@@ -33,6 +33,8 @@ export default class Scene0 extends Phaser.Scene {
     const worldLayer = map.createStaticLayer("World", tileset, 0, 0);
     const aboveLayer = map.createStaticLayer("Above Player", tileset, 0, 0);
 
+    this.gameOver = false;
+
 
 
     // Help text that has a "fixed" position on the screen
@@ -74,10 +76,7 @@ export default class Scene0 extends Phaser.Scene {
     var b1 = s1.body;
     b1.stop();
   });
-  this.physics.add.collider(this.player, this.winGroup, function(){
-    //for now go to end scene
-    this.scene.start();
-  });
+  this.physics.add.collider(this.player, this.winGroup, this.endScene, null, this);
 
   for(var i = 0; i < win.length; i++){
     this.winGroup.add(win[i]);
@@ -142,7 +141,7 @@ export default class Scene0 extends Phaser.Scene {
   this.physics.add.collider(this.player, this.spillGroup, function(){
 
   });
-  for(var i = 0; i < spill.length; i++){
+  for (var i = 0; i < spill.length; i++){
     this.spillGroup.add(spill[i]);
     spill[i]
     .body
@@ -153,6 +152,10 @@ export default class Scene0 extends Phaser.Scene {
 
   update (time, delta) {
     // Update the scene
+    if(this.gameOver){
+      this.scene.start('GameOverScene');
+      return;
+    }
     const speed = 60;
     const prevVelocity = this.player.body.velocity.clone();
     // Stop any previous movement from the last frame
@@ -195,4 +198,8 @@ export default class Scene0 extends Phaser.Scene {
     enemyWander(enemy){
 
     }
+    endScene(player, winPoint){
+      this.gameOver = true;
+    }
+
   }
