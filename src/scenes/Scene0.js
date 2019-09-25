@@ -23,6 +23,9 @@ export default class Scene0 extends Phaser.Scene {
 
     //Load cook sprite
     this.load.image("cook", "./assets/cook64.png");
+
+    //Load spill sprite
+    //this.load.image("spill","./assets/spill.png")
   }
 
 
@@ -36,7 +39,8 @@ export default class Scene0 extends Phaser.Scene {
     const worldLayer = map.createStaticLayer("World", tileset, 0, 0);
     const aboveLayer = map.createStaticLayer("Above Player", tileset, 0, 0);
 
-    this.gameOver = false;
+    this.gameWin = false;
+    this.gameLose = false;
 
 
 
@@ -149,7 +153,7 @@ export default class Scene0 extends Phaser.Scene {
     var b1 = s1.body;
     b1.stop();
   });
-  this.physics.add.collider(this.player, this.enemyGroup);
+  this.physics.add.collider(this.player, this.enemyGroup, this.gameOver,null, this);
   this.physics.add.collider(this.enemyGroup,this.crateGroup);
   this.physics.add.collider(this.enemyGroup,this.LcrateGroup);
   this.physics.add.collider(this.enemyGroup);
@@ -174,6 +178,11 @@ export default class Scene0 extends Phaser.Scene {
   });
   this.physics.add.overlap(this.player, this.spillGroup, this.spill, null, this);
   this.physics.add.collider(this.spillGroup, worldLayer);
+  this.physics.add.overlap(this.enemyGroup, this.spillGroup, function(s1){
+    s1.body.setVelocityX(Phaser.Math.Between(-2500, 2500));
+    s1.body.setVelocityY(Phaser.Math.Between(-2500, 2500));
+    console.log("slip!")
+  });
   for (var i = 0; i < spill.length; i++){
     this.spillGroup.add(spill[i]);
     spill[i]
@@ -196,9 +205,11 @@ export default class Scene0 extends Phaser.Scene {
     }
 
 
-    if(this.gameOver){
+    if(this.gameWin){
       this.scene.start('WinScene');
       return;
+    }else if (this.gameLose) {
+      this.scene.start('GameOverScene');
     }
     const speed = 60;
     const prevVelocity = this.player.body.velocity.clone();
@@ -243,11 +254,12 @@ export default class Scene0 extends Phaser.Scene {
       enemy.body.setVelocityY(Phaser.Math.Between(-180, 180));
     }
     endScene(player, winPoint){
-      this.gameOver = true;
+      this.gameWin = true;
+    }
+    gameOver(player, winPoint){
+      this.gameLose = true;
     }
     spill(player, spill){
-      this.timeCheck = this.time.now;
-      //console.log(timeCheck);
       this.player.body.setVelocityX(Phaser.Math.Between(-2500, 2500));
       this.player.body.setVelocityY(Phaser.Math.Between(-2500, 2500));
       console.log("slip!")
