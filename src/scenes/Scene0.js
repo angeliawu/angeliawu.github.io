@@ -132,6 +132,9 @@ export default class Scene0 extends Phaser.Scene {
     .body.bounce.set(0.1);
     Lcrate[i]
     .body.setDrag(100);
+    if (Lcrate[i].angle == 90 || Lcrate[i].angle == -90){
+      Lcrate[i].body.setSize(32,64);
+    }
   }
 
   //enemy attributes
@@ -175,8 +178,10 @@ export default class Scene0 extends Phaser.Scene {
     spill[i]
     .body
     .setMaxVelocity(0);
+    if (spill[i].angle == 90 || spill[i].angle == -90){
+      spill[i].body.setSize(32,64);
+    }
   }
-  this.physics.add.collider(this.winGroup, this.LcrateGroup);
 
   }
 
