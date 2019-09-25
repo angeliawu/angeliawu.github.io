@@ -1,5 +1,5 @@
 /*global Phaser*/
-//import * as ChangeScene from './ChangeScene.js'
+import * as ChangeScene from './InGameChangeScene.js'
 
 export default class Scene0 extends Phaser.Scene {
   constructor () {
@@ -30,7 +30,9 @@ export default class Scene0 extends Phaser.Scene {
 
 
   create() {
-    //ChangeScene.addSceneEventListeners(this);
+    //Add change scene event listeners
+    ChangeScene.addSceneEventListeners(this)
+
     //load map
     const map = this.make.tilemap({ key: "map"});
 
