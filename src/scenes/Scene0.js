@@ -25,7 +25,7 @@ export default class Scene0 extends Phaser.Scene {
     this.load.image("cook", "./assets/cook64.png");
 
     //Load spill sprite
-    //this.load.image("spill","./assets/spill.png")
+    this.load.image("spill","./assets/spill32.png")
   }
 
 
