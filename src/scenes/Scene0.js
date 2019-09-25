@@ -58,7 +58,7 @@ export default class Scene0 extends Phaser.Scene {
 
     // Help text that has a "fixed" position on the screen
     this.add
-      .text(16, 16, "Arrow keys to scroll", {
+      .text(16, 16, "Try to reach the green square!", {
         font: "18px monospace",
         fill: "#ffffff",
         padding: { x: 20, y: 10 },
@@ -84,6 +84,18 @@ export default class Scene0 extends Phaser.Scene {
 
   // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
   camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+  this.anims.create({
+      key: "walk",
+      frames: this.anims.generateFrameNumbers('Potato', { start: 0, end: 5}),
+      frameRate: 10,
+      repeat: -1
+    });
+  this.anims.create({
+      key: 'idle',
+      frames: this.anims.generateFrameNumbers('Potato', { start: 0, end: 0}),
+      frameRate: 10,
+      repeat: -1
+  });
 
 
   //win condition
@@ -181,6 +193,10 @@ export default class Scene0 extends Phaser.Scene {
     .body.bounce.set(0.1);
     enemy[i]
     .body.setDrag(100);
+    enemy[i]
+    .body.setSize(32,32,32,32);
+    enemy[i]
+    .body.width = 32;
 
   }
   //waterspill attributes
@@ -225,6 +241,10 @@ export default class Scene0 extends Phaser.Scene {
     spill[i]
     .body
     .setMaxVelocity(0);
+    spill[i]
+    .body.setSize(16,16,32,32);
+    spill[i]
+    .body.width = 32;
   }
 
   //crack attributes
@@ -244,19 +264,12 @@ export default class Scene0 extends Phaser.Scene {
     crack[i]
     .body
     .setMaxVelocity(0);
+    crack[i]
+    .body.setSize(16,16,32,32);
+    crack[i]
+    .body.width = 32;
   }
-  this.anims.create({
-      key: "walk",
-      frames: this.anims.generateFrameNumbers('Potato', { start: 0, end: 5}),
-      frameRate: 10,
-      repeat: -1
-    });
-  this.anims.create({
-      key: 'idle',
-      frames: this.anims.generateFrameNumbers('Potato', { start: 0, end: 0}),
-      frameRate: 10,
-      repeat: -1
-  });
+
 
   }
 
@@ -334,7 +347,7 @@ export default class Scene0 extends Phaser.Scene {
       this.gameLose = true;
     }
     displace(){
-      var int = Math.random() < 0.6 ? 50 : 30;
+      var int = Math.random() < 0.6 ? 30 : 10;
       var plusOrMinus = Math.random() < 0.6 ? -1 : 1;
       console.log(int)
       return (int * plusOrMinus);
