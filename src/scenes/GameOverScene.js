@@ -34,8 +34,8 @@ export default class GameOverScene extends Phaser.Scene {
 
     var text = 'Game over!'
     var text2  = 'Press Space to play again.'
-    this.spellOutText(170,75,550,text,100,10, '#fff','Candal');
-    this.spellOutText(250,300,550,text2,30,10,'#fff','Modak');
+    this.spellOutText(75,75,550,text,100,10, '#fff','Candal');
+    this.spellOutText(200,300,550,text2,30,10,'#fff','Modak');
   }
 
   spellOutText(x, y, width, text, fontSize, speed, fill, font){
