@@ -13,7 +13,7 @@ export default class GameOverScene extends Phaser.Scene {
   preload(){
     // Preload assets
     this.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js');
-
+    this.load.audio('End','./assets/End.wav')
     //Declare variables for center of the scene
     this.centerX = this.cameras.main.width/2;
     this.centerY=this.cameras.main.height/2;
@@ -23,6 +23,12 @@ export default class GameOverScene extends Phaser.Scene {
     //Add change scene event listeners
     ChangeScene.addSceneEventListeners(this)
 
+    //Add music
+    this.music=this.sound.add('End')
+    this.music.play({
+      volume:.3,
+      loop:true
+    });
     //Create the scenes
     WebFont.load({
       google:{
