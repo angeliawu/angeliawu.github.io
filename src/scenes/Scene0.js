@@ -191,9 +191,6 @@ export default class Scene0 extends Phaser.Scene {
     spill[i]
     .body
     .setMaxVelocity(0);
-    if (spill[i].angle == 90 || spill[i].angle == -90){
-      spill[i].body.setSize(32,64);
-    }
   }
 
   }
