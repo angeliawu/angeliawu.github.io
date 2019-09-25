@@ -20,6 +20,9 @@ export default class Scene0 extends Phaser.Scene {
 
     //Loads potato player sprite
     this.load.image("potato", "./assets/potato.png");
+
+    //Load cook sprite
+    this.load.image("cook", "./assets/cook.png");
   }
 
 
@@ -119,7 +122,7 @@ export default class Scene0 extends Phaser.Scene {
   });
   this.physics.add.collider(this.player, this.LcrateGroup);
   this.physics.add.collider(this.crateGroup,this.LcrateGroup);
-  this.physics.add.collider(this.LcrateGroup);
+
   for(var i = 0; i < Lcrate.length; i++){
     this.LcrateGroup.add(Lcrate[i]);
     Lcrate[i]
@@ -129,13 +132,10 @@ export default class Scene0 extends Phaser.Scene {
     .body.bounce.set(0.1);
     Lcrate[i]
     .body.setDrag(100);
-    if (Lcrate[i].angle == 90 || Lcrate.angle == -90){
-      Lcrate[i].body.setSize(32,64);
-    }
   }
 
   //enemy attributes
-  var enemy = map.createFromObjects('Objects','enemyPoint', {key: 'enemy'});
+  var enemy = map.createFromObjects('Objects','enemyPoint', {key: 'cook'});
   this.enemyGroup = this.physics.add.group();
   this.enemyGroup.children.iterate(function(child) {
     child.setImmoveable(false);
@@ -175,9 +175,6 @@ export default class Scene0 extends Phaser.Scene {
     spill[i]
     .body
     .setMaxVelocity(0);
-    if (spill[i].angle == 90 || spill.angle == -90){
-      spill[i].body.setSize(32,64);
-    }
   }
 
   }
@@ -222,12 +219,10 @@ export default class Scene0 extends Phaser.Scene {
     }
     enemyChase(enemy){
       var angleBetween = Phaser.Math.angleBetween(enemy.x, enemy.y, this.player.x, this.player.y);
-      enemy.body.velocity.x = Phaser.Math.cos(angleBetween) * 60 //set chase speed
-      enemy.body.velocity.y = Phaser.Math.sin(angleBetween) * 60 //set chase speed
+      enemy.body.velocity.x = Phaser.Math.cos(angleBetween)
     }
     enemyWander(enemy){
-      enemy.body.setVelocityX(Phaser.Math.Between(-250, 250));
-      enemy.body.setVelocityY(Phaser.Math.Between(-250, 250));
+
     }
     endScene(player, winPoint){
       this.gameOver = true;
