@@ -174,6 +174,11 @@ export default class Scene0 extends Phaser.Scene {
   });
   this.physics.add.overlap(this.player, this.spillGroup, this.spill, null, this);
   this.physics.add.collider(this.spillGroup, worldLayer);
+  this.physics.add.overlap(this.enemyGroup, this.spillGroup, function(s1){
+    s1.body.setVelocityX(Phaser.Math.Between(-2500, 2500));
+    s1.body.setVelocityY(Phaser.Math.Between(-2500, 2500));
+    console.log("slip!")
+  });
   for (var i = 0; i < spill.length; i++){
     this.spillGroup.add(spill[i]);
     spill[i]
@@ -246,8 +251,6 @@ export default class Scene0 extends Phaser.Scene {
       this.gameOver = true;
     }
     spill(player, spill){
-      this.timeCheck = this.time.now;
-      //console.log(timeCheck);
       this.player.body.setVelocityX(Phaser.Math.Between(-2500, 2500));
       this.player.body.setVelocityY(Phaser.Math.Between(-2500, 2500));
       console.log("slip!")
