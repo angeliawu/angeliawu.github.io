@@ -77,16 +77,16 @@ export default class Scene0 extends Phaser.Scene {
   this.player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, "Potato");
   this.anims.create({
       key: "walk",
-      frames: this.anims.generateFrameNumbers('Potato', { start: 0, end: 1}),
-      frameRate: 1,
+      frames: this.anims.generateFrameNumbers('Potato', { start: 0, end: 2}),
+      frameRate: 10,
       repeat: -1
     });
-    this.anims.create({
-        key: 'idle',
-        frames: this.anims.generateFrameNumbers('Potato', { start: 0, end: 0}),
-        frameRate: 1,
-        repeat: -1
-      });
+  this.anims.create({
+      key: 'idle',
+      frames: this.anims.generateFrameNumbers('Potato', { start: 1, end: 1}),
+      frameRate: 10,
+      repeat: -1
+  });
   this.physics.add.collider(this.player, worldLayer);
 
   this.cursors = this.input.keyboard.createCursorKeys();
@@ -237,23 +237,28 @@ export default class Scene0 extends Phaser.Scene {
     // Stop any previous movement from the last frame
     this.player.body.setVelocity(0);
     this.player.anims.play('idle', true);
+    this.player.flipY = false;
 
     // Horizontal move4ent
     if (this.cursors.left.isDown) {
       this.player.body.setVelocityX(-speed);
       this.player.anims.play('walk', true);
+      this.player.flipX = true;
     } else if (this.cursors.right.isDown) {
       this.player.body.setVelocityX(speed);
       this.player.anims.play('walk', true);
+      this.player.flipX = false;
     }
 
     // Vertical movement
     if (this.cursors.up.isDown) {
       this.player.body.setVelocityY(-speed);
       this.player.anims.play('walk', true);
+      this.player.flipY = true;
     } else if (this.cursors.down.isDown) {
       this.player.body.setVelocityY(speed);
       this.player.anims.play('walk', true);
+      this.player.flipY = false;
     }
 
     // Normalize and scale the velocity so that player can't move faster along a diagonal
