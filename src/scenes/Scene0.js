@@ -20,10 +20,10 @@ export default class Scene0 extends Phaser.Scene {
 
     //Loads potato player sprite
     //this.load.image("potato", "./assets/potato.png");
-    this.load.spritesheet('Potato', "./assets/potatoAnim.png",{
-      frameHeight: 32,
-      frameWidth: 32
-    })
+    this.load.spritesheet('Potato', "./assets/potatoAnim31x51.png",{
+      frameHeight: 51,
+      frameWidth: 31
+    });
 
     //Load cook sprite
     this.load.image("cook", "./assets/cook64.png");
@@ -32,7 +32,7 @@ export default class Scene0 extends Phaser.Scene {
     this.load.image("spill","./assets/spill32.png");
 
     //Load crack sprites
-    this.load.image("crack", "./assets/crack.png");
+    this.load.image("crack", "./assets/crack48x48.png");
 
     //Load exit box
     this.load.image("exit", "./assets/exit.png");
@@ -75,18 +75,7 @@ export default class Scene0 extends Phaser.Scene {
 
   //player attributes
   this.player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, "Potato");
-  this.anims.create({
-      key: "walk",
-      frames: this.anims.generateFrameNumbers('Potato', { start: 0, end: 2}),
-      frameRate: 10,
-      repeat: -1
-    });
-  this.anims.create({
-      key: 'idle',
-      frames: this.anims.generateFrameNumbers('Potato', { start: 1, end: 1}),
-      frameRate: 10,
-      repeat: -1
-  });
+
   this.physics.add.collider(this.player, worldLayer);
 
   this.cursors = this.input.keyboard.createCursorKeys();
@@ -95,6 +84,7 @@ export default class Scene0 extends Phaser.Scene {
 
   // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
   camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+
 
   //win condition
   var win = map.createFromObjects('Objects','winPoint', {key: 'exit'});
@@ -200,13 +190,33 @@ export default class Scene0 extends Phaser.Scene {
     child.setImmoveable(true);
     child.refreshBody();
   });
-  this.physics.add.overlap(this.player, this.spillGroup, this.spill, null, this);
-  this.physics.add.collider(this.spillGroup, worldLayer);
-  this.physics.add.overlap(this.enemyGroup, this.spillGroup, function(s1){
-    s1.body.setVelocityX(Phaser.Math.Between(-2500, 2500));
-    s1.body.setVelocityY(Phaser.Math.Between(-2500, 2500));
-    console.log("slip!")
+  this.physics.add.overlap(this.player, this.spillGroup, function(s1,s2){
+    var x = this.displace()
+    var y = this.displace()
+    this.tweens.add({
+    targets: s1,
+    x: s2.x + x,
+    y: s2.y + y,
+    ease: "Elastic",
+    duration: 1000
   });
+  console.log(s2.x,s2.y)
+
+  }, null, this);
+  this.physics.add.collider(this.spillGroup, worldLayer);
+  this.physics.add.overlap(this.enemyGroup, this.spillGroup, function(s1,s2){
+    var x = this.displace()
+    var y = this.displace()
+    this.tweens.add({
+    targets: s1,
+    x: s2.x + x,
+    y: s2.y + y,
+    ease: "Elastic",
+    duration: 1000
+  });
+  console.log(s2.x,s2.y)
+
+}, null, this);
   for (var i = 0; i < spill.length; i++){
     this.spillGroup.add(spill[i]);
     spill[i]
@@ -216,6 +226,37 @@ export default class Scene0 extends Phaser.Scene {
     .body
     .setMaxVelocity(0);
   }
+
+  //crack attributes
+  var crack = map.createFromObjects('Objects','crackPoint', {key: 'crack'});
+  this.crackGroup = this.physics.add.group();
+  this.crackGroup.children.iterate(function(child) {
+    child.setImmoveable(true);
+    child.refreshBody();
+  });
+  this.physics.add.overlap(this.player, this.crackGroup, this.crack, null, this);
+  this.physics.add.collider(this.crackGroup, worldLayer);
+  for (var i = 0; i < crack.length; i++){
+    this.crackGroup.add(crack[i]);
+    crack[i]
+    .body
+    .CollideWorldBounds = true;
+    crack[i]
+    .body
+    .setMaxVelocity(0);
+  }
+  this.anims.create({
+      key: "walk",
+      frames: this.anims.generateFrameNumbers('Potato', { start: 0, end: 5}),
+      frameRate: 10,
+      repeat: -1
+    });
+  this.anims.create({
+      key: 'idle',
+      frames: this.anims.generateFrameNumbers('Potato', { start: 0, end: 0}),
+      frameRate: 10,
+      repeat: -1
+  });
 
   }
 
@@ -235,9 +276,13 @@ export default class Scene0 extends Phaser.Scene {
     const speed = 60;
     const prevVelocity = this.player.body.velocity.clone();
     // Stop any previous movement from the last frame
-    this.player.body.setVelocity(0);
-    this.player.anims.play('idle', true);
-    this.player.flipY = false;
+    if (this.cursors.left.isUp && this.cursors.right.isUp && this.cursors.up.isUp && this.cursors.down.isUp){
+        this.player.body.setVelocity(0);
+          this.player.anims.play('idle', true);
+    }
+
+    //this.player.anims.play('idle', true);
+
 
     // Horizontal move4ent
     if (this.cursors.left.isDown) {
@@ -254,11 +299,9 @@ export default class Scene0 extends Phaser.Scene {
     if (this.cursors.up.isDown) {
       this.player.body.setVelocityY(-speed);
       this.player.anims.play('walk', true);
-      this.player.flipY = true;
     } else if (this.cursors.down.isDown) {
       this.player.body.setVelocityY(speed);
       this.player.anims.play('walk', true);
-      this.player.flipY = false;
     }
 
     // Normalize and scale the velocity so that player can't move faster along a diagonal
@@ -290,11 +333,14 @@ export default class Scene0 extends Phaser.Scene {
     gameOver(player, winPoint){
       this.gameLose = true;
     }
-    spill(player, spill){
-      this.player.body.setVelocityX(Phaser.Math.Between(-2500, 2500));
-      this.player.body.setVelocityY(Phaser.Math.Between(-2500, 2500));
-      console.log("slip!")
-
+    displace(){
+      var int = Math.random() < 0.6 ? 50 : 30;
+      var plusOrMinus = Math.random() < 0.6 ? -1 : 1;
+      console.log(int)
+      return (int * plusOrMinus);
+    }
+    crack(player, crack){
+      this.gameLose = true;
     }
 
   }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="325">
+<map version="1.2" tiledversion="1.2.4" orientation="orthogonal" renderorder="right-down" width="40" height="40" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="329">
  <properties>
   <property name="edges" value="clamped"/>
  </properties>
@@ -3537,13 +3537,25 @@
   <object id="321" name="spillPoint" x="608" y="992">
    <point/>
   </object>
-  <object id="322" name="crackPoint" x="256" y="864">
+  <object id="322" name="crackPoint" x="256" y="960">
    <point/>
   </object>
-  <object id="323" name="crackPoint" x="608" y="1216">
+  <object id="323" name="crackPoint" x="583" y="1119">
    <point/>
   </object>
-  <object id="324" name="crackPoint" x="64" y="832">
+  <object id="324" name="crackPoint" x="96" y="832">
+   <point/>
+  </object>
+  <object id="325" name="spillPoint" x="96" y="1088">
+   <point/>
+  </object>
+  <object id="326" name="cratePoint" x="643" y="1089">
+   <point/>
+  </object>
+  <object id="327" name="cratePoint" x="463" y="986">
+   <point/>
+  </object>
+  <object id="328" name="cratePoint" x="416" y="992">
    <point/>
   </object>
  </objectgroup>
