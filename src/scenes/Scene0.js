@@ -17,6 +17,7 @@ export default class Scene0 extends Phaser.Scene {
     this.load.atlas("atlas","./assets/atlas/atlas.png","./assets/atlas/atlas.json");
     this.load.image("crate", "./assets/crate.png");
     this.load.image("Lcrate", "./assets/Lcrate.png");
+    this.load.audio("theme","./assets/InGame.wav");
 
     //Loads potato player sprite
     //this.load.image("potato", "./assets/potato.png");
@@ -54,6 +55,12 @@ export default class Scene0 extends Phaser.Scene {
     this.gameWin = false;
     this.gameLose = false;
 
+    //add music
+    this.music=this.sound.add('theme');
+    this.music.play({
+      volume:.3,
+      loop:true
+    });
 
 
     // Help text that has a "fixed" position on the screen
@@ -304,16 +311,20 @@ export default class Scene0 extends Phaser.Scene {
   }
 
   update (time, delta) {
+
+
+
     // Update the scene
     if (this.time.now % 100 != 0){
       this.enemyView(128);
     }
 
-
     if(this.gameWin){
+      this.music.stop();
       this.scene.start('WinScene');
       return;
     }else if (this.gameLose) {
+      this.music.stop();
       this.scene.start('GameOverScene');
     }
     const speed = 60;
