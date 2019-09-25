@@ -29,10 +29,13 @@ export default class Scene0 extends Phaser.Scene {
     this.load.image("cook", "./assets/cook64.png");
 
     //Load spill sprite
-    this.load.image("spill","./assets/spill32.png")
+    this.load.image("spill","./assets/spill32.png");
 
-    //Load win sprite
-    this.load.image("win", "./assets/exit.png")
+    //Load crack sprites
+    this.load.image("crack", "./assets/crack.png");
+
+    //Load exit box
+    this.load.image("exit", "./assets/exit.png");
   }
 
 
@@ -94,7 +97,7 @@ export default class Scene0 extends Phaser.Scene {
   camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
   //win condition
-  var win = map.createFromObjects('Objects','winPoint', {key: 'win'});
+  var win = map.createFromObjects('Objects','winPoint', {key: 'exit'});
   this.winGroup = this.physics.add.group();
   this.winGroup.children.iterate(function(child) {
     child.setImmoveable(true);
