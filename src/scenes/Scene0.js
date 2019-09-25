@@ -57,14 +57,44 @@ export default class Scene0 extends Phaser.Scene {
 
 
     // Help text that has a "fixed" position on the screen
-    this.add
+    /*this.add
       .text(16, 16, "Try to reach the green square!", {
         font: "18px monospace",
         fill: "#ffffff",
         padding: { x: 20, y: 10 },
         backgroundColor: "#000000"
       })
-      .setScrollFactor(0);
+      .setScrollFactor(0);*/
+
+    //create game timer
+    this.initialTime = 30
+    var text = this.add.text(16, 16, 'Countdown: ' + formatTime(this.initialTime),{
+      font: "24px monospace",
+      fill: "#ffffff",
+      padding: { x: 20, y: 10 },
+      backgroundColor: "#000000"
+    })
+    .setScrollFactor(0)
+    this.timedEvent = this.time.addEvent({ delay: 1000, callback: countDown, callbackScope: this, loop: true });
+    function formatTime(seconds){
+      // Minutes
+      var minutes = Math.floor(seconds/60);
+      // Seconds
+      var partInSeconds = seconds%60;
+      // Adds left zeros to seconds
+      partInSeconds = partInSeconds.toString().padStart(2,'0');
+      // Returns formated time
+      return `${minutes}:${partInSeconds}`;
+    }
+    function countDown ()
+    {
+      this.initialTime -= 1; // One second
+      text.setText('Countdown: ' + formatTime(this.initialTime));
+      if (this.initialTime == 0){
+        this.gameLose = true;
+      }
+    }
+
     //worldLayer.setCollisionBetween(12, 44);
     worldLayer.setCollisionByProperty({ collides: true});
     //aboveLayer.setDepth(10);
