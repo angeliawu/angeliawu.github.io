@@ -125,6 +125,18 @@
                  "width":0,
                  "x":576,
                  "y":960
+                }, 
+                {
+                 "height":0,
+                 "id":317,
+                 "name":"enemyPoint",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":352,
+                 "y":992
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -133,7 +145,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":317,
+ "nextobjectid":318,
  "orientation":"orthogonal",
  "properties":[
         {

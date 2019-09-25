@@ -179,6 +179,7 @@ export default class Scene0 extends Phaser.Scene {
       spill[i].body.setSize(32,64);
     }
   }
+  this.physics.add.collider(this.winGroup, this.LcrateGroup);
 
   }
 
