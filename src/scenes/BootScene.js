@@ -8,7 +8,7 @@ export default class BootScene extends Phaser.Scene {
   preload(){
     // Preload assets
     this.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js');
-    this.load.audio('theme','./assets/InGame.wav')
+    this.load.audio('theme','./assets/sounds/InGame.wav')
     //Declare variables for center of the scene
     this.centerX = this.cameras.main.width/2;
     this.centerY=this.cameras.main.height/2;
@@ -31,7 +31,7 @@ export default class BootScene extends Phaser.Scene {
       }
     });
 
-    this.cameras.main.setBackgroundColor(0x333)
+    this.cameras.main.setBackgroundColor(0xffe0)
 
     var text = 'Fried or Flight'
     var text2 = 'Use the arrows to move, push crates, and avoid the cooks'

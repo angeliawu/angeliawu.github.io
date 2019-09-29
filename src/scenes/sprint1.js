@@ -14,32 +14,32 @@ export default class Sprint1 extends Phaser.Scene {
     // Preload assets
     this.load.image("tiles", "./assets/tilemaps/newTileset.png");
     this.load.tilemapTiledJSON("map", "./assets/tilemaps/friedOrFlight.json");
-    this.load.image("crate", "./assets/crate.png");
-    this.load.image("Lcrate", "./assets/Lcrate.png");
-    this.load.audio("theme","./assets/InGame.wav");
+    this.load.image("crate", "./assets/resized/crate.png");
+    this.load.image("Lcrate", "./assets/resized/Lcrate.png");
+    this.load.audio("theme","./assets/sounds/InGame.wav");
 
     //Loads potato player sprite
     //this.load.image("potato", "./assets/potato.png");
-    this.load.spritesheet('Potato', "./assets/potatoAnim31x51.png",{
+    this.load.spritesheet('Potato', "./assets/resized/potatoAnim31x51.png",{
       frameHeight: 51,
       frameWidth: 31
     });
 
     //Load cook sprite
-    this.load.image("cook", "./assets/cook64.png");
+    this.load.image("cook", "./assets/resized/cook64.png");
 
     //Load spill sprite
-    this.load.image("spill","./assets/spill32.png");
+    this.load.image("spill","./assets/resized/spill32.png");
 
     //Load crack sprites
-    this.load.image("crack", "./assets/crack48x48.png");
+    this.load.image("crack", "./assets/resized/crack48x48.png");
 
     //Load exit box
-    this.load.image("exit", "./assets/exit.png");
+    this.load.image("exit", "./assets/resized/exit.png");
 
     //Load NPC
-    this.load.image("onion", "./assets/onion32.png")
-    this.load.image("tomato", "./assets/tomato32.png")
+    this.load.image("onion", "./assets/resized/onion32.png")
+    this.load.image("tomato", "./assets/resized/tomato32.png")
   }
 
 
@@ -152,8 +152,8 @@ export default class Sprint1 extends Phaser.Scene {
       b1.stop();
     });
     this.physics.add.collider(this.player, this.enemyGroup, this.gameOver,null, this);
-    this.physics.add.collider(this.enemyGroup,this.crateGroup);
-    this.physics.add.collider(this.enemyGroup,this.LcrateGroup);
+    //this.physics.add.collider(this.enemyGroup,this.crateGroup);
+
     this.physics.add.collider(this.enemyGroup);
 
     for(var i = 0; i < enemy.length; i++){
@@ -217,13 +217,38 @@ export default class Sprint1 extends Phaser.Scene {
       spill[i]
       .body.width = 32;
     }
+    //Large Crate attributes
+    var Lcrate = map.createFromObjects('Objects','LCratePoint', {key: 'Lcrate'});
+    this.LcrateGroup = this.physics.add.group();
+    this.LcrateGroup.children.iterate(function(child) {
+      child.setImmoveable(false);
+      child.refreshBody();
+    });
+    this.physics.add.collider(this.LcrateGroup, worldLayer, function(s1){
+      var b1 = s1.body;
+      b1.stop();
+    });
+    this.physics.add.collider(this.player, this.LcrateGroup);
+    this.physics.add.collider(this.enemyGroup,this.LcrateGroup);
+    this.physics.add.collider(this.LcrateGroup);
+
+    for(var i = 0; i < Lcrate.length; i++){
+      this.LcrateGroup.add(Lcrate[i]);
+      Lcrate[i]
+      .body.bounce.set(0.1);
+      Lcrate[i]
+      .body.setDrag(100);
+      if (Lcrate[i].angle == 90 || Lcrate[i].angle == -90){
+        Lcrate[i].body.setSize(32,64);
+      }
+    }
   }
 
   update (time, delta) {
 
     // Update the scene
     if (Math.sin(this.time.now) > 0.7){
-      this.enemyView(256);
+      this.enemyView(200);
     }
 
     if(this.gameWin){
@@ -234,7 +259,7 @@ export default class Sprint1 extends Phaser.Scene {
       this.music.stop();
       this.scene.start('GameOverScene');
     }
-    const speed = 80;
+    const speed = 60;
     const prevVelocity = this.player.body.velocity.clone();
     // Stop any previous movement from the last frame
     if (this.cursors.left.isUp && this.cursors.right.isUp && this.cursors.up.isUp && this.cursors.down.isUp){
