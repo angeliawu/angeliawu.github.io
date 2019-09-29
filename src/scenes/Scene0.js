@@ -12,7 +12,7 @@ export default class Scene0 extends Phaser.Scene {
 
   preload () {
     // Preload assets
-    this.load.image("tiles", "./assets/tilesets/tuxmon-sample-32px-extruded.png");
+    this.load.image("tiles", "./assets//tilemaps/newTileset.png");
     this.load.tilemapTiledJSON("map", "./assets/tilesets/tuxemon-town.json");
     this.load.atlas("atlas","./assets/atlas/atlas.png","./assets/atlas/atlas.json");
     this.load.image("crate", "./assets/crate.png");
@@ -37,6 +37,10 @@ export default class Scene0 extends Phaser.Scene {
 
     //Load exit box
     this.load.image("exit", "./assets/exit.png");
+
+    //Load NPC
+    this.load.image("onion", "./assets/onion32.png")
+    this.load.image("tomato", "./assets/tomato32.png")
   }
 
 
@@ -47,7 +51,7 @@ export default class Scene0 extends Phaser.Scene {
     //load map
     const map = this.make.tilemap({ key: "map"});
 
-    const tileset = map.addTilesetImage("tuxmon-sample-32px-extruded", "tiles");
+    const tileset = map.addTilesetImage("newTileset", "tiles");
     const belowLayer = map.createStaticLayer("Below Player", tileset, 0, 0);
     const worldLayer = map.createStaticLayer("World", tileset, 0, 0);
     const aboveLayer = map.createStaticLayer("Above Player", tileset, 0, 0);
@@ -61,17 +65,6 @@ export default class Scene0 extends Phaser.Scene {
       volume:.3,
       loop:true
     });
-
-
-    // Help text that has a "fixed" position on the screen
-    /*this.add
-      .text(16, 16, "Try to reach the green square!", {
-        font: "18px monospace",
-        fill: "#ffffff",
-        padding: { x: 20, y: 10 },
-        backgroundColor: "#000000"
-      })
-      .setScrollFactor(0);*/
 
     //create game timer
     this.initialTime = 30
@@ -253,9 +246,8 @@ export default class Scene0 extends Phaser.Scene {
     ease: "Elastic",
     duration: 1000
   });
-  console.log(s2.x,s2.y)
+}, null, this);
 
-  }, null, this);
   this.physics.add.collider(this.spillGroup, worldLayer);
   this.physics.add.overlap(this.enemyGroup, this.spillGroup, function(s1,s2){
     var x = this.displace()
@@ -267,9 +259,9 @@ export default class Scene0 extends Phaser.Scene {
     ease: "Elastic",
     duration: 1000
   });
-  console.log(s2.x,s2.y)
-
 }, null, this);
+
+
   for (var i = 0; i < spill.length; i++){
     this.spillGroup.add(spill[i]);
     spill[i]
@@ -306,17 +298,37 @@ export default class Scene0 extends Phaser.Scene {
     crack[i]
     .body.width = 32;
   }
+  //NPC attributes
+  var NPC = map.createFromObjects('Objects','NPCPoint', {key: "onion"});
+  this.NPCGroup = this.physics.add.group();
+  this.physics.add.collider(this.NPCGroup, worldLayer);
+  this.physics.add.collider(this.player, this.NPCGroup);
+  this.physics.add.collider(this.NPCGroup,this.crateGroup);
+  this.physics.add.collider(this.NPCGroup,this.LcrateGroup);
+  this.physics.add.collider(this.NPCGroup);
+  this.physics.add.collider(this.NPCGroup, this.crackGroup, this.gameOver, null, this);
 
+  for(var i = 0; i < NPC.length; i++){
+    this.NPCGroup.add(NPC[i]);
+    NPC[i]
+    .body
+    .CollideWorldBounds = true;
+    NPC[i]
+    .body.bounce.set(0.1);
+    NPC[i]
+    .body.setDrag(100);
+    var ran = Math.random() < 0.6 ? "onion" : "tomato";
+    NPC[i].setTexture(ran);
+
+  }
 
   }
 
   update (time, delta) {
 
-
-
     // Update the scene
-    if (this.time.now % 100 != 0){
-      this.enemyView(128);
+    if (Math.sin(this.time.now) > 0.7){
+      this.enemyView(256);
     }
 
     if(this.gameWin){
@@ -334,9 +346,6 @@ export default class Scene0 extends Phaser.Scene {
         this.player.body.setVelocity(0);
           this.player.anims.play('idle', true);
     }
-
-    //this.player.anims.play('idle', true);
-
 
     // Horizontal move4ent
     if (this.cursors.left.isDown) {
@@ -361,40 +370,47 @@ export default class Scene0 extends Phaser.Scene {
     // Normalize and scale the velocity so that player can't move faster along a diagonal
     this.player.body.velocity.normalize().scale(speed);
   }
-    enemyView(distance){
-      var enemies = this.enemyGroup.getChildren();
-      for ( var i = 0; i < enemies.length; i++){
-        if (Phaser.Math.Distance.Between(this.player.x, this.player.y, enemies[i].x, enemies[i].y ) <= distance){
-          this.enemyChase(enemies[i]);
-        }else {
-          this.enemyWander(enemies[i]);
-        }
+  enemyView(distance){
+    var enemies = this.enemyGroup.getChildren();
+    for ( var i = 0; i < enemies.length; i++){
+      if (Phaser.Math.Distance.Between(this.player.x, this.player.y, enemies[i].x, enemies[i].y ) <= distance){
+        this.enemyChase(enemies[i]);
+      }else {
+        this.enemyWander(enemies[i]);
       }
     }
-    enemyChase(enemy){
-      var angleBetween = Phaser.Math.Angle.Between(enemy.x, enemy.y, this.player.x, this.player.y);
-      enemy.body.velocity.x = Math.cos(angleBetween) * 40
-      enemy.body.velocity.y = Math.sin(angleBetween) * 40
-    }
-    enemyWander(enemy){
+  }
 
-      enemy.body.setVelocityX(Phaser.Math.Between(-180, 180));
-      enemy.body.setVelocityY(Phaser.Math.Between(-180, 180));
-    }
-    endScene(player, winPoint){
-      this.gameWin = true;
-    }
-    gameOver(player, winPoint){
-      this.gameLose = true;
-    }
-    displace(){
-      var int = Math.random() < 0.6 ? 30 : 10;
-      var plusOrMinus = Math.random() < 0.6 ? -1 : 1;
-      console.log(int)
-      return (int * plusOrMinus);
-    }
-    crack(player, crack){
-      this.gameLose = true;
-    }
+
+  enemyChase(enemy){
+    var angleBetween = Phaser.Math.Angle.Between(enemy.x, enemy.y, this.player.x, this.player.y);
+    enemy.body.velocity.x = Math.cos(angleBetween) * 40
+    enemy.body.velocity.y = Math.sin(angleBetween) * 40
+  }
+
+  enemyWander(enemy){
+
+    enemy.body.setVelocityX(Phaser.Math.Between(-100, 100));
+    enemy.body.setVelocityY(Phaser.Math.Between(-100, 100));
+  }
+
+  endScene(player, winPoint){
+    this.gameWin = true;
+  }
+
+  gameOver(player, winPoint){
+    this.gameLose = true;
+  }
+
+  displace(){
+    var int = Math.random() < 0.6 ? 30 : 10;
+    var plusOrMinus = Math.random() < 0.6 ? -1 : 1;
+    //console.log(int)
+    return (int * plusOrMinus);
+  }
+
+  crack(player, crack){
+    this.gameLose = true;
+  }
 
   }
