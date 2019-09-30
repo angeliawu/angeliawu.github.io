@@ -257,7 +257,7 @@ export default class Sprint1 extends Phaser.Scene {
       this.music.stop();
       this.scene.start('GameOverScene');
     }
-    const speed = 90;
+    const speed = 80;
     const prevVelocity = this.player.body.velocity.clone();
     // Stop any previous movement from the last frame
     if (this.cursors.left.isUp && this.cursors.right.isUp && this.cursors.up.isUp && this.cursors.down.isUp){
