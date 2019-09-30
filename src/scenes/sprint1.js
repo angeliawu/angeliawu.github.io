@@ -184,7 +184,7 @@ export default class Sprint1 extends Phaser.Scene {
       x: s2.x + x,
       y: s2.y + y,
       ease: "Elastic",
-      duration: 1000
+      duration: 2000
     });
   }, null, this);
 
@@ -197,7 +197,7 @@ export default class Sprint1 extends Phaser.Scene {
       x: s2.x + x,
       y: s2.y + y,
       ease: "Elastic",
-      duration: 1000
+      duration: 2000
     });
   }, null, this);
 
@@ -257,7 +257,7 @@ export default class Sprint1 extends Phaser.Scene {
       this.music.stop();
       this.scene.start('GameOverScene');
     }
-    const speed = 80;
+    const speed = 90;
     const prevVelocity = this.player.body.velocity.clone();
     // Stop any previous movement from the last frame
     if (this.cursors.left.isUp && this.cursors.right.isUp && this.cursors.up.isUp && this.cursors.down.isUp){
@@ -326,7 +326,7 @@ export default class Sprint1 extends Phaser.Scene {
   }
 
   displace(){
-    var int = Math.random() < 0.6 ? 30 : 10;
+    var int = Math.random() < 0.6 ? 40 : 30;
     var plusOrMinus = Math.random() < 0.6 ? -1 : 1;
     //console.log(int)
     return (int * plusOrMinus);
