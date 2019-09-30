@@ -20,9 +20,9 @@ export default class Sprint1 extends Phaser.Scene {
 
     //Loads potato player sprite
     //this.load.image("potato", "./assets/potato.png");
-    this.load.spritesheet('Potato', "./assets/resized/potatoAnim31x51.png",{
-      frameHeight: 51,
-      frameWidth: 31
+    this.load.spritesheet('Potato', "./assets/resized/pot32.png",{
+      frameHeight: 32,
+      frameWidth: 22
     });
 
     //Load cook sprite
@@ -101,8 +101,6 @@ export default class Sprint1 extends Phaser.Scene {
     this.player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, "Potato");
 
     this.physics.add.collider(this.player, worldLayer);
-    this.player.body.setSize(32,48,32,32);
-    this.player.body.width = 26;
 
     this.cursors = this.input.keyboard.createCursorKeys();
     const camera = this.cameras.main;
@@ -265,6 +263,7 @@ export default class Sprint1 extends Phaser.Scene {
     if (this.cursors.left.isUp && this.cursors.right.isUp && this.cursors.up.isUp && this.cursors.down.isUp){
         this.player.body.setVelocity(0);
           this.player.anims.play('idle', true);
+          this.player.angle = 0
     }
 
     // Horizontal move4ent
@@ -272,19 +271,23 @@ export default class Sprint1 extends Phaser.Scene {
       this.player.body.setVelocityX(-speed);
       this.player.anims.play('walk', true);
       this.player.flipX = true;
+      this.player.angle = 0;
     } else if (this.cursors.right.isDown) {
       this.player.body.setVelocityX(speed);
       this.player.anims.play('walk', true);
       this.player.flipX = false;
+      this.player.angle = 0;
     }
 
     // Vertical movement
     if (this.cursors.up.isDown) {
       this.player.body.setVelocityY(-speed);
       this.player.anims.play('walk', true);
+      this.player.angle = 90;
     } else if (this.cursors.down.isDown) {
       this.player.body.setVelocityY(speed);
       this.player.anims.play('walk', true);
+      this.player.angle = 270;
     }
 
     // Normalize and scale the velocity so that player can't move faster along a diagonal
