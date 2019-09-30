@@ -246,7 +246,7 @@ export default class Sprint1 extends Phaser.Scene {
 
     // Update the scene
     if (Math.sin(this.time.now) > 0.7){
-      this.enemyView(200);
+      this.enemyView(256);
     }
 
     if(this.gameWin){
