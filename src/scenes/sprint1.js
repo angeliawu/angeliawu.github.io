@@ -13,7 +13,7 @@ export default class Sprint1 extends Phaser.Scene {
   preload () {
     // Preload assets
     this.load.image("tiles", "./assets/tilemaps/newTileset.png");
-    this.load.tilemapTiledJSON("map", "./assets/tilemaps/friedOrFlight.json");
+    this.load.tilemapTiledJSON("map", "./assets/tilemaps/FOFlvl1.json");
     this.load.image("crate", "./assets/resized/crate.png");
     this.load.image("Lcrate", "./assets/resized/Lcrate.png");
     this.load.audio("theme","./assets/sounds/InGame.wav");
@@ -166,7 +166,7 @@ export default class Sprint1 extends Phaser.Scene {
       enemy[i]
       .body.setDrag(100);
       enemy[i]
-      .body.setSize(32,32,32,32);
+      .body.setSize(32,64,32,32);
       enemy[i]
       .body.width = 32;
 
@@ -259,7 +259,7 @@ export default class Sprint1 extends Phaser.Scene {
       this.music.stop();
       this.scene.start('GameOverScene');
     }
-    const speed = 60;
+    const speed = 80;
     const prevVelocity = this.player.body.velocity.clone();
     // Stop any previous movement from the last frame
     if (this.cursors.left.isUp && this.cursors.right.isUp && this.cursors.up.isUp && this.cursors.down.isUp){
