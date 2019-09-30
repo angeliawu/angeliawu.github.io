@@ -31,7 +31,7 @@ export default class BootScene extends Phaser.Scene {
       }
     });
 
-    this.cameras.main.setBackgroundColor(0xdd000)
+    this.cameras.main.setBackgroundColor(0x008000)
 
     var text = 'You Win!'
     var text2  = 'Press Space to play again.'

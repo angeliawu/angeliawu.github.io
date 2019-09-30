@@ -31,7 +31,7 @@ export default class BootScene extends Phaser.Scene {
       }
     });
 
-    this.cameras.main.setBackgroundColor(0xffe0)
+    this.cameras.main.setBackgroundColor(0xb79268)
 
     var text = 'Fried or Flight'
     var text2 = 'Use the arrows to move, push crates, and avoid the cooks'
