@@ -91,6 +91,7 @@ export default class Sprint1 extends Phaser.Scene {
       }
     }
     worldLayer.setCollisionByProperty({ collides: true});
+    aboveLayer.setDepth(10);
     //aboveLayer.setDepth(10);
     const spawnPoint = map.findObject(
       "Objects",
@@ -301,7 +302,7 @@ export default class Sprint1 extends Phaser.Scene {
     // Update the scene
     this.enemyCheckSpeed() //keeps the enemies moving
     if (Math.sin(this.time.now) > 0.7){
-      //this.enemyView(200);
+      this.enemyView(200);
     }
 
     if(this.gameWin){
