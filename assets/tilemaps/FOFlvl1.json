@@ -183,8 +183,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":448.220919814928,
-                 "y":935.527535010421
+                 "x":448.221,
+                 "y":935.528
                 }, 
                 {
                  "height":0,
@@ -207,8 +207,8 @@
                  "type":"",
                  "visible":true,
                  "width":0,
-                 "x":639.929617299297,
-                 "y":1239.38188375261
+                 "x":639.93,
+                 "y":1239.38
                 }, 
                 {
                  "height":0,
@@ -292,7 +292,7 @@
                  "visible":true,
                  "width":0,
                  "x":416,
-                 "y":1026.66666666667
+                 "y":1026.67
                 }, 
                 {
                  "height":0,
@@ -304,7 +304,43 @@
                  "visible":true,
                  "width":0,
                  "x":64,
-                 "y":1022.66666666667
+                 "y":1022.67
+                }, 
+                {
+                 "height":0,
+                 "id":377,
+                 "name":"NPCPoint",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":448,
+                 "y":1088
+                }, 
+                {
+                 "height":0,
+                 "id":378,
+                 "name":"crackPoint",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":480,
+                 "y":1088
+                }, 
+                {
+                 "height":0,
+                 "id":379,
+                 "name":"cratePoint",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":384,
+                 "y":1088
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -313,7 +349,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":377,
+ "nextobjectid":380,
  "orientation":"orthogonal",
  "properties":[
         {

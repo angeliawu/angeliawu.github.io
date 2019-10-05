@@ -123,12 +123,6 @@ export default class Sprint1 extends Phaser.Scene {
 
 
     //win condition
-    var obj = []
-    let items = ['winPoint','enemyPoint','LCratePoint','spillPoint']
-    for(var i = 0; i < items.length; i++){
-      obj += map.createFromObjects('Objects', items[i]);
-    }
-    console.log(obj);
     var win = map.createFromObjects('Objects','winPoint', {key: 'exit'});
     this.winGroup = this.physics.add.group();
     this.winGroup.children.iterate(function(child) {
@@ -246,6 +240,75 @@ export default class Sprint1 extends Phaser.Scene {
         Lcrate[i].body.setSize(32,64);
       }
     }
+    //small Crate attributes
+    var crate = map.createFromObjects('Objects','cratePoint', {key: 'crate'});
+    this.crateGroup = this.physics.add.group();
+    this.crateGroup.children.iterate(function(child) {
+      child.setImmoveable(false);
+      child.refreshBody();
+    });
+    this.physics.add.collider(this.crateGroup, worldLayer, function(s1){
+      var b1 = s1.body;
+      b1.stop();
+    });
+    this.physics.add.collider(this.player, this.crateGroup);
+    this.physics.add.collider(this.enemyGroup,this.crateGroup);
+    this.physics.add.collider(this.crateGroup);
+    this.physics.add.collider(this.crateGroup, this.LcrateGroup)
+
+    for(var i = 0; i < crate.length; i++){
+      this.crateGroup.add(crate[i]);
+      crate[i]
+      .body.bounce.set(0.1);
+      crate[i]
+      .body.setDrag(100);
+    }
+    //Crack attributes
+    var crack = map.createFromObjects('Objects','crackPoint', {key: 'crack'});
+    this.crackGroup = this.physics.add.group();
+    this.crackGroup.children.iterate(function(child) {
+      child.setImmoveable(true);
+      child.refreshBody();
+    });
+    this.physics.add.overlap(this.player, this.crackGroup, this.crack, null, this);
+    this.physics.add.collider(this.crackGroup, worldLayer);
+    for (var i = 0; i < crack.length; i++){
+      this.crackGroup.add(crack[i]);
+      crack[i]
+      .body
+      .CollideWorldBounds = true;
+      crack[i]
+      .body
+      .setMaxVelocity(0);
+      crack[i]
+      .body.setSize(16,16,32,32);
+      crack[i]
+      .body.width = 32;
+    }
+    //NPC attributes
+    var NPC = map.createFromObjects('Objects','NPCPoint', {key: "onion"});
+    this.NPCGroup = this.physics.add.group();
+    this.physics.add.collider(this.NPCGroup, worldLayer);
+    this.physics.add.collider(this.player, this.NPCGroup);
+    this.physics.add.collider(this.NPCGroup,this.crateGroup);
+    this.physics.add.collider(this.NPCGroup,this.LcrateGroup);
+    this.physics.add.collider(this.NPCGroup);
+    this.physics.add.collider(this.NPCGroup, this.crackGroup, this.gameOver, null, this);
+
+    for(var i = 0; i < NPC.length; i++){
+      this.NPCGroup.add(NPC[i]);
+      NPC[i]
+      .body
+      .CollideWorldBounds = true;
+      NPC[i]
+      .body.bounce.set(0.1);
+      NPC[i]
+      .body.setDrag(100);
+      var ran = Math.random() < 0.6 ? "onion" : "tomato";
+      NPC[i].setTexture(ran);
+
+    }
+
   }
 
   update (time, delta) {
