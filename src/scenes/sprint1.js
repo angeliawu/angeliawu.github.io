@@ -181,30 +181,10 @@ export default class Sprint1 extends Phaser.Scene {
       child.setImmoveable(true);
       child.refreshBody();
     });
-    this.physics.add.overlap(this.player, this.spillGroup, function(s1,s2){
-      var x = this.displace()
-      var y = this.displace()
-      this.tweens.add({
-      targets: s1,
-      x: s2.x + x,
-      y: s2.y + y,
-      ease: "Elastic",
-      duration: 2000
-    });
-  }, null, this);
+    this.physics.add.overlap(this.player, this.spillGroup, this.slip, null, this);
 
     this.physics.add.collider(this.spillGroup, worldLayer);
-    this.physics.add.overlap(this.enemyGroup, this.spillGroup, function(s1,s2){
-      var x = this.displace()
-      var y = this.displace()
-      this.tweens.add({
-      targets: s1,
-      x: s2.x + x,
-      y: s2.y + y,
-      ease: "Elastic",
-      duration: 2000
-    });
-  }, null, this);
+    this.physics.add.overlap(this.enemyGroup, this.spillGroup, this.slip, null, this);
 
 
     for (var i = 0; i < spill.length; i++){
@@ -275,7 +255,7 @@ export default class Sprint1 extends Phaser.Scene {
       child.setImmoveable(true);
       child.refreshBody();
     });
-    this.physics.add.overlap(this.player, this.crackGroup, this.crack, null, this);
+    this.physics.add.overlap(this.player, this.crackGroup, this.gameOver, null, this);
     this.physics.add.collider(this.crackGroup, worldLayer);
     for (var i = 0; i < crack.length; i++){
       this.crackGroup.add(crack[i]);
@@ -319,9 +299,9 @@ export default class Sprint1 extends Phaser.Scene {
   update (time, delta) {
 
     // Update the scene
-    this.enemyCheckSpeed()
+    this.enemyCheckSpeed() //keeps the enemies moving
     if (Math.sin(this.time.now) > 0.7){
-      this.enemyView(200);
+      //this.enemyView(200);
     }
 
     if(this.gameWin){
@@ -409,6 +389,29 @@ export default class Sprint1 extends Phaser.Scene {
     var plusOrMinus = Math.random() < 0.6 ? -1 : 1;
     //console.log(int)
     return (int * plusOrMinus);
+  }
+  slip(s1,s2){
+    s2.body.enable = false;
+    var initialTime = 1
+    var timedEvent = this.time.addEvent({ delay: 1000, callback: spillcountDown});
+    function spillcountDown ()
+    {
+      initialTime -= 1; // One second
+      console.log(initialTime)
+      if (initialTime == 0){
+        s2.body.enable = true;
+
+      }
+    }
+    var x = this.displace()
+    var y = this.displace()
+    this.tweens.add({
+    targets: s1,
+    x: s2.x + x,
+    y: s2.y + y,
+    ease: "Elastic",
+    duration: 2000
+  });
   }
 
   }
