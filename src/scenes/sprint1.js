@@ -123,6 +123,12 @@ export default class Sprint1 extends Phaser.Scene {
 
 
     //win condition
+    var obj = []
+    let items = ['winPoint','enemyPoint','LCratePoint','spillPoint']
+    for(var i = 0; i < items.length; i++){
+      obj += map.createFromObjects('Objects', items[i]);
+    }
+    console.log(obj);
     var win = map.createFromObjects('Objects','winPoint', {key: 'exit'});
     this.winGroup = this.physics.add.group();
     this.winGroup.children.iterate(function(child) {
