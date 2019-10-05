@@ -167,6 +167,11 @@ export default class Sprint1 extends Phaser.Scene {
       .body.setSize(32,64,32,32);
       enemy[i]
       .body.width = 32;
+      //Initialize with starting velocity
+      enemy[i]
+      .body.setVelocityX(Phaser.Math.Between(-100, 100));
+      enemy[i]
+      .body.setVelocityY(Phaser.Math.Between(-100, 100));
 
     }
     //waterspill attributes
@@ -314,8 +319,9 @@ export default class Sprint1 extends Phaser.Scene {
   update (time, delta) {
 
     // Update the scene
+    this.enemyCheckSpeed()
     if (Math.sin(this.time.now) > 0.7){
-      this.enemyView(256);
+      this.enemyView(200);
     }
 
     if(this.gameWin){
@@ -367,23 +373,27 @@ export default class Sprint1 extends Phaser.Scene {
     for ( var i = 0; i < enemies.length; i++){
       if (Phaser.Math.Distance.Between(this.player.x, this.player.y, enemies[i].x, enemies[i].y ) <= distance){
         this.enemyChase(enemies[i]);
-      }else {
+      }/*else {
         this.enemyWander(enemies[i]);
-      }
+      }*/
     }
   }
 
 
   enemyChase(enemy){
     var angleBetween = Phaser.Math.Angle.Between(enemy.x, enemy.y, this.player.x, this.player.y);
-    enemy.body.velocity.x = Math.cos(angleBetween) * 40
-    enemy.body.velocity.y = Math.sin(angleBetween) * 40
+    enemy.body.velocity.x = Math.cos(angleBetween) * 60
+    enemy.body.velocity.y = Math.sin(angleBetween) * 60
   }
 
-  enemyWander(enemy){
-
-    enemy.body.setVelocityX(Phaser.Math.Between(-100, 100));
-    enemy.body.setVelocityY(Phaser.Math.Between(-100, 100));
+  enemyCheckSpeed(){
+    var enemies = this.enemyGroup.getChildren();
+    for ( var i = 0; i < enemies.length; i++){
+      if (enemies[i].body.velocity.x == 0 && enemies[i].body.velocity.y == 0){
+        enemies[i].body.setVelocityX(Phaser.Math.Between(-150, 150));
+        enemies[i].body.setVelocityY(Phaser.Math.Between(-100, 100));
+      }
+    }
   }
 
   endScene(player, winPoint){
