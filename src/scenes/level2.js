@@ -3,7 +3,7 @@ import * as ChangeScene from './InGameChangeScene.js'
 
 export default class Level2 extends Phaser.Scene {
   constructor () {
-    super('lvl2');
+    super('level2');
   }
 
   init (data) {
@@ -11,7 +11,7 @@ export default class Level2 extends Phaser.Scene {
   }
 
   preload () {
-    console.log("scene loaded")
+    console.log("Level2")
     // Preload assets
     this.load.image("tiles", "./assets/tilemaps/newTileset.png");
     this.load.tilemapTiledJSON("map2", "./assets/tilemaps/lvl2.json");

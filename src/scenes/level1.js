@@ -3,7 +3,7 @@ import * as ChangeScene from './InGameChangeScene.js'
 
 export default class Level1 extends Phaser.Scene {
   constructor () {
-    super('lvl1');
+    super('level1');
   }
 
   init (data) {
@@ -12,6 +12,7 @@ export default class Level1 extends Phaser.Scene {
 
   preload () {
     // Preload assets
+    console.log("Level1")
     this.load.image("tiles", "./assets/tilemaps/newTileset.png");
     this.load.tilemapTiledJSON("map", "./assets/tilemaps/lvl1.json");
     this.load.image("crate", "./assets/resized/crate.png");
@@ -46,7 +47,7 @@ export default class Level1 extends Phaser.Scene {
 
   create() {
     //Add change scene event listeners
-    ChangeScene.addSceneEventListeners(this)
+    //ChangeScene.addSceneEventListeners(this)
     //add music
     this.music= this.sound.add('theme');
     this.music.play({
@@ -312,12 +313,11 @@ export default class Level1 extends Phaser.Scene {
 
     if(this.gameWin){
       this.music.stop();
-      console.log("start next level")
-      this.scene.start('lvl2');
-      return;
+
+
     }else if (this.gameLose) {
       this.music.stop();
-      this.scene.start('GameOverScene');
+      this.scene.switch('GameOverScene');
     }
     const speed = 80;
     const prevVelocity = this.player.body.velocity.clone();
@@ -384,9 +384,8 @@ export default class Level1 extends Phaser.Scene {
   }
 
   endScene(player, winPoint){
-    this.gameWin = true;
+    this.scene.start('level2');
   }
-
   gameOver(player, winPoint){
     this.gameLose = true;
   }
