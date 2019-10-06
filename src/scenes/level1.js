@@ -1,9 +1,9 @@
 /*global Phaser*/
-//import * as ChangeScene from './InGameChangeScene.js'
+import * as ChangeScene from './InGameChangeScene.js'
 
-export default class Level2 extends Phaser.Scene {
+export default class Level1 extends Phaser.Scene {
   constructor () {
-    super('lvl2');
+    super('level1');
   }
 
   init (data) {
@@ -11,10 +11,10 @@ export default class Level2 extends Phaser.Scene {
   }
 
   preload () {
-    console.log("scene loaded")
     // Preload assets
+    console.log("Level1")
     this.load.image("tiles", "./assets/tilemaps/newTileset.png");
-    this.load.tilemapTiledJSON("map", "./assets/tilemaps/lvl2.json");
+    this.load.tilemapTiledJSON("map", "./assets/tilemaps/lvl1.json");
     this.load.image("crate", "./assets/resized/crate.png");
     this.load.image("Lcrate", "./assets/resized/Lcrate.png");
     this.load.audio("theme","./assets/sounds/InGame.wav");
@@ -296,6 +296,7 @@ export default class Level2 extends Phaser.Scene {
 
     }
 
+
   }
 
   update (time, delta) {
@@ -308,11 +309,11 @@ export default class Level2 extends Phaser.Scene {
 
     if(this.gameWin){
       this.music.stop();
-      this.scene.start('WinScene');
-      return;
+
+
     }else if (this.gameLose) {
       this.music.stop();
-      this.scene.start('GameOverScene');
+      this.scene.switch('GameOverScene');
     }
     const speed = 80;
     const prevVelocity = this.player.body.velocity.clone();
@@ -379,9 +380,8 @@ export default class Level2 extends Phaser.Scene {
   }
 
   endScene(player, winPoint){
-    this.gameWin = true;
+    this.scene.start('level2');
   }
-
   gameOver(player, winPoint){
     this.gameLose = true;
   }

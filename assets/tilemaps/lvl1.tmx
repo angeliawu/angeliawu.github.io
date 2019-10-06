@@ -192,7 +192,7 @@
   <object id="275" name="Spawn Point" x="96" y="1088">
    <point/>
   </object>
-  <object id="309" name="winPoint" x="895" y="1093">
+  <object id="309" name="winPoint" x="96" y="1184">
    <point/>
   </object>
   <object id="346" name="LCratePoint" x="160" y="928" rotation="90">

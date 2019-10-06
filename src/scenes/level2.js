@@ -1,9 +1,9 @@
 /*global Phaser*/
-import * as ChangeScene from './InGameChangeScene.js'
+//import * as ChangeScene from './InGameChangeScene.js'
 
-export default class Level1 extends Phaser.Scene {
+export default class Level2 extends Phaser.Scene {
   constructor () {
-    super('lvl1');
+    super('level2');
   }
 
   init (data) {
@@ -11,9 +11,10 @@ export default class Level1 extends Phaser.Scene {
   }
 
   preload () {
+    console.log("Level2")
     // Preload assets
     this.load.image("tiles", "./assets/tilemaps/newTileset.png");
-    this.load.tilemapTiledJSON("map", "./assets/tilemaps/lvl1.json");
+    this.load.tilemapTiledJSON("map2", "./assets/tilemaps/lvl2.json");
     this.load.image("crate", "./assets/resized/crate.png");
     this.load.image("Lcrate", "./assets/resized/Lcrate.png");
     this.load.audio("theme","./assets/sounds/InGame.wav");
@@ -45,7 +46,7 @@ export default class Level1 extends Phaser.Scene {
 
   create() {
     //Add change scene event listeners
-    ChangeScene.addSceneEventListeners(this)
+    //ChangeScene.addSceneEventListeners(this)
     //add music
     this.music= this.sound.add('theme');
     this.music.play({
@@ -56,7 +57,7 @@ export default class Level1 extends Phaser.Scene {
     //load map
     this.gameWin = false;
     this.gameLose = false;
-    const map = this.make.tilemap({ key: "map"});
+    const map = this.make.tilemap({ key: "map2"});
     const tileset = map.addTilesetImage("newTileset", "tiles");
     const belowLayer = map.createStaticLayer("Below Player", tileset, 0, 0);
     const worldLayer = map.createStaticLayer("World", tileset, 0, 0);
@@ -295,7 +296,6 @@ export default class Level1 extends Phaser.Scene {
 
     }
 
-
   }
 
   update (time, delta) {
@@ -308,8 +308,7 @@ export default class Level1 extends Phaser.Scene {
 
     if(this.gameWin){
       this.music.stop();
-      console.log("start next level")
-      this.scene.start('lvl2');
+      this.scene.start('WinScene');
       return;
     }else if (this.gameLose) {
       this.music.stop();
