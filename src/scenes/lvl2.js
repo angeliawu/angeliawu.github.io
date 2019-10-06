@@ -18,6 +18,7 @@ export default class Level2 extends Phaser.Scene {
     this.load.image("crate", "./assets/resized/crate.png");
     this.load.image("Lcrate", "./assets/resized/Lcrate.png");
     this.load.audio("theme","./assets/sounds/InGame.wav");
+    this.load.audio("splash","./assets/sounds/splash.wav");
 
     //Loads potato player sprite
     //this.load.image("potato", "./assets/potato.png");
@@ -54,6 +55,9 @@ export default class Level2 extends Phaser.Scene {
       loop:true
     });
 
+    //preset sound effects
+    this.splashfx=this.sound.add('splash');
+
     //load map
     this.gameWin = false;
     this.gameLose = false;
@@ -61,7 +65,7 @@ export default class Level2 extends Phaser.Scene {
     const tileset = map.addTilesetImage("newTileset", "tiles");
     const belowLayer = map.createStaticLayer("Below Player", tileset, 0, 0);
     const worldLayer = map.createStaticLayer("World", tileset, 0, 0);
-    const aboveLayer = map.createStaticLayer("Above Player", tileset, 0, 0);
+    //const aboveLayer = map.createStaticLayer("Above Player", tileset, 0, 0);
 
     //create game timer
     this.initialTime = 30
