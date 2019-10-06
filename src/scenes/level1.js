@@ -18,6 +18,7 @@ export default class Level1 extends Phaser.Scene {
     this.load.image("crate", "./assets/resized/crate.png");
     this.load.image("Lcrate", "./assets/resized/Lcrate.png");
     this.load.audio("theme","./assets/sounds/InGame.wav");
+    this.load.audio("splash","./assets/sounds/splash.wav");
 
     //Loads potato player sprite
     //this.load.image("potato", "./assets/potato.png");
@@ -53,6 +54,9 @@ export default class Level1 extends Phaser.Scene {
       volume:.3,
       loop:true
     });
+
+    //preset sound effects
+    this.splashfx=this.sound.add('splash');
 
     //load map
     this.gameWin = false;
@@ -396,6 +400,10 @@ export default class Level1 extends Phaser.Scene {
     s2.body.enable = false;
     var initialTime = 1
     var timedEvent = this.time.addEvent({ delay: 1000, callback: spillcountDown});
+    this.splashfx.play({
+      volume:.3,
+      loop:false
+    });
     function spillcountDown ()
     {
       initialTime -= 1; // One second

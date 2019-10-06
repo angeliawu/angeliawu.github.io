@@ -1,5 +1,5 @@
 /*global Phaser*/
-//import * as ChangeScene from './InGameChangeScene.js'
+import * as ChangeScene from './InGameChangeScene.js'
 
 export default class Level2 extends Phaser.Scene {
   constructor () {
@@ -46,7 +46,7 @@ export default class Level2 extends Phaser.Scene {
 
   create() {
     //Add change scene event listeners
-    //ChangeScene.addSceneEventListeners(this)
+    ChangeScene.addSceneEventListeners(this)
     //add music
     this.music= this.sound.add('theme');
     this.music.play({
@@ -396,6 +396,10 @@ export default class Level2 extends Phaser.Scene {
     s2.body.enable = false;
     var initialTime = 1
     var timedEvent = this.time.addEvent({ delay: 1000, callback: spillcountDown});
+    this.splashfx.play({
+      volume:.3,
+      loop:false
+    });
     function spillcountDown ()
     {
       initialTime -= 1; // One second

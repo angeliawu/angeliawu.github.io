@@ -27,7 +27,7 @@ export default class BootScene extends Phaser.Scene {
     //Create the scenes
     WebFont.load({
       google:{
-        families: ['Candal', 'Modak', 'Anton']
+        families: ['Permanent Marker', 'Modak', 'Anton']
       }
     });
 
@@ -37,7 +37,7 @@ export default class BootScene extends Phaser.Scene {
     var text2 = 'Use the arrows to move, push crates, and avoid the cooks'
     var text3 = 'Press Space bar to start'
 
-    this.spellOutText(170,75,550,text,60,10, '#fff','Candal');
+    this.spellOutText(170,75,550,text,60,10, '#fff','Permanent Marker');
     this.spellOutText(175,200,450,text2,20,30, '#fff','Anton');
     this.spellOutText(250,300,550,text3,30,50, '#fff','Anton');
   }
