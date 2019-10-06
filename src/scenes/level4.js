@@ -1,9 +1,9 @@
 /*global Phaser*/
 import * as ChangeScene from './InGameChangeScene.js'
 
-export default class Level2 extends Phaser.Scene {
+export default class Level4 extends Phaser.Scene {
   constructor () {
-    super('level2');
+    super('level4');
   }
 
   init (data) {
@@ -14,7 +14,7 @@ export default class Level2 extends Phaser.Scene {
     console.log("Level2")
     // Preload assets
     this.load.image("tiles", "./assets/tilemaps/newTileset.png");
-    this.load.tilemapTiledJSON("map2", "./assets/tilemaps/lvl2.json");
+    this.load.tilemapTiledJSON("map4", "./assets/tilemaps/lvl4.json");
     this.load.image("crate", "./assets/resized/crate.png");
     this.load.image("Lcrate", "./assets/resized/Lcrate.png");
     this.load.audio("theme","./assets/sounds/InGame.wav");
@@ -61,11 +61,11 @@ export default class Level2 extends Phaser.Scene {
     //load map
     this.gameWin = false;
     this.gameLose = false;
-    const map = this.make.tilemap({ key: "map2"});
+    const map = this.make.tilemap({ key: "map4"});
     const tileset = map.addTilesetImage("newTileset", "tiles");
     const belowLayer = map.createStaticLayer("Below Player", tileset, 0, 0);
     const worldLayer = map.createStaticLayer("World", tileset, 0, 0);
-    //const aboveLayer = map.createStaticLayer("Above Player", tileset, 0, 0);
+    const aboveLayer = map.createStaticLayer("Above Player", tileset, 0, 0);
 
     //create game timer
     this.initialTime = 30
@@ -96,7 +96,7 @@ export default class Level2 extends Phaser.Scene {
       }
     }
     worldLayer.setCollisionByProperty({ collides: true});
-    //aboveLayer.setDepth(10);
+    aboveLayer.setDepth(10);
     //aboveLayer.setDepth(10);
     const spawnPoint = map.findObject(
       "Objects",
@@ -312,7 +312,7 @@ export default class Level2 extends Phaser.Scene {
 
     if(this.gameWin){
       this.music.stop();
-      this.scene.start('level3');
+      this.scene.start('WinScene');
       return;
     }else if (this.gameLose) {
       this.music.stop();

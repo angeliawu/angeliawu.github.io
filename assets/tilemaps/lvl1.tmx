@@ -192,7 +192,7 @@
   <object id="275" name="Spawn Point" x="96" y="1088">
    <point/>
   </object>
-  <object id="309" name="winPoint" x="96" y="1184">
+  <object id="309" name="winPoint" x="928" y="1120">
    <point/>
   </object>
   <object id="346" name="LCratePoint" x="160" y="928" rotation="90">
@@ -285,7 +285,7 @@
   <object id="406" name="LCratePoint" x="736" y="992" rotation="90">
    <point/>
   </object>
-  <object id="413" name="enemyPoint" x="640" y="960">
+  <object id="413" name="enemyPoint" x="640" y="992">
    <point/>
   </object>
  </objectgroup>
