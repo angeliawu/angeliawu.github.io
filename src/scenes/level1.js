@@ -313,6 +313,7 @@ export default class Level1 extends Phaser.Scene {
 
     if(this.gameWin){
       this.music.stop();
+      this.scene.start('level2');
 
 
     }else if (this.gameLose) {
@@ -384,7 +385,7 @@ export default class Level1 extends Phaser.Scene {
   }
 
   endScene(player, winPoint){
-    this.scene.start('level2');
+    this.gameWin = true;
   }
   gameOver(player, winPoint){
     this.gameLose = true;
