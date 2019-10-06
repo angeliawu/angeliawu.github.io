@@ -1,5 +1,5 @@
 /*global Phaser*/
-//import * as ChangeScene from './InGameChangeScene.js'
+import * as ChangeScene from './InGameChangeScene.js'
 
 export default class Level2 extends Phaser.Scene {
   constructor () {
@@ -14,7 +14,7 @@ export default class Level2 extends Phaser.Scene {
     console.log("scene loaded")
     // Preload assets
     this.load.image("tiles", "./assets/tilemaps/newTileset.png");
-    this.load.tilemapTiledJSON("map", "./assets/tilemaps/lvl2.json");
+    this.load.tilemapTiledJSON("map2", "./assets/tilemaps/lvl2.json");
     this.load.image("crate", "./assets/resized/crate.png");
     this.load.image("Lcrate", "./assets/resized/Lcrate.png");
     this.load.audio("theme","./assets/sounds/InGame.wav");
@@ -46,7 +46,7 @@ export default class Level2 extends Phaser.Scene {
 
   create() {
     //Add change scene event listeners
-    //ChangeScene.addSceneEventListeners(this)
+    ChangeScene.addSceneEventListeners(this)
     //add music
     this.music= this.sound.add('theme');
     this.music.play({
@@ -57,7 +57,7 @@ export default class Level2 extends Phaser.Scene {
     //load map
     this.gameWin = false;
     this.gameLose = false;
-    const map = this.make.tilemap({ key: "map"});
+    const map = this.make.tilemap({ key: "map2"});
     const tileset = map.addTilesetImage("newTileset", "tiles");
     const belowLayer = map.createStaticLayer("Below Player", tileset, 0, 0);
     const worldLayer = map.createStaticLayer("World", tileset, 0, 0);
@@ -396,6 +396,10 @@ export default class Level2 extends Phaser.Scene {
     s2.body.enable = false;
     var initialTime = 1
     var timedEvent = this.time.addEvent({ delay: 1000, callback: spillcountDown});
+    this.splashfx.play({
+      volume:.3,
+      loop:false
+    });
     function spillcountDown ()
     {
       initialTime -= 1; // One second
