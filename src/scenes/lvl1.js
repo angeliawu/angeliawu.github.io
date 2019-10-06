@@ -1,9 +1,9 @@
 /*global Phaser*/
 import * as ChangeScene from './InGameChangeScene.js'
 
-export default class Sprint1 extends Phaser.Scene {
+export default class Level1 extends Phaser.Scene {
   constructor () {
-    super('Sprint1');
+    super('lvl1');
   }
 
   init (data) {
@@ -13,7 +13,7 @@ export default class Sprint1 extends Phaser.Scene {
   preload () {
     // Preload assets
     this.load.image("tiles", "./assets/tilemaps/newTileset.png");
-    this.load.tilemapTiledJSON("map", "./assets/tilemaps/FOFlvl1.json");
+    this.load.tilemapTiledJSON("map", "./assets/tilemaps/lvl1.json");
     this.load.image("crate", "./assets/resized/crate.png");
     this.load.image("Lcrate", "./assets/resized/Lcrate.png");
     this.load.audio("theme","./assets/sounds/InGame.wav");
