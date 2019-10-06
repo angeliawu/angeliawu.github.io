@@ -47,7 +47,7 @@ export default class Level1 extends Phaser.Scene {
 
   create() {
     //Add change scene event listeners
-    //ChangeScene.addSceneEventListeners(this)
+    ChangeScene.addSceneEventListeners(this)
     //add music
     this.music= this.sound.add('theme');
     this.music.play({
@@ -318,7 +318,7 @@ export default class Level1 extends Phaser.Scene {
 
     }else if (this.gameLose) {
       this.music.stop();
-      this.scene.switch('GameOverScene');
+      this.scene.start('GameOverScene');
     }
     const speed = 80;
     const prevVelocity = this.player.body.velocity.clone();
