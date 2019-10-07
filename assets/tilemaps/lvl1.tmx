@@ -195,7 +195,7 @@
   <object id="309" name="winPoint" x="928" y="1120">
    <point/>
   </object>
-  <object id="346" name="LCratePoint" x="256" y="928" rotation="90">
+  <object id="346" name="LCratePoint" x="224" y="928" rotation="90">
    <point/>
   </object>
   <object id="358" name="enemyPoint" x="128" y="992">
@@ -207,16 +207,16 @@
   <object id="373" name="spillPoint" x="896" y="1120">
    <point/>
   </object>
-  <object id="377" name="NPCPoint" x="685" y="1089">
+  <object id="377" name="NPCPoint" x="160" y="1152">
    <point/>
   </object>
   <object id="378" name="crackPoint" x="288" y="1056">
    <point/>
   </object>
-  <object id="379" name="cratePoint" x="224" y="1088">
+  <object id="379" name="cratePoint" x="192" y="1088">
    <point/>
   </object>
-  <object id="380" name="LCratePoint" x="224" y="992" rotation="90">
+  <object id="380" name="LCratePoint" x="192" y="992" rotation="90">
    <point/>
   </object>
   <object id="382" name="crackPoint" x="288" y="1088">

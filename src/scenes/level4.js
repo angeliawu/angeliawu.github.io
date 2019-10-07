@@ -30,6 +30,14 @@ export default class Level4 extends Phaser.Scene {
       frameHeight: 64,
       frameWidth: 47
     });
+    this.load.spritesheet('onion', "./assets/resized/Onion_animation2331.png",{
+      frameHeight: 31,
+      frameWidth: 23
+    });
+    this.load.spritesheet('tomato', "./assets/resized/Tomato_animation3245.png",{
+      frameHeight: 45,
+      frameWidth: 32
+    });
 
     //Load cook sprite
     this.load.image("cook", "./assets/resized/cook64.png");
@@ -44,8 +52,7 @@ export default class Level4 extends Phaser.Scene {
     this.load.image("exit", "./assets/resized/exit.png");
 
     //Load NPC
-    this.load.image("onion", "./assets/resized/onion32.png")
-    this.load.image("tomato", "./assets/resized/tomato32.png")
+
   }
 
 
@@ -145,6 +152,30 @@ export default class Level4 extends Phaser.Scene {
     this.anims.create({
         key: 'cook_idle',
         frames: this.anims.generateFrameNumbers('Cook', { start: 4, end: 1}),
+        frameRate: 10,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'onion_pushed',
+        frames: this.anims.generateFrameNumbers('onion', { start: 0, end: 5}),
+        frameRate: 10,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'onion_idle',
+        frames: this.anims.generateFrameNumbers('onion', { start: 0, end: 0}),
+        frameRate: 10,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'tomato_pushed',
+        frames: this.anims.generateFrameNumbers('tomato', { start: 0, end: 5}),
+        frameRate: 10,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'tomato_idle',
+        frames: this.anims.generateFrameNumbers('tomato', { start: 0, end: 0}),
         frameRate: 10,
         repeat: -1
     });
@@ -284,6 +315,7 @@ export default class Level4 extends Phaser.Scene {
       child.refreshBody();
     });
     this.physics.add.overlap(this.player, this.crackGroup, this.gameOver, null, this);
+    //this.physics.add.collider(this.enemyGroup, this.crackGroup);
     this.physics.add.collider(this.crackGroup, worldLayer);
     for (var i = 0; i < crack.length; i++){
       this.crackGroup.add(crack[i]);
@@ -327,6 +359,7 @@ export default class Level4 extends Phaser.Scene {
   update (time, delta) {
 
     // Update the scene
+    this.NPCCheckSpeed();
     this.enemyCheckSpeed() //keeps the enemies moving
     if (Math.sin(this.time.now) > 0.7){
       this.enemyView(200);
@@ -429,6 +462,57 @@ export default class Level4 extends Phaser.Scene {
          enemies[i].body.setVelocityY(Phaser.Math.Between(-100, 100));
          this.setEnemyFrame(enemies[i])
        }
+     }
+   }
+   NPCCheckSpeed(){
+     var NPCs = this.NPCGroup.getChildren();
+     for ( var i = 0; i < NPCs.length; i++){
+       if (NPCs[i].body.velocity.x == 0 && NPCs[i].body.velocity.y == 0){
+         NPCs[i].angle = 0;
+         if (String(NPCs[i].texture.key) === "onion"){
+           NPCs[i].anims.play('onion_idle', true);
+           NPCs[i].flipX = false;
+         }else {
+           NPCs[i].anims.play('tomato_idle', true);
+           NPCs[i].flipX = false;
+         }
+
+       }
+       else if (NPCs[i].body.velocity.x > 0) {
+         if (String(NPCs[i].texture.key) === "onion"){
+           NPCs[i].anims.play('onion_pushed', true);
+         }else {
+           NPCs[i].anims.play('tomato_pushed', true);
+         }
+       }
+       else if (NPCs[i].body.velocity.x < 0) {
+         if (String(NPCs[i].texture.key) === "onion"){
+           NPCs[i].anims.play('onion_pushed', true);
+           NPCs[i].flipX = true;
+         }else {
+           NPCs[i].anims.play('tomato_pushed', true);
+           NPCs[i].flipX = true;
+         }
+       }
+       else if (NPCs[i].body.velocity.y < 0) {
+         if (String(NPCs[i].texture.key) === "onion"){
+           NPCs[i].anims.play('onion_pushed', true);
+           NPCs[i].angle = 90;
+         }else {
+           NPCs[i].anims.play('tomato_pushed', true);
+           NPCs[i].angle = 90;
+         }
+       }
+       else if (NPCs[i].body.velocity.y > 0) {
+         if (String(NPCs[i].texture.key) === "onion"){
+           NPCs[i].anims.play('onion_pushed', true);
+           NPCs[i].angle = 270;
+         }else {
+           NPCs[i].anims.play('tomato_pushed', true);
+           NPCs[i].angle = 270;
+         }
+       }
+
      }
    }
 
