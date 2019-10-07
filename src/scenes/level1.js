@@ -27,6 +27,11 @@ export default class Level1 extends Phaser.Scene {
       frameWidth: 22
     });
 
+    this.load.spritesheet('Cook', "./assets/fullSized/cook_anim.png",{
+      frameHeight: 64,
+      frameWidth: 47
+    });
+
     //Load cook sprite
     this.load.image("cook", "./assets/resized/cook64.png");
 
@@ -126,6 +131,24 @@ export default class Level1 extends Phaser.Scene {
         frameRate: 10,
         repeat: -1
     });
+    this.anims.create({
+        key: "cook_walk_right",
+        frames: this.anims.generateFrameNumbers('Cook', { start: 0, end: 2}),
+        frameRate: 5,
+        repeat: 1
+      });
+      this.anims.create({
+          key: "cook_face_right",
+          frames: this.anims.generateFrameNumbers('Cook', { start: 2, end: 3}),
+          frameRate: 5,
+          repeat: 1
+        });
+    this.anims.create({
+        key: 'cook_idle',
+        frames: this.anims.generateFrameNumbers('Cook', { start: 4, end: 1}),
+        frameRate: 10,
+        repeat: -1
+    });
 
 
     //win condition
@@ -145,7 +168,7 @@ export default class Level1 extends Phaser.Scene {
     }
 
     //enemy attributes
-    var enemy = map.createFromObjects('Objects','enemyPoint', {key: 'cook'});
+    var enemy = map.createFromObjects('Objects','enemyPoint', {key: 'Cook'});
     this.enemyGroup = this.physics.add.group();
     this.enemyGroup.children.iterate(function(child) {
       child.setImmoveable(false);
@@ -367,12 +390,38 @@ export default class Level1 extends Phaser.Scene {
     }
   }
 
+ setEnemyFrame(enemy){
+    if (enemy.body.velocity.x < 0){
+      enemy.anims.play('cook_walk_right')
+      enemy.flipX = true;
+    } else if(enemy.body.velocity.x > 0){
+      enemy.anims.play('cook_walk_right')
 
-  enemyChase(enemy){
-    var angleBetween = Phaser.Math.Angle.Between(enemy.x, enemy.y, this.player.x, this.player.y);
-    enemy.body.velocity.x = Math.cos(angleBetween) * 60
-    enemy.body.velocity.y = Math.sin(angleBetween) * 60
+
+    }
+    //enemy.anims.play('cook_idle')
+
+}
+enemyChase(enemy){
+  var  i = enemy
+  function degrees(radians) {
+    return radians * 180 / Math.PI;
+  };
+  var angleBetween = Phaser.Math.Angle.Between(i.x, i.y, this.player.x, this.player.y);
+  console.log(degrees(angleBetween));
+  i.body.velocity.x = Math.cos(angleBetween) * 60;
+  i.body.velocity.y = Math.sin(angleBetween) * 60;
+  if (degrees(angleBetween) <= 90 && degrees(angleBetween) >= -90){
+    console.log('right')
+    i.anims.play('cook_face_right');
+    i.flipX = true;
+  } else if(degrees(angleBetween) > 90 || degrees(angleBetween) < -90){
+    console.log('left')
+    i.anims.play('cook_face_right');
+    i.flipX = false;
+
   }
+}
 
   enemyCheckSpeed(){
     var enemies = this.enemyGroup.getChildren();
@@ -380,6 +429,7 @@ export default class Level1 extends Phaser.Scene {
       if (enemies[i].body.velocity.x == 0 && enemies[i].body.velocity.y == 0){
         enemies[i].body.setVelocityX(Phaser.Math.Between(-150, 150));
         enemies[i].body.setVelocityY(Phaser.Math.Between(-100, 100));
+        this.setEnemyFrame(enemies[i])
       }
     }
   }
