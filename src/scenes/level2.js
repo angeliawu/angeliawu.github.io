@@ -46,7 +46,7 @@ export default class Level2 extends Phaser.Scene {
     this.load.image("spill","./assets/resized/spill32.png");
 
     //Load crack sprites
-    this.load.image("crack", "./assets/resized/crack48x48.png");
+    this.load.image("crack", "./assets/resized/crack_3832.png");
 
     //Load exit box
     this.load.image("exit", "./assets/resized/exit.png");
