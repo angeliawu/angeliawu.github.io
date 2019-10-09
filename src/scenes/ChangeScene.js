@@ -1,11 +1,12 @@
 export { addSceneEventListeners };
 
-function addSceneEventListeners(that){
+function addSceneEventListeners(that, scene){
   that.input.keyboard.on(
     "keydown_SPACE",
       function(){
         that.music.stop();
-        that.scene.start('level1');
+        that.scene.stop(scene);
+        that.scene.start(scene);
       }
   )
   that.input.keyboard.on(

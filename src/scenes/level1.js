@@ -10,9 +10,10 @@ export default class Level1 extends Phaser.Scene {
     // Initialization code goes here
   }
 
+
   preload () {
     // Preload assets
-    console.log("Level1")
+    //console.log("Level1")
     this.load.image("tiles", "./assets/tilemaps/newTileset.png");
     this.load.tilemapTiledJSON("map", "./assets/tilemaps/lvl1.json");
     this.load.image("crate", "./assets/resized/crate.png");
@@ -60,7 +61,7 @@ export default class Level1 extends Phaser.Scene {
 
   create() {
     //Add change scene event listeners
-    ChangeScene.addSceneEventListeners(this)
+    ChangeScene.addSceneEventListeners(this, 'level1')
     //add music
     this.music= this.sound.add('theme');
     this.music.play({
@@ -141,6 +142,12 @@ export default class Level1 extends Phaser.Scene {
         repeat: -1
     });
     this.anims.create({
+        key: 'cook_idle',
+        frames: this.anims.generateFrameNumbers('Cook', { start: 0, end: 0}),
+        frameRate: 3,
+        repeat: -1
+    });
+    this.anims.create({
         key: "cook_walk_right",
         frames: this.anims.generateFrameNumbers('Cook', { start: 0, end: 2}),
         frameRate: 5,
@@ -149,7 +156,7 @@ export default class Level1 extends Phaser.Scene {
       this.anims.create({
           key: "cook_face_right",
           frames: this.anims.generateFrameNumbers('Cook', { start: 2, end: 3}),
-          frameRate: 5,
+          frameRate: 3,
           repeat: 1
         });
     this.anims.create({
@@ -324,8 +331,8 @@ export default class Level1 extends Phaser.Scene {
       .setMaxVelocity(0);
       crack[i]
       .body.setSize(16,16,32,32);
-      crack[i]
-      .body.width = 32;
+      //crack[i]
+      //.body.width = 32;
     }
     //NPC attributes
     var NPC = map.createFromObjects('Objects','NPCPoint', {key: "onion"});
@@ -348,7 +355,11 @@ export default class Level1 extends Phaser.Scene {
       .body.setDrag(100);
       var ran = Math.random() < 0.6 ? "onion" : "tomato";
       NPC[i].setTexture(ran);
-      console.log(NPC[i].texture.key)
+      ////console.log(NPC[i].texture.key)
+      if(String(NPC[i].texture.key) == 'tomato'){
+        NPC[i]
+        .body.setSize(32,32,32,32);
+      }
 
     }
 
@@ -372,7 +383,7 @@ export default class Level1 extends Phaser.Scene {
 
     }else if (this.gameLose) {
       this.music.stop();
-      this.scene.start('GameOverScene');
+      this.scene.start('GameOverScene',{scene: 'level1'});
     }
     const speed = 80;
     const prevVelocity = this.player.body.velocity.clone();
@@ -439,10 +450,10 @@ enemyChase(enemy){
     return radians * 180 / Math.PI;
   };
   var angleBetween = Phaser.Math.Angle.Between(i.x, i.y, this.player.x, this.player.y);
-
+  //console.log(degrees(angleBetween))
   i.body.velocity.x = Math.cos(angleBetween) * 60;
   i.body.velocity.y = Math.sin(angleBetween) * 60;
-  if (degrees(angleBetween) > 90 && degrees(angleBetween) < 180){
+  if (degrees(angleBetween) > 40 && degrees(angleBetween) < 120){
     i.anims.play('cook_idle');
     i.flipX = true;
   }else if (degrees(angleBetween) <= 90 && degrees(angleBetween) >= -90){
@@ -542,7 +553,7 @@ enemyChase(enemy){
     function spillcountDown ()
     {
       initialTime -= 1; // One second
-      console.log(initialTime)
+      //console.log(initialTime)
       if (initialTime == 0){
         s2.body.enable = true;
 
@@ -555,7 +566,7 @@ enemyChase(enemy){
     x: s2.x + x,
     y: s2.y + y,
     ease: "Elastic",
-    duration: 2000
+    duration: 1000
   });
   }
 

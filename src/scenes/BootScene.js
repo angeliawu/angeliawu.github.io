@@ -16,7 +16,7 @@ export default class BootScene extends Phaser.Scene {
 
   create() {
     //Add change scene event listeners
-    ChangeScene.addSceneEventListeners(this)
+    ChangeScene.addSceneEventListeners(this, "level1")
     //add music
     this.music=this.sound.add('theme');
     this.music.play({

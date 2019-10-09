@@ -1,6 +1,5 @@
 /*global Phaser*/
 import * as ChangeScene from './InGameChangeScene.js'
-
 export default class Level2 extends Phaser.Scene {
   constructor () {
     super('level2');
@@ -11,7 +10,7 @@ export default class Level2 extends Phaser.Scene {
   }
 
   preload () {
-    console.log("Level2")
+    //console.log("Level2")
     // Preload assets
     this.load.image("tiles", "./assets/tilemaps/newTileset.png");
     this.load.tilemapTiledJSON("map2", "./assets/tilemaps/lvl2.json");
@@ -58,7 +57,7 @@ export default class Level2 extends Phaser.Scene {
 
   create() {
     //Add change scene event listeners
-    ChangeScene.addSceneEventListeners(this)
+    ChangeScene.addSceneEventListeners(this,'level2');
     //add music
     this.music= this.sound.add('theme');
     this.music.play({
@@ -327,8 +326,7 @@ export default class Level2 extends Phaser.Scene {
       .setMaxVelocity(0);
       crack[i]
       .body.setSize(16,16,32,32);
-      crack[i]
-      .body.width = 32;
+
     }
     //NPC attributes
     var NPC = map.createFromObjects('Objects','NPCPoint', {key: "onion"});
@@ -351,6 +349,10 @@ export default class Level2 extends Phaser.Scene {
       .body.setDrag(100);
       var ran = Math.random() < 0.6 ? "onion" : "tomato";
       NPC[i].setTexture(ran);
+      if(String(NPC[i].texture.key) == 'tomato'){
+        NPC[i]
+        .body.setSize(32,32,32,32);
+      }
 
     }
 
@@ -371,7 +373,7 @@ export default class Level2 extends Phaser.Scene {
       return;
     }else if (this.gameLose) {
       this.music.stop();
-      this.scene.start('GameOverScene');
+      this.scene.start('GameOverScene', {scene: 'level2'});
     }
     const speed = 80;
     const prevVelocity = this.player.body.velocity.clone();
@@ -437,15 +439,15 @@ export default class Level2 extends Phaser.Scene {
      return radians * 180 / Math.PI;
    };
    var angleBetween = Phaser.Math.Angle.Between(i.x, i.y, this.player.x, this.player.y);
-   console.log(degrees(angleBetween));
+   //console.log(degrees(angleBetween));
    i.body.velocity.x = Math.cos(angleBetween) * 60;
    i.body.velocity.y = Math.sin(angleBetween) * 60;
    if (degrees(angleBetween) <= 90 && degrees(angleBetween) >= -90){
-     console.log('right')
+     //console.log('right')
      i.anims.play('cook_face_right');
      i.flipX = true;
    } else if(degrees(angleBetween) > 90 || degrees(angleBetween) < -90){
-     console.log('left')
+     //console.log('left')
      i.anims.play('cook_face_right');
      i.flipX = false;
 
@@ -525,7 +527,7 @@ export default class Level2 extends Phaser.Scene {
   displace(){
     var int = Math.random() < 0.6 ? 40 : 30;
     var plusOrMinus = Math.random() < 0.6 ? -1 : 1;
-    //console.log(int)
+    ////console.log(int)
     return (int * plusOrMinus);
   }
   slip(s1,s2){
@@ -539,7 +541,7 @@ export default class Level2 extends Phaser.Scene {
     function spillcountDown ()
     {
       initialTime -= 1; // One second
-      console.log(initialTime)
+      //console.log(initialTime)
       if (initialTime == 0){
         s2.body.enable = true;
 

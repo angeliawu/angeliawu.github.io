@@ -6,8 +6,9 @@ export default class GameOverScene extends Phaser.Scene {
     super('GameOverScene');
   }
 
-  init () {
+  init (data) {
     // Initialization code goes here
+    this.Source = data.scene;
   }
 
   preload(){
@@ -21,7 +22,7 @@ export default class GameOverScene extends Phaser.Scene {
 
   create() {
     //Add change scene event listeners
-    ChangeScene.addSceneEventListeners(this)
+    ChangeScene.addSceneEventListeners(this, this.Source);
 
     //Add music
     this.music=this.sound.add('End')
