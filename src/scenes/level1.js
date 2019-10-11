@@ -20,7 +20,6 @@ export default class Level1 extends Phaser.Scene {
     this.load.image("Lcrate", "./assets/resized/Lcrate.png");
     this.load.audio("theme","./assets/sounds/InGame.wav");
     this.load.audio("splash","./assets/sounds/splash.wav");
-
     //Loads potato player sprite
     //this.load.image("potato", "./assets/potato.png");
     this.load.spritesheet('Potato', "./assets/resized/pot32.png",{
