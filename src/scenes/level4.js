@@ -352,7 +352,7 @@ export default class Level4 extends Phaser.Scene {
       NPC[i].setTexture(ran);
       if(String(NPC[i].texture.key) == 'tomato'){
         NPC[i]
-        .body.setSize(16,16,32,32);
+        .body.setSize(16,16,16,16);
       }
 
     }

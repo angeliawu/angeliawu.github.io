@@ -329,7 +329,7 @@ export default class Level1 extends Phaser.Scene {
       .body
       .setMaxVelocity(0);
       crack[i]
-      .body.setSize(16,16,32,32);
+      .body.setSize(16,16,16,16);
       //crack[i]
       //.body.width = 32;
     }
