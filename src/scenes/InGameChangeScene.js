@@ -5,7 +5,7 @@ function addSceneEventListeners(that){
     "keydown_R",
       function(){
         that.music.stop();
-        that.scene.start('Scene0');
+        that.scene.start('level1');
       }
   )
   that.input.keyboard.on(

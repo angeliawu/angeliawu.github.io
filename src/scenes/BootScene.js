@@ -8,7 +8,7 @@ export default class BootScene extends Phaser.Scene {
   preload(){
     // Preload assets
     this.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js');
-    this.load.audio('theme','./assets/InGame.wav')
+    this.load.audio('theme','./assets/sounds/InGame.wav')
     //Declare variables for center of the scene
     this.centerX = this.cameras.main.width/2;
     this.centerY=this.cameras.main.height/2;
@@ -27,17 +27,17 @@ export default class BootScene extends Phaser.Scene {
     //Create the scenes
     WebFont.load({
       google:{
-        families: ['Candal', 'Modak', 'Anton']
+        families: ['Permanent Marker', 'Modak', 'Anton']
       }
     });
 
-    this.cameras.main.setBackgroundColor(0x333)
+    this.cameras.main.setBackgroundColor(0xb79268)
 
     var text = 'Fried or Flight'
     var text2 = 'Use the arrows to move, push crates, and avoid the cooks'
     var text3 = 'Press Space bar to start'
 
-    this.spellOutText(170,75,550,text,60,10, '#fff','Candal');
+    this.spellOutText(170,75,550,text,60,10, '#fff','Permanent Marker');
     this.spellOutText(175,200,450,text2,20,30, '#fff','Anton');
     this.spellOutText(250,300,550,text3,30,50, '#fff','Anton');
   }
