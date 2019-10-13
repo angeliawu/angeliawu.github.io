@@ -7,6 +7,7 @@ import Level4 from './scenes/level4.js';
 import GameOverScene from './scenes/GameOverScene.js';
 import WinScene from './scenes/WinScene.js';
 import Config from './config/config.js';
+import Tutorial from './scenes/tutorial.js'
 
 class Game extends Phaser.Game {
   constructor () {
