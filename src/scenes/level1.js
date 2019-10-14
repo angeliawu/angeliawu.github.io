@@ -15,7 +15,7 @@ export default class Level1 extends Phaser.Scene {
     // Preload assets
     //console.log("Level1")
     this.load.image("tiles", "./assets/tilemaps/newTileset.png");
-    this.load.tilemapTiledJSON("map", "./assets/tilemaps/lvl1.json");
+    this.load.tilemapTiledJSON("map", "./assets/tilemaps/level1.json");
     this.load.image("crate", "./assets/resized/crate.png");
     this.load.image("Lcrate", "./assets/resized/Lcrate.png");
     this.load.audio("theme","./assets/sounds/InGame.wav");

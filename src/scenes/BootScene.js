@@ -9,6 +9,10 @@ export default class BootScene extends Phaser.Scene {
     // Preload assets
     this.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js');
     this.load.audio('theme','./assets/sounds/InGame.wav')
+    this.load.spritesheet("buttons","./assets/spriteSheets/buttons.png", {
+      frameHeight: 100,
+      frameWidth: 200
+    });
     //Declare variables for center of the scene
     this.centerX = this.cameras.main.width/2;
     this.centerY=this.cameras.main.height/2;
@@ -35,6 +39,47 @@ export default class BootScene extends Phaser.Scene {
 
     var text = 'Fried or Flight'
     var text2 = 'Use the arrows to move, push crates, and avoid the cooks'
+    var b1 =this.add.sprite(150,100, 'buttons', 0).setInteractive();
+    b1.on("pointerover", function(){
+      this.setFrame(1);
+      sound.play('low');
+    });
+    b1.on("pointerout", function(){
+      this.setFrame(0);
+    });
+    b1.on("pointerup", function(){
+      sound.play('high');
+      this.scene.start('Scene0');
+    }, this
+  );
+
+  var b2 =this.add.sprite(400,100, 'buttons', 2).setInteractive();
+  b2.on("pointerover", function(){
+    this.setFrame(3);
+    sound.play('low');
+  });
+  b2.on("pointerout", function(){
+    this.setFrame(2);
+  });
+  b2.on("pointerup", function(){
+    sound.play('high');
+    this.scene.start('Scene1');
+  }, this
+);
+
+var b3 =this.add.sprite(650,100, 'buttons', 4).setInteractive();
+b3.on("pointerover", function(){
+  this.setFrame(5);
+  sound.play('low');
+});
+b3.on("pointerout", function(){
+  this.setFrame(4);
+});
+b3.on("pointerup", function(){
+  sound.play('high');
+  this.scene.start('Scene2');
+}, this
+);
     var text3 = 'Press Space bar to start Level 1'
     var text4 = 'Press Enter to start tutorial'
 

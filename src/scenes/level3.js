@@ -14,7 +14,7 @@ export default class Level3 extends Phaser.Scene {
 
     // Preload assets
     this.load.image("tiles", "./assets/tilemaps/newTileset.png");
-    this.load.tilemapTiledJSON("map3", "./assets/tilemaps/lvl3.json");
+    this.load.tilemapTiledJSON("map3", "./assets/tilemaps/level3.json");
     this.load.image("crate", "./assets/resized/crate.png");
     this.load.image("Lcrate", "./assets/resized/Lcrate.png");
     this.load.audio("theme","./assets/sounds/InGame.wav");
@@ -63,7 +63,7 @@ export default class Level3 extends Phaser.Scene {
 
   create() {
     //Add change scene event listeners
-    ChangeScene.addSceneEventListeners(this, 'level1')
+    ChangeScene.addSceneEventListeners(this, 'level3')
     //add music
     this.music= this.sound.add('theme');
     this.music.play({
@@ -400,12 +400,12 @@ export default class Level3 extends Phaser.Scene {
 
     if(this.gameWin){
       this.music.stop();
-      this.scene.start('level2');
+      this.scene.start('level4');
 
 
     }else if (this.gameLose) {
       this.music.stop();
-      this.scene.start('GameOverScene',{scene: 'level1'});
+      this.scene.start('GameOverScene',{scene: 'level3'});
     }
     const speed = 80;
     //const prevVelocity = this.player.body.velocity.clone();
