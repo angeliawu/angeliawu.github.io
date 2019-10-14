@@ -115,7 +115,22 @@ export default class Tutorial extends Phaser.Scene {
       fill: "#00ffee",
       padding: { x: 20, y: 20 }
     })
-    var text = this.add.text(1390, 920, 'These are short crates!\nThey are exactly like th\nlong crate.\nOne thing to keep in mind is\ncrates are heavy and pushing\nmore of them will slow\nyou down.' ,{
+    var text = this.add.text(1390, 920, 'These are short crates!\nThey are exactly like the\nlong crate.\nOne thing to keep in mind is\ncrates are heavy and pushing\nmore of them will slow\nyou down.' ,{
+      font: "14px monospace",
+      fill: "#00ffee",
+      padding: { x: 20, y: 20 }
+    })
+    var text = this.add.text(1990, 920, 'Watch out for spilled water!\nThese will cause you and the cooks to slip!\nThey will slow you down tremendously,\nand when you are racing against the\nclock the last thing you\nwant is lost time.' ,{
+      font: "14px monospace",
+      fill: "#00ffee",
+      padding: { x: 20, y: 20 }
+    })
+    var text = this.add.text(2500, 920, 'These are the other produce\nyou will find on your journey.\nThey will not hurt you but if you\nhurt them you will pay the price!' ,{
+      font: "14px monospace",
+      fill: "#00ffee",
+      padding: { x: 20, y: 20 }
+    })
+    var text = this.add.text(2850, 920, 'Finally,\nremember you are\ntrying to avoid\nthe cooks but\nyou only have\na limited amount of\ntime before the doors\nclose and you are\nTRAPPED!\n\n\n\n\n\n\n\n\nEnter the green squares\nto begin level 1!' ,{
       font: "14px monospace",
       fill: "#00ffee",
       padding: { x: 20, y: 20 }
@@ -413,7 +428,7 @@ export default class Tutorial extends Phaser.Scene {
 
     if(this.gameWin){
       this.music.stop();
-      this.scene.start('level2');
+      this.scene.start('level1');
 
 
     }else if (this.gameLose) {
