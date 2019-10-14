@@ -21,7 +21,7 @@ class Game extends Phaser.Game {
     this.scene.add('WinScene',WinScene);
     this.scene.add('tutorial', Tutorial)
 
-    this.scene.start('Boot');
+    this.scene.start('GameOverScene');
   }
 }
 
