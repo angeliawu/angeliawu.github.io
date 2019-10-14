@@ -9,6 +9,7 @@ export default class BootScene extends Phaser.Scene {
     // Preload assets
     this.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js');
     this.load.audio('theme','./assets/sounds/InGame.wav');
+    this.load.audio('select','./assets/sounds/select.wav');
     this.load.spritesheet("playbuttons","./assets/fullSized/playButtons.png", {
       frameHeight: 165,
       frameWidth: 388
@@ -30,14 +31,15 @@ export default class BootScene extends Phaser.Scene {
 
   create() {
     //Add change scene event listeners
-    ChangeScene.addSceneEventListeners(this, "level1")
+    //ChangeScene.addSceneEventListeners(this, "level1")
     //add music
     this.music=this.sound.add('theme');
     this.music.play({
       volume:.3,
       loop:true
     });
-
+    //add sfx
+    this.select=this.sound.add('select');
     //Create the scenes
     WebFont.load({
       google:{
@@ -50,7 +52,6 @@ export default class BootScene extends Phaser.Scene {
     var b1 =this.add.sprite(150,300, 'playbuttons', 0).setInteractive();
     b1.on("pointerover", function(){
       this.setFrame(1);
-
     });
     b1.on("pointerout", function(){
       this.setFrame(0);
@@ -58,6 +59,10 @@ export default class BootScene extends Phaser.Scene {
     b1.on("pointerup", function(){
       this.music.stop();
       this.scene.start('level1');
+      this.select.play({
+        volume:.3,
+        loop: false
+      });
     }, this
   );
 
@@ -72,6 +77,10 @@ export default class BootScene extends Phaser.Scene {
   b2.on("pointerup", function(){
     this.music.stop();
     this.scene.start('tutorial');
+    this.select.play({
+      volume:.3,
+      loop: false
+    });
   }, this
 );
 
