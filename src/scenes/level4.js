@@ -26,9 +26,13 @@ export default class Level4 extends Phaser.Scene {
       frameHeight: 32,
       frameWidth: 22
     });
-    this.load.spritesheet('Cook', "./assets/fullSized/cook_anim.png",{
+    this.load.spritesheet('Cook', "./assets/resized/CookAnimation.png",{
+      frameHeight: 60,
+      frameWidth: 60
+    });
+    this.load.spritesheet('CookAway', "./assets/resized/CookAwayAnimation.png",{
       frameHeight: 64,
-      frameWidth: 47
+      frameWidth: 53
     });
     this.load.spritesheet('onion', "./assets/resized/Onion_animation2331.png",{
       frameHeight: 31,
@@ -52,13 +56,14 @@ export default class Level4 extends Phaser.Scene {
     this.load.image("exit", "./assets/resized/exit.png");
 
     //Load NPC
-
+    //this.load.image("onion", "./assets/resized/onion32.png")
+    //this.load.image("tomato", "./assets/resized/tomato32.png")
   }
 
 
   create() {
     //Add change scene event listeners
-    ChangeScene.addSceneEventListeners(this, 'level4')
+    ChangeScene.addSceneEventListeners(this, 'level1')
     //add music
     this.music= this.sound.add('theme');
     this.music.play({
@@ -107,7 +112,7 @@ export default class Level4 extends Phaser.Scene {
       }
     }
     worldLayer.setCollisionByProperty({ collides: true});
-    aboveLayer.setDepth(10);
+    //aboveLayer.setDepth(10);
     //aboveLayer.setDepth(10);
     const spawnPoint = map.findObject(
       "Objects",
@@ -125,6 +130,7 @@ export default class Level4 extends Phaser.Scene {
 
     // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    //create all animations
     this.anims.create({
         key: "walk",
         frames: this.anims.generateFrameNumbers('Potato', { start: 0, end: 5}),
@@ -134,7 +140,13 @@ export default class Level4 extends Phaser.Scene {
     this.anims.create({
         key: 'idle',
         frames: this.anims.generateFrameNumbers('Potato', { start: 0, end: 0}),
-        frameRate: 10,
+        frameRate: 4,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'cook_idle',
+        frames: this.anims.generateFrameNumbers('Cook', { frames:[0,1,6,7]}),
+        frameRate: 20,
         repeat: -1
     });
     this.anims.create({
@@ -144,17 +156,23 @@ export default class Level4 extends Phaser.Scene {
         repeat: 1
       });
       this.anims.create({
+          key: "cook_Cont_right",
+          frames: this.anims.generateFrameNumbers('Cook', { start: 2, end: 3}),
+          frameRate: 20,
+          repeat: -1
+        });
+      this.anims.create({
+          key: "cook_walk_up",
+          frames: this.anims.generateFrameNumbers('CookAway', { start: 0, end: 1}),
+          frameRate: 15,
+          repeat: -1
+        });
+      this.anims.create({
           key: "cook_face_right",
           frames: this.anims.generateFrameNumbers('Cook', { start: 2, end: 3}),
-          frameRate: 5,
+          frameRate: 3,
           repeat: 1
         });
-    this.anims.create({
-        key: 'cook_idle',
-        frames: this.anims.generateFrameNumbers('Cook', { start: 4, end: 1}),
-        frameRate: 10,
-        repeat: -1
-    });
     this.anims.create({
         key: 'onion_pushed',
         frames: this.anims.generateFrameNumbers('onion', { start: 0, end: 5}),
@@ -198,11 +216,12 @@ export default class Level4 extends Phaser.Scene {
     }
 
     //enemy attributes
-    var enemy = map.createFromObjects('Objects','enemyPoint', {key: 'cook'});
+    var enemy = map.createFromObjects('Objects','enemyPoint', {key: 'Cook'});
     this.enemyGroup = this.physics.add.group();
     this.enemyGroup.children.iterate(function(child) {
       child.setImmoveable(false);
       child.refreshBody();
+      child.bringToTop(child)
     });
     this.physics.add.collider(this.enemyGroup, worldLayer, function(s1){
       var b1 = s1.body;
@@ -210,6 +229,7 @@ export default class Level4 extends Phaser.Scene {
     });
     this.physics.add.collider(this.player, this.enemyGroup, this.gameOver,null, this);
     //this.physics.add.collider(this.enemyGroup,this.crateGroup);
+    this.physics.add.overlap(this.player, this.enemyGroup, this.gameOver, null, this);
 
     this.physics.add.collider(this.enemyGroup);
 
@@ -226,6 +246,7 @@ export default class Level4 extends Phaser.Scene {
       .body.setSize(32,64,32,32);
       enemy[i]
       .body.width = 32;
+
       //Initialize with starting velocity
       enemy[i]
       .body.setVelocityX(Phaser.Math.Between(-100, 100));
@@ -271,6 +292,10 @@ export default class Level4 extends Phaser.Scene {
       b1.stop();
     });
     this.physics.add.collider(this.player, this.LcrateGroup);
+    this.physics.add.overlap(this.player, this.LcrateGroup, function(s1,s2){
+      s1.body.velocity.x = -1 * s1.body.velocity.x
+      s1.body.velocity.y = -1 * s1.body.velocity.y
+    })
     this.physics.add.collider(this.enemyGroup,this.LcrateGroup);
     this.physics.add.collider(this.LcrateGroup);
 
@@ -326,8 +351,9 @@ export default class Level4 extends Phaser.Scene {
       .body
       .setMaxVelocity(0);
       crack[i]
-      .body.setSize(32,32,32,32);
-
+      .body.setSize(16,16,16,16);
+      crack[i]
+      .body.setDepth = -10;
     }
     //NPC attributes
     var NPC = map.createFromObjects('Objects','NPCPoint', {key: "onion"});
@@ -350,34 +376,39 @@ export default class Level4 extends Phaser.Scene {
       .body.setDrag(100);
       var ran = Math.random() < 0.6 ? "onion" : "tomato";
       NPC[i].setTexture(ran);
+      ////console.log(NPC[i].texture.key)
       if(String(NPC[i].texture.key) == 'tomato'){
         NPC[i]
-        .body.setSize(16,16,16,16);
+        .body.setSize(32,32,32,32);
       }
 
     }
+
 
   }
 
   update (time, delta) {
 
     // Update the scene
+
     this.NPCCheckSpeed();
-    this.enemyCheckSpeed() //keeps the enemies moving
-    if (Math.sin(this.time.now) > 0.7){
+    this.enemyCheckSpeed(); //keeps the enemies moving
+
+    if (Math.sin(this.time.now) > 0.5){
       this.enemyView(200);
     }
 
     if(this.gameWin){
       this.music.stop();
-      this.scene.start('WinScene');
-      return;
+      this.scene.start('level2');
+
+
     }else if (this.gameLose) {
       this.music.stop();
-      this.scene.start('GameOverScene', {scene: 'level4'});
+      this.scene.start('GameOverScene',{scene: 'level1'});
     }
     const speed = 80;
-    const prevVelocity = this.player.body.velocity.clone();
+    //const prevVelocity = this.player.body.velocity.clone();
     // Stop any previous movement from the last frame
     if (this.cursors.left.isUp && this.cursors.right.isUp && this.cursors.up.isUp && this.cursors.down.isUp){
         this.player.body.setVelocity(0);
@@ -391,11 +422,13 @@ export default class Level4 extends Phaser.Scene {
       this.player.anims.play('walk', true);
       this.player.flipX = true;
       this.player.angle = 0;
+      this.player.body.setSize(22,32,32,32);
     } else if (this.cursors.right.isDown) {
       this.player.body.setVelocityX(speed);
       this.player.anims.play('walk', true);
       this.player.flipX = false;
       this.player.angle = 0;
+      this.player.body.setSize(22,32,32,32);
     }
 
     // Vertical movement
@@ -403,10 +436,12 @@ export default class Level4 extends Phaser.Scene {
       this.player.body.setVelocityY(-speed);
       this.player.anims.play('walk', true);
       this.player.angle = 90;
+      this.player.body.setSize(32,22,32,32);
     } else if (this.cursors.down.isDown) {
       this.player.body.setVelocityY(speed);
       this.player.anims.play('walk', true);
       this.player.angle = 270;
+      this.player.body.setSize(32,22,32,32);
     }
 
     // Normalize and scale the velocity so that player can't move faster along a diagonal
@@ -417,112 +452,114 @@ export default class Level4 extends Phaser.Scene {
     for ( var i = 0; i < enemies.length; i++){
       if (Phaser.Math.Distance.Between(this.player.x, this.player.y, enemies[i].x, enemies[i].y ) <= distance){
         this.enemyChase(enemies[i]);
+
+
       }/*else {
         this.enemyWander(enemies[i]);
       }*/
     }
   }
 
+ setEnemyFrame(enemy){
 
-  setEnemyFrame(enemy){
-     if (enemy.body.velocity.x < 0){
-       enemy.anims.play('cook_walk_right')
-       enemy.flipX = true;
-     } else if(enemy.body.velocity.x > 0){
-       enemy.anims.play('cook_walk_right')
+    if (enemy.body.velocity.x < 0 && Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)){
+      //enemy.anims.play('cook_walk_right')
+      enemy.anims.play('cook_Cont_right')
+      enemy.flipX = true;
+    } else if(enemy.body.velocity.x > 0 && Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)){
+      //enemy.anims.play('cook_walk_right')
+      enemy.anims.play('cook_Cont_right')
+      enemy.flipX = false;
+    }
+    if (enemy.body.velocity.y < 0 && Math.abs(enemy.body.velocity.x) < Math.abs(enemy.body.velocity.y)){
+      enemy.anims.play('cook_walk_up')
+    } else if(enemy.body.velocity.y > 0 && Math.abs(enemy.body.velocity.x) < Math.abs(enemy.body.velocity.y)){
+      enemy.anims.play('cook_idle')
+    }
 
+}
+enemyChase(enemy){
+  var  i = enemy
+  function degrees(radians) {
+    return radians * 180 / Math.PI;
+  };
+  var angleBetween = Phaser.Math.Angle.Between(i.x, i.y, this.player.x, this.player.y);
+  //console.log(degrees(angleBetween))
+  i.body.velocity.x = Math.cos(angleBetween) * 60;
+  i.body.velocity.y = Math.sin(angleBetween) * 60;
+  this.setEnemyFrame(i)
 
-     }
-     //enemy.anims.play('cook_idle')
+}
 
+  enemyCheckSpeed(){
+    var enemies = this.enemyGroup.getChildren();
+    for ( var i = 0; i < enemies.length; i++){
+      if (enemies[i].body.velocity.x == 0 && enemies[i].body.velocity.y == 0){
+        enemies[i].body.setVelocityX(Phaser.Math.Between(-150, 150));
+        enemies[i].body.setVelocityY(Phaser.Math.Between(-100, 100));
+        this.setEnemyFrame(enemies[i])
+      }else{
+        enemies[i].body.setVelocityX(enemies[i].body.velocity.x * 1.01);
+        enemies[i].body.setVelocityY(enemies[i].body.velocity.y * 1.01);
+
+      }
+    }
   }
-  enemyChase(enemy){
-   var  i = enemy
-   function degrees(radians) {
-     return radians * 180 / Math.PI;
-   };
-   var angleBetween = Phaser.Math.Angle.Between(i.x, i.y, this.player.x, this.player.y);
-   //console.log(degrees(angleBetween));
-   i.body.velocity.x = Math.cos(angleBetween) * 60;
-   i.body.velocity.y = Math.sin(angleBetween) * 60;
-   if (degrees(angleBetween) <= 90 && degrees(angleBetween) >= -90){
-     //console.log('right')
-     i.anims.play('cook_face_right');
-     i.flipX = true;
-   } else if(degrees(angleBetween) > 90 || degrees(angleBetween) < -90){
-     //console.log('left')
-     i.anims.play('cook_face_right');
-     i.flipX = false;
+  NPCCheckSpeed(){
+    var NPCs = this.NPCGroup.getChildren();
+    for ( var i = 0; i < NPCs.length; i++){
+      if (NPCs[i].body.velocity.x == 0 && NPCs[i].body.velocity.y == 0){
+        NPCs[i].angle = 0;
+        if (String(NPCs[i].texture.key) === "onion"){
+          NPCs[i].anims.play('onion_idle', true);
+          NPCs[i].flipX = false;
+        }else {
+          NPCs[i].anims.play('tomato_idle', true);
+          NPCs[i].flipX = false;
+        }
 
-   }
+      }
+      else if (NPCs[i].body.velocity.x > 0) {
+        if (String(NPCs[i].texture.key) === "onion"){
+          NPCs[i].anims.play('onion_pushed', true);
+        }else {
+          NPCs[i].anims.play('tomato_pushed', true);
+        }
+      }
+      else if (NPCs[i].body.velocity.x < 0) {
+        if (String(NPCs[i].texture.key) === "onion"){
+          NPCs[i].anims.play('onion_pushed', true);
+          NPCs[i].flipX = true;
+        }else {
+          NPCs[i].anims.play('tomato_pushed', true);
+          NPCs[i].flipX = true;
+        }
+      }
+      else if (NPCs[i].body.velocity.y < 0) {
+        if (String(NPCs[i].texture.key) === "onion"){
+          NPCs[i].anims.play('onion_pushed', true);
+          NPCs[i].angle = 90;
+        }else {
+          NPCs[i].anims.play('tomato_pushed', true);
+          NPCs[i].angle = 90;
+        }
+      }
+      else if (NPCs[i].body.velocity.y > 0) {
+        if (String(NPCs[i].texture.key) === "onion"){
+          NPCs[i].anims.play('onion_pushed', true);
+          NPCs[i].angle = 270;
+        }else {
+          NPCs[i].anims.play('tomato_pushed', true);
+          NPCs[i].angle = 270;
+        }
+      }
+
+    }
   }
-
-   enemyCheckSpeed(){
-     var enemies = this.enemyGroup.getChildren();
-     for ( var i = 0; i < enemies.length; i++){
-       if (enemies[i].body.velocity.x == 0 && enemies[i].body.velocity.y == 0){
-         enemies[i].body.setVelocityX(Phaser.Math.Between(-150, 150));
-         enemies[i].body.setVelocityY(Phaser.Math.Between(-100, 100));
-         this.setEnemyFrame(enemies[i])
-       }
-     }
-   }
-   NPCCheckSpeed(){
-     var NPCs = this.NPCGroup.getChildren();
-     for ( var i = 0; i < NPCs.length; i++){
-       if (NPCs[i].body.velocity.x == 0 && NPCs[i].body.velocity.y == 0){
-         NPCs[i].angle = 0;
-         if (String(NPCs[i].texture.key) === "onion"){
-           NPCs[i].anims.play('onion_idle', true);
-           NPCs[i].flipX = false;
-         }else {
-           NPCs[i].anims.play('tomato_idle', true);
-           NPCs[i].flipX = false;
-         }
-
-       }
-       else if (NPCs[i].body.velocity.x > 0) {
-         if (String(NPCs[i].texture.key) === "onion"){
-           NPCs[i].anims.play('onion_pushed', true);
-         }else {
-           NPCs[i].anims.play('tomato_pushed', true);
-         }
-       }
-       else if (NPCs[i].body.velocity.x < 0) {
-         if (String(NPCs[i].texture.key) === "onion"){
-           NPCs[i].anims.play('onion_pushed', true);
-           NPCs[i].flipX = true;
-         }else {
-           NPCs[i].anims.play('tomato_pushed', true);
-           NPCs[i].flipX = true;
-         }
-       }
-       else if (NPCs[i].body.velocity.y < 0) {
-         if (String(NPCs[i].texture.key) === "onion"){
-           NPCs[i].anims.play('onion_pushed', true);
-           NPCs[i].angle = 90;
-         }else {
-           NPCs[i].anims.play('tomato_pushed', true);
-           NPCs[i].angle = 90;
-         }
-       }
-       else if (NPCs[i].body.velocity.y > 0) {
-         if (String(NPCs[i].texture.key) === "onion"){
-           NPCs[i].anims.play('onion_pushed', true);
-           NPCs[i].angle = 270;
-         }else {
-           NPCs[i].anims.play('tomato_pushed', true);
-           NPCs[i].angle = 270;
-         }
-       }
-
-     }
-   }
 
   endScene(player, winPoint){
     this.gameWin = true;
   }
-
   gameOver(player, winPoint){
     this.gameLose = true;
   }
@@ -557,7 +594,7 @@ export default class Level4 extends Phaser.Scene {
     x: s2.x + x,
     y: s2.y + y,
     ease: "Elastic",
-    duration: 2000
+    duration: 1000
   });
   }
 

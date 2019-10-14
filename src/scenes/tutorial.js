@@ -14,8 +14,9 @@ export default class Tutorial extends Phaser.Scene {
   preload () {
     // Preload assets
     //console.log("Level1")
+    this.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js');
     this.load.image("tiles", "./assets/tilemaps/newTileset.png");
-    this.load.tilemapTiledJSON("map", "./assets/tilemaps/lvl1.json");
+    this.load.tilemapTiledJSON("tutorial", "./assets/tilemaps/tutorial.json");
     this.load.image("crate", "./assets/resized/crate.png");
     this.load.image("Lcrate", "./assets/resized/Lcrate.png");
     this.load.audio("theme","./assets/sounds/InGame.wav");
@@ -27,9 +28,13 @@ export default class Tutorial extends Phaser.Scene {
       frameWidth: 22
     });
 
-    this.load.spritesheet('Cook', "./assets/fullSized/cook_anim.png",{
+    this.load.spritesheet('Cook', "./assets/resized/CookAnimation.png",{
+      frameHeight: 60,
+      frameWidth: 60
+    });
+    this.load.spritesheet('CookAway', "./assets/resized/CookAwayAnimation.png",{
       frameHeight: 64,
-      frameWidth: 47
+      frameWidth: 53
     });
     this.load.spritesheet('onion', "./assets/resized/Onion_animation2331.png",{
       frameHeight: 31,
@@ -59,8 +64,11 @@ export default class Tutorial extends Phaser.Scene {
 
 
   create() {
+    //Create the scenes
+
+
     //Add change scene event listeners
-    ChangeScene.addSceneEventListeners(this, 'level1')
+    ChangeScene.addSceneEventListeners(this, 'tutorial')
     //add music
     this.music= this.sound.add('theme');
     this.music.play({
@@ -74,40 +82,48 @@ export default class Tutorial extends Phaser.Scene {
     //load map
     this.gameWin = false;
     this.gameLose = false;
-    const map = this.make.tilemap({ key: "map"});
+    const map = this.make.tilemap({ key: "tutorial"});
     const tileset = map.addTilesetImage("newTileset", "tiles");
     const belowLayer = map.createStaticLayer("Below Player", tileset, 0, 0);
     const worldLayer = map.createStaticLayer("World", tileset, 0, 0);
     const aboveLayer = map.createStaticLayer("Above Player", tileset, 0, 0);
 
     //create game timer
-    this.initialTime = 30
-    var text = this.add.text(16, 16, 'Countdown: ' + formatTime(this.initialTime),{
+    var text = this.add.text(16, 750, 'Hello spud! In Fried or Flight \nyou are a brave potato wanting\nto escape the torturous life\nkitchen produce.\n' ,{
       font: "24px monospace",
       fill: "#ffffff",
-      padding: { x: 20, y: 10 },
+      padding: { x: 20, y: 20 },
       backgroundColor: "#000000"
+    });
+    var text = this.add.text(16, 950, 'The only controls are the\n arrows keys\nfor their respective directions.' ,{
+      font: "24px monospace",
+      fill: "#00ffee",
+      padding: { x: 20, y: 20 }
     })
-    .setScrollFactor(0)
-    this.timedEvent = this.time.addEvent({ delay: 1000, callback: countDown, callbackScope: this, loop: true });
-    function formatTime(seconds){
-      // Minutes
-      var minutes = Math.floor(seconds/60);
-      // Seconds
-      var partInSeconds = seconds%60;
-      // Adds left zeros to seconds
-      partInSeconds = partInSeconds.toString().padStart(2,'0');
-      // Returns formated time
-      return `${minutes}:${partInSeconds}`;
-    }
-    function countDown ()
-    {
-      this.initialTime -= 1; // One second
-      text.setText('Countdown: ' + formatTime(this.initialTime));
-      if (this.initialTime == 0){
-        this.gameLose = true;
-      }
-    }
+    var text = this.add.text(450, 1040, 'These are cracks!\nThe restaurant is littered\nwith them,and they are\ndeadly to you and other\nproduce. So do not fall\nin or let others fall in!' ,{
+      font: "14px monospace",
+      fill: "#00ffee",
+      padding: { x: 20, y: 20 }
+    })
+    var text = this.add.text(720, 1000, 'These are cooks!\nThey are your enemies!\nAvoid them at all costs\nor die trying. As you can\nsee, they are ferocious\nbut can only see so far!' ,{
+      font: "14px monospace",
+      fill: "#00ffee",
+      padding: { x: 20, y: 20 }
+    })
+    var text = this.add.text(990, 920, 'These are long crates!\nMove them around to\nclear a path, or use them to \nblock the cooks from getting\nyou! Either way make sure\nto NOT get underneath one!' ,{
+      font: "14px monospace",
+      fill: "#00ffee",
+      padding: { x: 20, y: 20 }
+    })
+    var text = this.add.text(1390, 920, 'These are short crates!\nThey are exactly like th\nlong crate.\nOne thing to keep in mind is\ncrates are heavy and pushing\nmore of them will slow\nyou down.' ,{
+      font: "14px monospace",
+      fill: "#00ffee",
+      padding: { x: 20, y: 20 }
+    })
+    //.setScrollFactor(0)
+    //this.timedEvent = this.time.addEvent({ delay: 1000, callback: countDown, callbackScope: this, loop: true });
+
+
     worldLayer.setCollisionByProperty({ collides: true});
     //aboveLayer.setDepth(10);
     //aboveLayer.setDepth(10);
@@ -124,7 +140,7 @@ export default class Tutorial extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
     const camera = this.cameras.main;
     camera.startFollow(this.player);
-
+    console.log(this.player.x, this.player.y)
     // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     //create all animations
@@ -137,13 +153,13 @@ export default class Tutorial extends Phaser.Scene {
     this.anims.create({
         key: 'idle',
         frames: this.anims.generateFrameNumbers('Potato', { start: 0, end: 0}),
-        frameRate: 10,
+        frameRate: 4,
         repeat: -1
     });
     this.anims.create({
         key: 'cook_idle',
-        frames: this.anims.generateFrameNumbers('Cook', { start: 0, end: 0}),
-        frameRate: 3,
+        frames: this.anims.generateFrameNumbers('Cook', { frames:[0,1,6,7]}),
+        frameRate: 20,
         repeat: -1
     });
     this.anims.create({
@@ -152,6 +168,18 @@ export default class Tutorial extends Phaser.Scene {
         frameRate: 5,
         repeat: 1
       });
+      this.anims.create({
+          key: "cook_Cont_right",
+          frames: this.anims.generateFrameNumbers('Cook', { start: 2, end: 3}),
+          frameRate: 20,
+          repeat: -1
+        });
+      this.anims.create({
+          key: "cook_walk_up",
+          frames: this.anims.generateFrameNumbers('CookAway', { start: 0, end: 1}),
+          frameRate: 15,
+          repeat: -1
+        });
       this.anims.create({
           key: "cook_face_right",
           frames: this.anims.generateFrameNumbers('Cook', { start: 2, end: 3}),
@@ -206,13 +234,15 @@ export default class Tutorial extends Phaser.Scene {
     this.enemyGroup.children.iterate(function(child) {
       child.setImmoveable(false);
       child.refreshBody();
+      child.bringToTop(child)
     });
     this.physics.add.collider(this.enemyGroup, worldLayer, function(s1){
       var b1 = s1.body;
       b1.stop();
     });
-    this.physics.add.collider(this.player, this.enemyGroup, this.gameOver,null, this);
+    //this.physics.add.collider(this.player, this.enemyGroup, this.gameOver,null, this);
     //this.physics.add.collider(this.enemyGroup,this.crateGroup);
+    //this.physics.add.overlap(this.player, this.enemyGroup, this.gameOver, null, this);
 
     this.physics.add.collider(this.enemyGroup);
 
@@ -229,6 +259,7 @@ export default class Tutorial extends Phaser.Scene {
       .body.setSize(32,64,32,32);
       enemy[i]
       .body.width = 32;
+
       //Initialize with starting velocity
       enemy[i]
       .body.setVelocityX(Phaser.Math.Between(-100, 100));
@@ -274,6 +305,10 @@ export default class Tutorial extends Phaser.Scene {
       b1.stop();
     });
     this.physics.add.collider(this.player, this.LcrateGroup);
+    this.physics.add.overlap(this.player, this.LcrateGroup, function(s1,s2){
+      s1.body.velocity.x = -1 * s1.body.velocity.x
+      s1.body.velocity.y = -1 * s1.body.velocity.y
+    })
     this.physics.add.collider(this.enemyGroup,this.LcrateGroup);
     this.physics.add.collider(this.LcrateGroup);
 
@@ -330,8 +365,8 @@ export default class Tutorial extends Phaser.Scene {
       .setMaxVelocity(0);
       crack[i]
       .body.setSize(16,16,16,16);
-      //crack[i]
-      //.body.width = 32;
+      crack[i]
+      .body.setDepth = -10;
     }
     //NPC attributes
     var NPC = map.createFromObjects('Objects','NPCPoint', {key: "onion"});
@@ -371,7 +406,8 @@ export default class Tutorial extends Phaser.Scene {
 
     this.NPCCheckSpeed();
     this.enemyCheckSpeed(); //keeps the enemies moving
-    if (Math.sin(this.time.now) > 0.7){
+
+    if (Math.sin(this.time.now) > 0.5){
       this.enemyView(200);
     }
 
@@ -385,7 +421,7 @@ export default class Tutorial extends Phaser.Scene {
       this.scene.start('GameOverScene',{scene: 'level1'});
     }
     const speed = 80;
-    const prevVelocity = this.player.body.velocity.clone();
+    //const prevVelocity = this.player.body.velocity.clone();
     // Stop any previous movement from the last frame
     if (this.cursors.left.isUp && this.cursors.right.isUp && this.cursors.up.isUp && this.cursors.down.isUp){
         this.player.body.setVelocity(0);
@@ -399,11 +435,13 @@ export default class Tutorial extends Phaser.Scene {
       this.player.anims.play('walk', true);
       this.player.flipX = true;
       this.player.angle = 0;
+      this.player.body.setSize(22,32,32,32);
     } else if (this.cursors.right.isDown) {
       this.player.body.setVelocityX(speed);
       this.player.anims.play('walk', true);
       this.player.flipX = false;
       this.player.angle = 0;
+      this.player.body.setSize(22,32,32,32);
     }
 
     // Vertical movement
@@ -411,10 +449,12 @@ export default class Tutorial extends Phaser.Scene {
       this.player.body.setVelocityY(-speed);
       this.player.anims.play('walk', true);
       this.player.angle = 90;
+      this.player.body.setSize(32,22,32,32);
     } else if (this.cursors.down.isDown) {
       this.player.body.setVelocityY(speed);
       this.player.anims.play('walk', true);
       this.player.angle = 270;
+      this.player.body.setSize(32,22,32,32);
     }
 
     // Normalize and scale the velocity so that player can't move faster along a diagonal
@@ -425,6 +465,8 @@ export default class Tutorial extends Phaser.Scene {
     for ( var i = 0; i < enemies.length; i++){
       if (Phaser.Math.Distance.Between(this.player.x, this.player.y, enemies[i].x, enemies[i].y ) <= distance){
         this.enemyChase(enemies[i]);
+
+
       }/*else {
         this.enemyWander(enemies[i]);
       }*/
@@ -432,15 +474,21 @@ export default class Tutorial extends Phaser.Scene {
   }
 
  setEnemyFrame(enemy){
-    if (enemy.body.velocity.x < 0){
-      enemy.anims.play('cook_walk_right')
+
+    if (enemy.body.velocity.x < 0 && Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)){
+      //enemy.anims.play('cook_walk_right')
+      enemy.anims.play('cook_Cont_right')
       enemy.flipX = true;
-    } else if(enemy.body.velocity.x > 0){
-      enemy.anims.play('cook_walk_right')
-
-
+    } else if(enemy.body.velocity.x > 0 && Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)){
+      //enemy.anims.play('cook_walk_right')
+      enemy.anims.play('cook_Cont_right')
+      enemy.flipX = false;
     }
-    //enemy.anims.play('cook_idle')
+    if (enemy.body.velocity.y < 0 && Math.abs(enemy.body.velocity.x) < Math.abs(enemy.body.velocity.y)){
+      enemy.anims.play('cook_walk_up')
+    } else if(enemy.body.velocity.y > 0 && Math.abs(enemy.body.velocity.x) < Math.abs(enemy.body.velocity.y)){
+      enemy.anims.play('cook_idle')
+    }
 
 }
 enemyChase(enemy){
@@ -452,18 +500,8 @@ enemyChase(enemy){
   //console.log(degrees(angleBetween))
   i.body.velocity.x = Math.cos(angleBetween) * 60;
   i.body.velocity.y = Math.sin(angleBetween) * 60;
-  if (degrees(angleBetween) > 40 && degrees(angleBetween) < 120){
-    i.anims.play('cook_idle');
-    i.flipX = true;
-  }else if (degrees(angleBetween) <= 90 && degrees(angleBetween) >= -90){
-    i.anims.play('cook_face_right');
-    i.flipX = true;
-  } else if(degrees(angleBetween) > 90 || degrees(angleBetween) < -90){
+  this.setEnemyFrame(i)
 
-    i.anims.play('cook_face_right');
-    i.flipX = false;
-
-  }
 }
 
   enemyCheckSpeed(){
@@ -473,6 +511,10 @@ enemyChase(enemy){
         enemies[i].body.setVelocityX(Phaser.Math.Between(-150, 150));
         enemies[i].body.setVelocityY(Phaser.Math.Between(-100, 100));
         this.setEnemyFrame(enemies[i])
+      }else{
+        enemies[i].body.setVelocityX(enemies[i].body.velocity.x * 1.01);
+        enemies[i].body.setVelocityY(enemies[i].body.velocity.y * 1.01);
+
       }
     }
   }

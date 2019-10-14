@@ -16,4 +16,11 @@ function addSceneEventListeners(that, scene){
         that.scene.start('Boot');
       }
   )
+  that.input.keyboard.on(
+    "keydown_ENTER",
+      function() {
+        that.music.stop();
+        that.scene.start('tutorial');
+      }
+  )
 }
