@@ -8,11 +8,21 @@ export default class BootScene extends Phaser.Scene {
   preload(){
     // Preload assets
     this.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js');
-    this.load.audio('theme','./assets/sounds/InGame.wav')
-    this.load.spritesheet("buttons","./assets/spriteSheets/buttons.png", {
-      frameHeight: 100,
-      frameWidth: 200
+    this.load.audio('theme','./assets/sounds/InGame.wav');
+    this.load.spritesheet("playbuttons","./assets/fullSized/playButtons.png", {
+      frameHeight: 165,
+      frameWidth: 388
     });
+    this.load.spritesheet("tutorialbuttons","./assets/fullSized/TutButtons.png", {
+      frameHeight: 158,
+      frameWidth: 387
+    });
+    this.load.spritesheet("optionsbuttons","./assets/fullSized/OptionsButtons.png", {
+      frameHeight: 158,
+      frameWidth: 383
+    });
+    this.load.image("logo", "./assets/fullSized/Title Text.png")
+
     //Declare variables for center of the scene
     this.centerX = this.cameras.main.width/2;
     this.centerY=this.cameras.main.height/2;
@@ -35,58 +45,54 @@ export default class BootScene extends Phaser.Scene {
       }
     });
 
-    this.cameras.main.setBackgroundColor(0xb79268)
-
-    var text = 'Fried or Flight'
-    var text2 = 'Use the arrows to move, push crates, and avoid the cooks'
-    var b1 =this.add.sprite(150,100, 'buttons', 0).setInteractive();
+    this.cameras.main.setBackgroundColor(0xfffff)
+    this.add.sprite(400,75,'logo').setScale(0.7);
+    var b1 =this.add.sprite(150,300, 'playbuttons', 0).setInteractive();
     b1.on("pointerover", function(){
       this.setFrame(1);
-      sound.play('low');
+
     });
     b1.on("pointerout", function(){
       this.setFrame(0);
     });
     b1.on("pointerup", function(){
-      sound.play('high');
-      this.scene.start('Scene0');
+
+      this.scene.start('level1');
     }, this
   );
 
-  var b2 =this.add.sprite(400,100, 'buttons', 2).setInteractive();
+  var b2 =this.add.sprite(400,400, 'tutorialbuttons', 2).setInteractive();
   b2.on("pointerover", function(){
-    this.setFrame(3);
-    sound.play('low');
+    this.setFrame(1);
+
   });
   b2.on("pointerout", function(){
-    this.setFrame(2);
+    this.setFrame(0);
   });
   b2.on("pointerup", function(){
-    sound.play('high');
-    this.scene.start('Scene1');
+
+    this.scene.start('tutorial');
   }, this
 );
 
-var b3 =this.add.sprite(650,100, 'buttons', 4).setInteractive();
+var b3 =this.add.sprite(650,500, 'optionsbuttons', 4).setInteractive();
 b3.on("pointerover", function(){
-  this.setFrame(5);
-  sound.play('low');
+  this.setFrame(1);
+
 });
 b3.on("pointerout", function(){
-  this.setFrame(4);
+  this.setFrame(0);
 });
 b3.on("pointerup", function(){
-  sound.play('high');
-  this.scene.start('Scene2');
+
+  //this.scene.start('Scene2');
+  console.log("to be implemented")
 }, this
 );
-    var text3 = 'Press Space bar to start Level 1'
-    var text4 = 'Press Enter to start tutorial'
 
-    this.spellOutText(170,75,550,text,60,10, '#fff','Permanent Marker');
-    this.spellOutText(175,200,450,text2,20,30, '#fff','Anton');
-    this.spellOutText(250,300,550,text3,30,50, '#fff','Anton');
-    this.spellOutText(250,350,550,text4,30,50, '#fff','Anton');
+
+
+
   }
 
   spellOutText(x, y, width, text, fontSize, speed, fill, font){
