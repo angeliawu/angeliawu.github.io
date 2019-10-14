@@ -8,6 +8,7 @@ import GameOverScene from './scenes/GameOverScene.js';
 import WinScene from './scenes/WinScene.js';
 import Config from './config/config.js';
 import Tutorial from './scenes/tutorial.js'
+import Options from './scenes/OptionsScene.js'
 
 class Game extends Phaser.Game {
   constructor () {
@@ -20,8 +21,9 @@ class Game extends Phaser.Game {
     this.scene.add('GameOverScene', GameOverScene);
     this.scene.add('WinScene',WinScene);
     this.scene.add('tutorial', Tutorial)
+    this.scene.add('Options', Options)
 
-    this.scene.start('GameOverScene');
+    this.scene.start('level2');
   }
 }
 

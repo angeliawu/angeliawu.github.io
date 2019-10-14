@@ -113,7 +113,7 @@ export default class Level1 extends Phaser.Scene {
       }
     }
     worldLayer.setCollisionByProperty({ collides: true});
-    //aboveLayer.setDepth(10);
+    aboveLayer.setDepth(10);
     //aboveLayer.setDepth(10);
     const spawnPoint = map.findObject(
       "Objects",

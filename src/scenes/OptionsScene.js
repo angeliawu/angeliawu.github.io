@@ -1,23 +1,19 @@
 /*global Phaser*/
-import * as ChangeScene from './ChangeScene.js'
-
-export default class GameOverScene extends Phaser.Scene {
-  constructor () {
-    super('GameOverScene');
+import * as ChangeScene from './ChangeScene.js';
+export default class OptionsScene extends Phaser.Scene {
+  constructor() {
+    super("Options");
   }
-
-  init (data) {
-    // Initialization code goes here
-    this.Source = data.scene;
+  init(data){
+    this.source = data.source
+    console.log(this.source)
   }
 
   preload(){
     // Preload assets
     this.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js');
-    this.load.audio('End','./assets/sounds/End.wav')
-    this.load.image('tomato','./assets/fullSized/tomato.png')
-    this.load.image('fries','./assets/fullSized/Fries.png')
-    this.load.image('onion','./assets/fullSized/onion.png')
+    this.load.audio('theme','./assets/sounds/InGame.wav');
+
     //Declare variables for center of the scene
     this.centerX = this.cameras.main.width/2;
     this.centerY=this.cameras.main.height/2;
@@ -25,33 +21,28 @@ export default class GameOverScene extends Phaser.Scene {
 
   create() {
     //Add change scene event listeners
-    ChangeScene.addSceneEventListeners(this, this.Source);
-
-    //Add music
-    this.music=this.sound.add('End')
+    ChangeScene.addSceneEventListeners(this, this.source)
+    //add music
+    this.music=this.sound.add('theme');
     this.music.play({
       volume:.3,
       loop:true
     });
-    this.add.sprite(700, 500,'onion').setScale(3)
-    this.add.sprite(400, 450,'fries').setScale(0.6)
-    this.add.sprite(200, 500,'tomato').setScale(3)
+
     //Create the scenes
     WebFont.load({
       google:{
-        families: ['Candal', 'Modak', 'Anton']
+        families: ['Permanent Marker', 'Modak', 'Anton']
       }
     });
 
-    this.cameras.main.setBackgroundColor(0x333)
-
-    var text = 'Game over!'
-    var text2  = 'Press Space to play again.'
-    this.spellOutText(75,75,550,text,100,10, '#fff','Candal');
+    this.cameras.main.setBackgroundColor(0xfffff)
+    var text = 'Options'
+    var text2  = 'Press Enter to return to game.\nPress F11 to full screen.\nPress ESC to return to main menu.\nPress R to restart level.'
+    this.spellOutText(200,75,550,text,100,10, '#fff','Candal');
     this.spellOutText(200,300,550,text2,30,10,'#fff','Modak');
+
   }
-
-
   spellOutText(x, y, width, text, fontSize, speed, fill, font){
     var sentence = this.add.text(x,y, "", {
       fontSize: fontSize,
