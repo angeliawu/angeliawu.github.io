@@ -8,7 +8,7 @@ export default class GameOverScene extends Phaser.Scene {
 
   init (data) {
     // Initialization code goes here
-    //this.Source = data.scene;
+    this.Source = data.scene;
   }
 
   preload(){
