@@ -56,7 +56,7 @@ export default class BootScene extends Phaser.Scene {
       this.setFrame(0);
     });
     b1.on("pointerup", function(){
-
+      this.music.stop();
       this.scene.start('level1');
     }, this
   );
@@ -70,7 +70,7 @@ export default class BootScene extends Phaser.Scene {
     this.setFrame(0);
   });
   b2.on("pointerup", function(){
-
+    this.music.stop();
     this.scene.start('tutorial');
   }, this
 );
