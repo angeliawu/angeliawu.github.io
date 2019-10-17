@@ -222,7 +222,7 @@ export default class Level1 extends Phaser.Scene {
       var b1 = s1.body;
       b1.stop();
     });
-    this.physics.add.collider(this.player, this.winGroup, this.endScene, null, this);
+    this.physics.add.overlap(this.player, this.winGroup, this.endScene, null, this);
     for(var i = 0; i < win.length; i++){
       this.winGroup.add(win[i]);
     }
