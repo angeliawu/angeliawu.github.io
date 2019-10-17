@@ -43,6 +43,10 @@ export default class Level1 extends Phaser.Scene {
       frameHeight: 45,
       frameWidth: 32
     });
+    this.load.spritesheet('door', "./assets/resized/Door_bak.png",{
+      frameHeight: 32,
+      frameWidth: 32
+    });
 
     //Load cook sprite
     this.load.image("cook", "./assets/resized/cook64.png");
@@ -78,6 +82,7 @@ export default class Level1 extends Phaser.Scene {
     //load map
     this.gameWin = false;
     this.gameLose = false;
+    this.door = false;
     const map = this.make.tilemap({ key: "map"});
     const tileset = map.addTilesetImage("newTileset", "tiles");
     const belowLayer = map.createStaticLayer("Below Player", tileset, 0, 0);
@@ -198,10 +203,16 @@ export default class Level1 extends Phaser.Scene {
         frameRate: 10,
         repeat: -1
     });
+    this.anims.create({
+        key: 'door_open',
+        frames: this.anims.generateFrameNumbers('door', { start: 0, end: 3}),
+        frameRate: 10,
+        repeat: 0
+    });
 
 
     //win condition
-    var win = map.createFromObjects('Objects','winPoint', {key: 'exit'});
+    var win = map.createFromObjects('Objects','winPoint', {key: 'door'});
     this.winGroup = this.physics.add.group();
     this.winGroup.children.iterate(function(child) {
       child.setImmoveable(true);
@@ -392,11 +403,12 @@ export default class Level1 extends Phaser.Scene {
 
     // Update the scene
 
-    this.NPCCheckSpeed();
-    this.enemyCheckSpeed(); //keeps the enemies moving
+    //this.NPCCheckSpeed();
+    //this.enemyCheckSpeed(); //keeps the enemies moving
+    this.doorCheck(128);
 
     if (Math.sin(this.time.now) > 0.5){
-      this.enemyView(200);
+      //this.enemyView(200);
     }
 
     if(this.gameWin){
@@ -460,6 +472,21 @@ export default class Level1 extends Phaser.Scene {
       }*/
     }
   }
+
+  doorCheck(distance){
+    var win = this.winGroup.getChildren();
+    if (this.door == false){
+      for ( var i = 0; i < win.length; i++){
+        let dist = Phaser.Math.Distance.Between(this.player.x, this.player.y, win[i].x, win[i].y )
+        if (dist <= distance){
+          console.log('detected')
+          win[i].anims.play('door_open')
+          this.door = true;
+        }
+      }
+    }
+
+}
 
  setEnemyFrame(enemy){
 
