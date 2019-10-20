@@ -15,9 +15,9 @@ export default class BootScene extends Phaser.Scene
     this.load.audio('select', './assets/sounds/select.wav');
 
     //Load main menu sprites
-    this.load.image("cook", "./assets/fullSized/cook.png");
-    this.load.image("onion", "./assets/fullSized/onion.png");
-    this.load.image("tomato", "./assets/fullSized/tomato.png");
+    this.load.image("cookBoot", "./assets/fullSized/cook.png");
+    this.load.image("onionBoot", "./assets/fullSized/onion.png");
+    this.load.image("tomatoBoot", "./assets/fullSized/tomato.png");
 
     //Load buttons
     this.load.spritesheet("playbuttons", "./assets/fullSized/playButtons.png",
@@ -69,9 +69,9 @@ export default class BootScene extends Phaser.Scene
     this.add.sprite(400, 150, 'title').setScale(0.6);
 
     //Add main menu sprites
-    this.add.sprite(200, 325, 'cook').setScale(0.25);
-    this.add.sprite(600, 350, 'onion').setScale(0.5);
-    this.add.sprite(400, 350, 'tomato').setScale(0.4);
+    this.add.sprite(200, 325, 'cookBoot').setScale(0.25);
+    this.add.sprite(600, 350, 'onionBoot').setScale(0.5);
+    this.add.sprite(400, 350, 'tomatoBoot').setScale(0.4);
 
     //Add play button to scene
     var b1 = this.add.sprite(175, 500, 'playbuttons', 0).setScale(0.5).setInteractive();

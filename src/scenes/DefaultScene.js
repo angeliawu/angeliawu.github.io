@@ -8,8 +8,8 @@ export default class DefaultScene extends Phaser.Scene {
 
   init (data) {
     // Initialization code goes here
-    this.level = data.level
-    console.log(this.level)
+    this.level = data.level;
+    console.log(this.level);
   }
 
 
@@ -70,7 +70,7 @@ export default class DefaultScene extends Phaser.Scene {
 
   create(mapKey,danger) {
     //Add change scene event listeners
-    ChangeScene.addSceneEventListeners(this, this.level)
+    ChangeScene.addSceneEventListeners(this, this.level);
     //add music
     this.music= this.sound.add('theme');
     this.music.play({
