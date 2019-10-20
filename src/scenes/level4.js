@@ -16,12 +16,12 @@ export default class Tutorial extends DefaultScene {
 
   }
   create(){
-    return super.create(this.mapKey, 'winScene', true);
+    return super.create(this.mapKey, 'WinScene', true);
 
 
   }
   update(){
-    return super.update();
+    return super.update('WinScene');
 
 
   }
