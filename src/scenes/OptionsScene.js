@@ -1,48 +1,64 @@
 /*global Phaser*/
 import * as ChangeScene from './ChangeScene.js';
-export default class OptionsScene extends Phaser.Scene {
-  constructor() {
+export default class OptionsScene extends Phaser.Scene
+{
+  constructor()
+  {
     super("Options");
   }
-  init(data){
+  init(data)
+  {
     this.source = data.source
     console.log(this.source)
   }
 
-  preload(){
-    // Preload assets
+  preload()
+  {
+    //Preload assets
     this.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js');
     this.load.audio('theme','./assets/sounds/InGame.wav');
+    this.load.image("optionsTitle", "./assets/fullSized/Options Title.png");
 
     //Declare variables for center of the scene
     this.centerX = this.cameras.main.width/2;
     this.centerY=this.cameras.main.height/2;
   }
 
-  create() {
+  create()
+  {
     //Add change scene event listeners
     ChangeScene.addSceneEventListeners(this, this.source)
-    //add music
-    this.music=this.sound.add('theme');
-    this.music.play({
+
+    //Add music
+    this.music = this.sound.add('theme');
+    this.music.play
+    ({
       volume:.3,
       loop:true
     });
 
     //Create the scenes
-    WebFont.load({
+    WebFont.load
+    ({
       google:{
-        families: ['Permanent Marker', 'Modak', 'Anton']
+        families: ['Permanent Marker', 'Modak', 'Anton', 'Amatic SC']
       }
     });
 
-    this.cameras.main.setBackgroundColor(0xfffff)
-    var text = 'Options'
-    var text2  = 'Press Enter to return to game.\nPress F11 to full screen.\nPress ESC to return to main menu.\nPress R to restart level.'
-    this.spellOutText(200,75,550,text,100,10, '#fff','Candal');
-    this.spellOutText(200,300,550,text2,30,10,'#fff','Modak');
+    //Background
+    this.cameras.main.setBackgroundColor(0xffe6cc);
 
+    //Display title
+    this.add.sprite(400, 150, "optionsTitle").setScale(0.3);
+
+    //Display text
+    var text = 'Press Enter to return to game.\n' +
+               'Press F11 to full screen. \n' +
+               'Press ESC to return to main menu.\n' +
+               'Press R to restart level.';
+    this.spellOutText(175, 250, 550, text, 50, 20, '#000000', 'Amatic SC');
   }
+
   spellOutText(x, y, width, text, fontSize, speed, fill, font){
     var sentence = this.add.text(x,y, "", {
       fontSize: fontSize,
