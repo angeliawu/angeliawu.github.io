@@ -13,7 +13,7 @@ function addSceneEventListeners(that, scene){
     "keydown_R",
       function(){
         that.music.stop();
-        that.scene.sleep();
+        that.scene.stop(scene);
         that.scene.start(scene);
       }
   )
@@ -43,6 +43,7 @@ function addSceneEventListeners(that, scene){
         console.log(scene);
         that.scene.sleep();
         that.scene.run(scene);
+        that.music.play();
       }
   )
 }
