@@ -13,11 +13,16 @@ export default class BootScene extends Phaser.Scene
     this.load.audio('theme', './assets/sounds/InGame.wav');
     this.load.audio('select', './assets/sounds/select.wav');
 
-    //Load cook spritesheet
+    //Load spritesheets
     this.load.spritesheet('cookBoot', "./assets/fullSized/Cook Animation.png",
     {
       frameHeight: 185,
       frameWidth: 181
+    });
+    this.load.spritesheet('potatoBoot', "./assets/fullSized/potatoFullSized.png",
+    {
+      frameHeight: 350,
+      frameWidth: 255
     });
 
     //Load buttons
@@ -62,19 +67,27 @@ export default class BootScene extends Phaser.Scene
     this.cameras.main.setBackgroundColor(0xffe6cc);
 
     //Add title
-    this.add.sprite(400, 150, 'title').setScale(0.6);
+    this.add.sprite(400, 150, 'title').setScale(0.5);
 
-    //Add cook
+    //Add sprites
     this.cook = this.add.sprite(150, 350, 'cookBoot').setScale(0.75);
+    this.potato = this.add.sprite(350, 360, 'potatoBoot').setScale(0.3);
 
     //Variable to check cook's direction
     this.cook.direction = "right";
 
-    //Add cook animation
+    //Add animations
     this.anims.create
     ({
         key: "cook_running",
         frames: this.anims.generateFrameNumbers('cookBoot', { start: 2, end: 3 }),
+        frameRate: 10,
+        repeat: -1
+    });
+    this.anims.create
+    ({
+        key: "potato_rolling",
+        frames: this.anims.generateFrameNumbers('potatoBoot', { start: 0, end: 5 }),
         frameRate: 10,
         repeat: -1
     });
@@ -143,18 +156,23 @@ export default class BootScene extends Phaser.Scene
 
   update()
   {
-    //Check for cook position
-    if (this.cook.x <= 650 && this.cook.direction == "right")
+    //Check for cook position and play animations
+    if (this.cook.x <= 500 && this.cook.direction == "right")
     {
       this.cook.flipX = false;
       this.cook.anims.play("cook_running", true);
-      this.cook.x += 3;
+      this.cook.x += 3.5;
+      this.potato.anims.play("potato_rolling", true);
+      this.potato.x += 3.5;
+      this.potato.flipX = false;
     }
     else if (this.cook.x >= 150)
     {
       this.cook.direction = "left"
       this.cook.flipX = true;
-      this.cook.x -= 3;
+      this.cook.x -= 3.5;
+      this.potato.x -= 3.5;
+      this.potato.flipX = true;
     }
     else
     {
