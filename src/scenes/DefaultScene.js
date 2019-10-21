@@ -428,7 +428,7 @@ export default class DefaultScene extends Phaser.Scene {
     this.doorCheck(128);
 
     if (Math.sin(this.time.now) > 0.5){
-      this.enemyView(200);
+      this.enemyView(128);
     }
 
     if(this.gameWin){
