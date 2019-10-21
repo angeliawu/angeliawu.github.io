@@ -239,6 +239,7 @@ export default class DefaultScene extends Phaser.Scene {
       child.setImmoveable(false);
       child.refreshBody();
       child.bringToTop(child)
+
     });
     this.physics.add.collider(this.enemyGroup, worldLayer, function(s1){
       var b1 = s1.body;
@@ -271,6 +272,8 @@ export default class DefaultScene extends Phaser.Scene {
       .body.setSize(32,64,32,32);
       enemy[i]
       .body.width = 32;
+      enemy[i]
+      .setDepth(1);
 
       //Initialize with starting velocity
       enemy[i]
