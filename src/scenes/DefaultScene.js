@@ -8,8 +8,8 @@ export default class DefaultScene extends Phaser.Scene {
 
   init (data) {
     // Initialization code goes here
-    this.level = data.level
-    console.log(this.level)
+    this.level = data.level;
+    console.log(this.level);
   }
 
 
@@ -22,6 +22,7 @@ export default class DefaultScene extends Phaser.Scene {
     this.load.image("Lcrate", "./assets/resized/Lcrate.png");
     this.load.audio("theme","./assets/sounds/InGame.wav");
     this.load.audio("splash","./assets/sounds/splash.wav");
+    this.load.audio("doorfx","./assets/sounds/Door.wav");
     //Loads potato player sprite
     //this.load.image("potato", "./assets/potato.png");
     this.load.spritesheet('Potato', "./assets/resized/pot32.png",{
@@ -70,7 +71,7 @@ export default class DefaultScene extends Phaser.Scene {
 
   create(mapKey,danger) {
     //Add change scene event listeners
-    ChangeScene.addSceneEventListeners(this, this.level)
+    ChangeScene.addSceneEventListeners(this, this.level);
     //add music
     this.music= this.sound.add('theme');
     this.music.play({
@@ -80,7 +81,7 @@ export default class DefaultScene extends Phaser.Scene {
 
     //preset sound effects
     this.splashfx=this.sound.add('splash');
-
+    this.doorfx=this.sound.add('doorfx');
     //load map
     this.gameWin = false;
     this.gameLose = false;
@@ -500,6 +501,11 @@ export default class DefaultScene extends Phaser.Scene {
         if (dist <= distance){
           console.log('detected')
           win[i].anims.play('door_open')
+          //doorfx
+          this.doorfx.play({
+            volume:.7,
+            loop:false
+          });
           this.door = true;
         }
       }

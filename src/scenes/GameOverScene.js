@@ -1,68 +1,84 @@
 /*global Phaser*/
 import * as ChangeScene from './ChangeScene.js'
 
-export default class GameOverScene extends Phaser.Scene {
-  constructor () {
+export default class GameOverScene extends Phaser.Scene
+{
+  constructor ()
+  {
     super('GameOverScene');
   }
 
-  init (data) {
+  init (data)
+  {
     // Initialization code goes here
     this.Source = data.scene;
   }
 
-  preload(){
-    // Preload assets
+  preload()
+  {
+    //Preload assets
     this.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js');
-    this.load.audio('End','./assets/sounds/End.wav')
-    this.load.image('tomato','./assets/fullSized/tomato.png')
-    this.load.image('fries','./assets/fullSized/Fries.png')
-    this.load.image('onion','./assets/fullSized/onion.png')
+    this.load.audio('End','./assets/sounds/End.wav');
+    this.load.image('fries','./assets/fullSized/Fries.png');
+    this.load.image("gameOverText", "./assets/fullSized/Game Over Text.png");
+
     //Declare variables for center of the scene
     this.centerX = this.cameras.main.width/2;
-    this.centerY=this.cameras.main.height/2;
+    this.centerY = this.cameras.main.height/2;
   }
 
-  create() {
+  create()
+  {
     //Add change scene event listeners
     ChangeScene.addSceneEventListeners(this, this.Source);
 
     //Add music
-    this.music=this.sound.add('End')
-    this.music.play({
+    this.music = this.sound.add('End')
+    this.music.play
+    ({
       volume:.3,
       loop:true
     });
-    this.add.sprite(700, 500,'onion').setScale(3)
-    this.add.sprite(400, 450,'fries').setScale(0.6)
-    this.add.sprite(200, 500,'tomato').setScale(3)
-    //Create the scenes
-    WebFont.load({
+
+    //Add title
+    this.add.sprite(400, 100, 'gameOverText').setScale(0.5);
+
+    //Add sprite
+    this.add.sprite(150, 350,'fries').setScale(0.6);
+
+    //Load fonts
+    WebFont.load
+    ({
       google:{
-        families: ['Candal', 'Modak', 'Anton']
+        families: ['Candal', 'Modak', 'Anton', 'Amatic SC']
       }
     });
 
-    this.cameras.main.setBackgroundColor(0x333)
+    //Set background
+    this.cameras.main.setBackgroundColor(0x000000);
 
-    var text = 'Game over!'
-    var text2  = 'Press Space to play again.'
-    this.spellOutText(75,75,550,text,100,10, '#fff','Candal');
-    this.spellOutText(200,300,550,text2,30,10,'#fff','Modak');
+    //Display text
+    var text  = 'You got fried. \n' +
+                'Better luck next time. \n\n' +
+                'Press Space to play again.'
+    this.spellOutText(350, 250, 550, text, 50, 10, '#fff', 'Amatic SC');
   }
 
 
-  spellOutText(x, y, width, text, fontSize, speed, fill, font){
-    var sentence = this.add.text(x,y, "", {
+  spellOutText(x, y, width, text, fontSize, speed, fill, font)
+  {
+    var sentence = this.add.text(x,y, "",
+    {
       fontSize: fontSize,
       fill: fill,
       fontFamily: font
     });
-    var currentLine = this.add.text(10,10,"", {
+    var currentLine = this.add.text(10,10,"",
+    {
       fontSize:fontSize,
       fontFamily: font
     });
-    currentLine.alpha=0;
+    currentLine.alpha = 0;
     var index = 0;
     var timer;
 

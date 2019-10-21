@@ -1,32 +1,47 @@
 /*global Phaser*/
 import * as ChangeScene from './ChangeScene.js';
-export default class BootScene extends Phaser.Scene {
-  constructor() {
+export default class BootScene extends Phaser.Scene
+{
+  constructor()
+  {
     super("Boot");
   }
 
-  preload(){
-    // Preload assets
+  preload()
+  {
+    //Preload assets
     this.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js');
-    this.load.audio('theme','./assets/sounds/InGame.wav');
-    this.load.audio('select','./assets/sounds/select.wav');
-    this.load.spritesheet("playbuttons","./assets/fullSized/playButtons.png", {
+    this.load.audio('theme', './assets/sounds/InGame.wav');
+    this.load.audio('select', './assets/sounds/select.wav');
+
+    //Load main menu sprites
+    this.load.image("cookBoot", "./assets/fullSized/cook.png");
+    this.load.image("onionBoot", "./assets/fullSized/onion.png");
+    this.load.image("tomatoBoot", "./assets/fullSized/tomato.png");
+
+    //Load buttons
+    this.load.spritesheet("playbuttons", "./assets/fullSized/playButtons.png",
+    {
       frameHeight: 165,
       frameWidth: 388
     });
-    this.load.spritesheet("tutorialbuttons","./assets/fullSized/TutButtons.png", {
+    this.load.spritesheet("tutorialbuttons", "./assets/fullSized/TutButtons.png",
+    {
       frameHeight: 158,
       frameWidth: 387
     });
-    this.load.spritesheet("optionsbuttons","./assets/fullSized/OptionsButtons.png", {
+    this.load.spritesheet("optionsbuttons", "./assets/fullSized/OptionsButtons.png",
+    {
       frameHeight: 158,
       frameWidth: 383
     });
-    this.load.image("logo", "./assets/fullSized/Title Text.png")
+
+    //Load title
+    this.load.image("title", "./assets/fullSized/Title Text.png")
 
     //Declare variables for center of the scene
     this.centerX = this.cameras.main.width/2;
-    this.centerY=this.cameras.main.height/2;
+    this.centerY = this.cameras.main.height/2;
   }
 
   create() {
@@ -47,16 +62,29 @@ export default class BootScene extends Phaser.Scene {
       }
     });
 
-    this.cameras.main.setBackgroundColor(0xfffff)
-    this.add.sprite(400,75,'logo').setScale(0.7);
-    var b1 =this.add.sprite(150,300, 'playbuttons', 0).setInteractive();
-    b1.on("pointerover", function(){
+    //Background
+    this.cameras.main.setBackgroundColor(0xffe6cc);
+
+    //Add title
+    this.add.sprite(400, 150, 'title').setScale(0.6);
+
+    //Add main menu sprites
+    this.add.sprite(200, 325, 'cookBoot').setScale(0.25);
+    this.add.sprite(600, 350, 'onionBoot').setScale(0.5);
+    this.add.sprite(400, 350, 'tomatoBoot').setScale(0.4);
+
+    //Add play button to scene
+    var b1 = this.add.sprite(175, 500, 'playbuttons', 0).setScale(0.5).setInteractive();
+    b1.on("pointerover", function()
+    {
       this.setFrame(1);
     });
-    b1.on("pointerout", function(){
+    b1.on("pointerout", function()
+    {
       this.setFrame(0);
     });
-    b1.on("pointerup", function(){
+    b1.on("pointerup", function()
+    {
       this.music.stop();
       this.scene.start('level1');
       this.select.play({
@@ -66,15 +94,18 @@ export default class BootScene extends Phaser.Scene {
     }, this
   );
 
-  var b2 =this.add.sprite(400,400, 'tutorialbuttons', 2).setInteractive();
-  b2.on("pointerover", function(){
+  //Add tutorial button to scene
+  var b2 = this.add.sprite(400, 500, 'tutorialbuttons', 2).setScale(0.5).setInteractive();
+  b2.on("pointerover", function()
+  {
     this.setFrame(1);
-
   });
-  b2.on("pointerout", function(){
+  b2.on("pointerout", function()
+  {
     this.setFrame(0);
   });
-  b2.on("pointerup", function(){
+  b2.on("pointerup", function()
+  {
     this.music.stop();
     this.scene.start('tutorial');
     this.select.play({
@@ -84,7 +115,8 @@ export default class BootScene extends Phaser.Scene {
   }, this
 );
 
-var b3 =this.add.sprite(650,500, 'optionsbuttons', 4).setInteractive();
+//Add options button to scene
+var b3 = this.add.sprite(650, 500, 'optionsbuttons', 4).setScale(0.5).setInteractive();
 b3.on("pointerover", function(){
   this.setFrame(1);
 
