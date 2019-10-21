@@ -23,7 +23,7 @@ class Game extends Phaser.Game {
     this.scene.add('tutorial', Tutorial)
     this.scene.add('Options', Options)
 
-    this.scene.start('tutorial');
+    this.scene.start('Boot');
   }
 }
 

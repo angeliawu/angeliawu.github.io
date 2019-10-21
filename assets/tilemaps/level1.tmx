@@ -458,7 +458,7 @@
 0,0,1073741887,1073741888,1073741828,1073741829,1073741887,1073741888,1073741828,1073741829,1073741887,1073741888,1073741828,1073741829,1073741887,1073741888,1073741828,1073741829,1073741887,1073741888,1073741828,1073741829,1073741887,1073741888,1073741828,1073741829,1073741887,1073741888,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="4" name="Objects" visible="0">
+ <objectgroup id="4" name="Objects">
   <object id="275" name="Spawn Point" x="192" y="928">
    <point/>
   </object>
@@ -483,7 +483,7 @@
   <object id="379" name="cratePoint" x="384" y="1120">
    <point/>
   </object>
-  <object id="380" name="LCratePoint" x="384" y="992" rotation="90">
+  <object id="380" name="LCratePoint" x="384" y="1024" rotation="90">
    <point/>
   </object>
   <object id="382" name="crackPoint" x="480" y="800">

@@ -134,7 +134,7 @@ export default class DefaultScene extends Phaser.Scene {
     this.player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, "Potato");
 
     this.physics.add.collider(this.player, worldLayer);
-
+    console.log(this.player.x, this.player.y)
     this.cursors = this.input.keyboard.createCursorKeys();
     const camera = this.cameras.main;
     camera.startFollow(this.player);
