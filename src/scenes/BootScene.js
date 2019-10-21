@@ -10,14 +10,15 @@ export default class BootScene extends Phaser.Scene
   preload()
   {
     //Preload assets
-    this.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js');
     this.load.audio('theme', './assets/sounds/InGame.wav');
     this.load.audio('select', './assets/sounds/select.wav');
 
-    //Load main menu sprites
-    this.load.image("cookBoot", "./assets/fullSized/cook.png");
-    this.load.image("onionBoot", "./assets/fullSized/onion.png");
-    this.load.image("tomatoBoot", "./assets/fullSized/tomato.png");
+    //Load cook spritesheet
+    this.load.spritesheet('cookBoot', "./assets/resized/CookAnimation.png",
+    {
+      frameHeight: 61,
+      frameWidth: 60
+    });
 
     //Load buttons
     this.load.spritesheet("playbuttons", "./assets/fullSized/playButtons.png",
@@ -44,23 +45,18 @@ export default class BootScene extends Phaser.Scene
     this.centerY = this.cameras.main.height/2;
   }
 
-  create() {
-    //Add change scene event listeners
-    //ChangeScene.addSceneEventListeners(this, "level1")
-    //add music
-    this.music=this.sound.add('theme');
-    this.music.play({
+  create()
+  {
+    //Add music
+    this.music = this.sound.add('theme');
+    this.music.play
+    ({
       volume:.3,
       loop:true
     });
-    //add sfx
-    this.select=this.sound.add('select');
-    //Create the scenes
-    WebFont.load({
-      google:{
-        families: ['Permanent Marker', 'Modak', 'Anton']
-      }
-    });
+
+    //Add SFX
+    this.select = this.sound.add('select');
 
     //Background
     this.cameras.main.setBackgroundColor(0xffe6cc);
@@ -68,10 +64,20 @@ export default class BootScene extends Phaser.Scene
     //Add title
     this.add.sprite(400, 150, 'title').setScale(0.6);
 
-    //Add main menu sprites
-    this.add.sprite(200, 325, 'cookBoot').setScale(0.25);
-    this.add.sprite(600, 350, 'onionBoot').setScale(0.5);
-    this.add.sprite(400, 350, 'tomatoBoot').setScale(0.4);
+    //Add cook
+    this.cook = this.add.sprite(150, 350, 'cookBoot').setScale(2);
+
+    //Variable to check cook's direction
+    this.cook.direction = "right";
+
+    //Add cook animation
+    this.anims.create
+    ({
+        key: "cook_running",
+        frames: this.anims.generateFrameNumbers('cookBoot', { start: 2, end: 3 }),
+        frameRate: 10,
+        repeat: -1
+    });
 
     //Add play button to scene
     var b1 = this.add.sprite(175, 500, 'playbuttons', 0).setScale(0.5).setInteractive();
@@ -87,95 +93,72 @@ export default class BootScene extends Phaser.Scene
     {
       this.music.stop();
       this.scene.start('level1');
-      this.select.play({
+      this.select.play
+      ({
         volume:.3,
         loop: false
       });
     }, this
   );
 
-  //Add tutorial button to scene
-  var b2 = this.add.sprite(400, 500, 'tutorialbuttons', 2).setScale(0.5).setInteractive();
-  b2.on("pointerover", function()
-  {
-    this.setFrame(1);
-  });
-  b2.on("pointerout", function()
-  {
-    this.setFrame(0);
-  });
-  b2.on("pointerup", function()
-  {
-    this.music.stop();
-    this.scene.start('tutorial');
-    this.select.play({
-      volume:.3,
-      loop: false
+    //Add tutorial button to scene
+    var b2 = this.add.sprite(400, 500, 'tutorialbuttons', 2).setScale(0.5).setInteractive();
+    b2.on("pointerover", function()
+    {
+      this.setFrame(1);
     });
-  }, this
-);
+    b2.on("pointerout", function()
+    {
+      this.setFrame(0);
+    });
+    b2.on("pointerup", function()
+    {
+      this.music.stop();
+      this.scene.start('tutorial');
+      this.select.play
+      ({
+        volume:.3,
+        loop: false
+      });
+    }, this
+  );
 
-//Add options button to scene
-var b3 = this.add.sprite(650, 500, 'optionsbuttons', 4).setScale(0.5).setInteractive();
-b3.on("pointerover", function(){
-  this.setFrame(1);
-
-});
-b3.on("pointerout", function(){
-  this.setFrame(0);
-});
-b3.on("pointerup", function(){
-  this.music.stop();
-  this.scene.start('Options');
-
-}, this
-);
-
-
-
-
+    //Add options button to scene
+    var b3 = this.add.sprite(625, 500, 'optionsbuttons', 4).setScale(0.5).setInteractive();
+    b3.on("pointerover", function()
+    {
+      this.setFrame(1);
+    });
+    b3.on("pointerout", function()
+    {
+      this.setFrame(0);
+    });
+    b3.on("pointerup", function()
+    {
+      this.music.stop();
+      this.scene.start('Options');
+    }, this
+  );
   }
 
-  spellOutText(x, y, width, text, fontSize, speed, fill, font){
-    var sentence = this.add.text(x,y, "", {
-      fontSize: fontSize,
-      fill: fill,
-      fontFamily: font
-    });
-    var currentLine = this.add.text(10,10,"", {
-      fontSize:fontSize,
-      fontFamily: font
-    });
-    currentLine.alpha=0;
-    var index = 0;
-    var timer;
-
-    //Start the text loop
-    startLoop(this);
-
-    function startLoop(that){
-      timer = that.time.addEvent({
-        delay: speed,
-        callback: addChar,
-        callbackScope: this,
-        loop: true
-      });
-
-      function addChar(){
-        sentence.text += text[index];
-        currentLine.text += text[index];
-
-        if (currentLine.width > width && text[index] === " "){
-          sentence.text +=  "\n";
-          currentLine.text = "";
-        }
-
-        if (index >= text.length - 1){
-          timer.remove();
-          console.log("stop");
-        }
-        index++;
-      }
+  update()
+  {
+    //Check for cook position
+    if (this.cook.x <= 650 && this.cook.direction == "right")
+    {
+      this.cook.flipX = false;
+      this.cook.anims.play("cook_running", true);
+      this.cook.x += 3;
+    }
+    else if (this.cook.x >= 150)
+    {
+      this.cook.direction = "left"
+      this.cook.flipX = true;
+      this.cook.x -= 3;
+    }
+    else
+    {
+      this.cook.direction = "right";
     }
   }
 }
