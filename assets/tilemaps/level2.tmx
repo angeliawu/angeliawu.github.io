@@ -421,7 +421,7 @@
   <object id="358" name="enemyPoint" x="96" y="992">
    <point/>
   </object>
-  <object id="370" name="LCratePoint" x="384" y="1152" rotation="90">
+  <object id="370" name="LCratePoint" x="256" y="1088" rotation="90">
    <point/>
   </object>
   <object id="373" name="spillPoint" x="896" y="1120">

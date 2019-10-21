@@ -20,6 +20,41 @@
     <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
+  <tile id="5">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
   <tile id="20">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -45,12 +80,97 @@
     <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
+  <tile id="25">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="29">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="30">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="31">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="40">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
   <tile id="41">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
   <tile id="42">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="43">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="44">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="45">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="46">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="47">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="48">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="49">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="50">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="51">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
@@ -101,6 +221,16 @@
    </properties>
   </tile>
   <tile id="69">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="70">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="71">
    <properties>
     <property name="collides" type="bool" value="true"/>
    </properties>
@@ -275,12 +405,12 @@
 106,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1073741930,0,0,0,0,0,0,0,0,0,
 106,0,0,0,24,25,0,0,24,25,0,0,24,25,0,0,24,25,0,0,24,25,0,0,24,25,0,0,24,25,1073741930,0,0,0,0,0,0,0,0,0,
 106,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1073741930,0,0,0,0,0,0,0,0,0,
-106,8,0,0,0,0,4,5,0,0,4,5,0,0,4,5,0,0,4,5,0,0,4,5,0,0,4,5,0,0,1073741930,0,0,0,0,0,0,0,0,0,
+106,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1073741930,0,0,0,0,0,0,0,0,0,
 106,28,24,25,0,0,24,25,0,0,24,25,0,0,24,25,0,0,24,25,0,0,24,25,0,0,24,25,0,0,1073741930,0,0,0,0,0,0,0,0,0,
-106,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1073741929,3758096490,0,0,0,0,0,0,0,0,
-106,0,0,0,6,7,0,0,0,0,0,0,0,0,0,0,6,7,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,
+106,1610612798,1610612818,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1073741929,3758096490,0,0,0,0,0,0,0,0,
+106,1610612797,1610612817,0,6,7,0,0,0,0,0,0,0,0,0,0,6,7,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,
 106,0,1073741927,1073741928,26,27,1073741927,1073741928,0,0,1073741927,1073741928,0,0,1073741927,1073741928,26,27,1073741927,1073741928,0,0,1073741927,1073741928,0,0,1073741927,1073741928,0,0,105,3758096490,0,0,0,0,0,0,0,0,
-106,0,1073741907,1073741908,1073741848,1073741849,1073741907,1073741908,1073741848,1073741849,1073741907,1073741908,1073741848,1073741849,1073741907,1073741908,1073741848,1073741849,1073741907,1073741908,1073741848,1073741849,1073741907,1073741908,1073741848,1073741849,1073741907,1073741908,1073741848,1073741849,1073741930,0,0,0,0,0,0,0,0,0,
+106,0,1073741907,1073741908,1073741848,1073741849,1073741907,1073741908,1073741848,1073741849,1073741907,1073741908,1073741848,1073741849,1073741907,1073741908,1073741848,1073741849,1073741907,1073741908,1073741848,1073741849,1073741907,1073741908,1073741848,1073741849,1073741907,1073741908,0,0,1073741930,0,0,0,0,0,0,0,0,0,
 1073741929,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3758096490,3221225577,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
@@ -319,16 +449,16 @@
 0,0,0,0,4,5,0,0,4,5,0,0,4,5,0,0,4,5,0,0,4,5,0,0,4,5,0,0,4,5,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,5,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,4,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,1610612798,1610612818,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,1610612797,1610612817,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,4,5,0,0,4,5,0,0,4,5,0,0,4,5,0,0,4,5,0,0,4,5,0,0,4,5,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,1073741887,1073741888,1073741828,1073741829,1073741887,1073741888,1073741828,1073741829,1073741887,1073741888,1073741828,1073741829,1073741887,1073741888,1073741828,1073741829,1073741887,1073741888,1073741828,1073741829,1073741887,1073741888,1073741828,1073741829,1073741887,1073741888,1073741828,1073741829,0,0,0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,1073741887,1073741888,1073741828,1073741829,1073741887,1073741888,1073741828,1073741829,1073741887,1073741888,1073741828,1073741829,1073741887,1073741888,1073741828,1073741829,1073741887,1073741888,1073741828,1073741829,1073741887,1073741888,1073741828,1073741829,1073741887,1073741888,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="4" name="Objects">
+ <objectgroup id="4" name="Objects" visible="0">
   <object id="275" name="Spawn Point" x="192" y="928">
    <point/>
   </object>

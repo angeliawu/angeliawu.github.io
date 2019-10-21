@@ -156,7 +156,7 @@ export default class DefaultScene extends Phaser.Scene {
     this.anims.create({
         key: 'cook_idle',
         frames: this.anims.generateFrameNumbers('Cook', { frames:[0,1,6,7]}),
-        frameRate: 20,
+        frameRate: 5,
         repeat: -1
     });
     this.anims.create({
@@ -168,13 +168,13 @@ export default class DefaultScene extends Phaser.Scene {
       this.anims.create({
           key: "cook_Cont_right",
           frames: this.anims.generateFrameNumbers('Cook', { start: 2, end: 3}),
-          frameRate: 20,
+          frameRate: 10,
           repeat: -1
         });
       this.anims.create({
           key: "cook_walk_up",
           frames: this.anims.generateFrameNumbers('CookAway', { start: 0, end: 1}),
-          frameRate: 15,
+          frameRate: 10,
           repeat: -1
         });
       this.anims.create({

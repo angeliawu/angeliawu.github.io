@@ -64,7 +64,7 @@ export default class Tutorial extends DefaultScene {
       fill: "#00ffee",
       padding: { x: 20, y: 20 }
     });
-    return super.create(this.mapKey, 'tutorial', false);
+    return super.create(this.mapKey, false);
 
 
   }
