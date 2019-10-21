@@ -21,6 +21,7 @@ function addSceneEventListeners(that, scene){
     "keydown_ESC",
       function() {
         that.music.stop();
+        that.scene.stop(scene);
         that.scene.start('Boot');
       }
   )
