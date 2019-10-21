@@ -100,8 +100,8 @@ export default class DefaultScene extends Phaser.Scene {
         fill: "#ffffff",
         padding: { x: 20, y: 10 },
         backgroundColor: "#000000"
-      })
-      .setScrollFactor(0)
+      }).setDepth(10)
+      .setScrollFactor(0);
       this.timedEvent = this.time.addEvent({ delay: 1000, callback: countDown, callbackScope: this, loop: true });
       function formatTime(seconds){
         // Minutes
