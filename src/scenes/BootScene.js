@@ -16,7 +16,7 @@ export default class BootScene extends Phaser.Scene
     //Load cook spritesheet
     this.load.spritesheet('cookBoot', "./assets/fullSized/Cook Animation.png",
     {
-      frameHeight: 183,
+      frameHeight: 185,
       frameWidth: 181
     });
 
