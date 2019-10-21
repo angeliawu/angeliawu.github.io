@@ -14,10 +14,10 @@ export default class BootScene extends Phaser.Scene
     this.load.audio('select', './assets/sounds/select.wav');
 
     //Load cook spritesheet
-    this.load.spritesheet('cookBoot', "./assets/resized/CookAnimation.png",
+    this.load.spritesheet('cookBoot', "./assets/fullSized/Cook Animation.png",
     {
-      frameHeight: 61,
-      frameWidth: 60
+      frameHeight: 185,
+      frameWidth: 181
     });
 
     //Load buttons
@@ -65,7 +65,7 @@ export default class BootScene extends Phaser.Scene
     this.add.sprite(400, 150, 'title').setScale(0.6);
 
     //Add cook
-    this.cook = this.add.sprite(150, 350, 'cookBoot').setScale(2);
+    this.cook = this.add.sprite(150, 350, 'cookBoot').setScale(0.75);
 
     //Variable to check cook's direction
     this.cook.direction = "right";
@@ -124,7 +124,7 @@ export default class BootScene extends Phaser.Scene
   );
 
     //Add options button to scene
-    var b3 = this.add.sprite(625, 500, 'optionsbuttons', 4).setScale(0.5).setInteractive();
+    var b3 = this.add.sprite(650, 500, 'optionsbuttons', 4).setScale(0.5).setInteractive();
     b3.on("pointerover", function()
     {
       this.setFrame(1);
