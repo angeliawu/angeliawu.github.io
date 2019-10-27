@@ -1,6 +1,7 @@
 /*global Phaser*/
 import * as ChangeScene from './InGameChangeScene.js'
-
+import ObjectGenerator from './ObjGen.js'
+import AllCollision from './collisions.js'
 export default class DefaultScene extends Phaser.Scene {
   constructor () {
     super(Phaser.Scene);
@@ -89,7 +90,7 @@ export default class DefaultScene extends Phaser.Scene {
     const map = this.make.tilemap({ key: mapKey});
     const tileset = map.addTilesetImage("newTileset", "tiles");
     const belowLayer = map.createStaticLayer("Below Player", tileset, 0, 0);
-    const worldLayer = map.createStaticLayer("World", tileset, 0, 0);
+    this.worldLayer = map.createStaticLayer("World", tileset, 0, 0);
     const aboveLayer = map.createStaticLayer("Above Player", tileset, 0, 0);
 
     //create game timer
@@ -122,8 +123,12 @@ export default class DefaultScene extends Phaser.Scene {
         }
       }
     }
-    worldLayer.setCollisionByProperty({ collides: true});
+    this.worldLayer.setCollisionByProperty({ collides: true});
     aboveLayer.setDepth(10);
+
+    this.matter.world.convertTilemapLayer(this.worldLayer);
+    this.matter.world.convertTilemapLayer(aboveLayer);
+    this.matter.world.createDebugGraphic();
     //aboveLayer.setDepth(10);
     const spawnPoint = map.findObject(
       "Objects",
@@ -131,9 +136,13 @@ export default class DefaultScene extends Phaser.Scene {
     );
 
     //player attributes
-    this.player = this.physics.add.sprite(spawnPoint.x, spawnPoint.y, "Potato");
+    this.player = this.matter.add.sprite(spawnPoint.x, spawnPoint.y, "Potato");
+    this.player.setFriction(100)
+    this.player.body.label = "Potato"
+    console.log("player log")
+    console.log(this.player);
 
-    this.physics.add.collider(this.player, worldLayer);
+    //this.matter.add.collider(this.player, this.worldLayer);
     console.log(this.player.x, this.player.y)
     this.cursors = this.input.keyboard.createCursorKeys();
     const camera = this.cameras.main;
@@ -217,72 +226,85 @@ export default class DefaultScene extends Phaser.Scene {
 
 
     //win condition
-    var win = map.createFromObjects('Objects','winPoint', {key: 'door'});
-    this.winGroup = this.physics.add.group();
-    this.winGroup.children.iterate(function(child) {
-      child.setImmoveable(true);
-      child.refreshBody();
-    });
-    this.physics.add.collider(this.winGroup, worldLayer, function(s1){
-      var b1 = s1.body;
-      b1.stop();
-    });
-    this.physics.add.overlap(this.player, this.winGroup, this.endScene, null, this);
-    for(var i = 0; i < win.length; i++){
-      this.winGroup.add(win[i]);
-    }
+    //var win = map.createFromObjects('Objects','winPoint', {key: 'door'});
+    this.winGroup = ObjectGenerator(map,'winPoint','door',1, this);
+
+    //this.physics.add.overlap(this.player, this.winGroup, this.endScene, null, this);
+    /*for(var i = 0; i < win.length; i++){
+      this.winGroup += this.matter.add.sprite(win[i].x, win[i].y, 'door')
+      .setCollisionGroup(1);
+    }*/
 
     //enemy attributes
-    var enemy = map.createFromObjects('Objects','enemyPoint', {key: 'Cook'});
-    this.enemyGroup = this.physics.add.group();
-    this.enemyGroup.children.iterate(function(child) {
-      child.setImmoveable(false);
-      child.refreshBody();
-      child.bringToTop(child)
+    //var enemy = map.createFromObjects('Objects','enemyPoint', {key: 'Cook'});
+    this.enemyGroup = ObjectGenerator(map, 'enemyPoint', 'Cook',2,this);
+    console.log(this.enemyGroup);
+    this.enemyGroup.forEach(function(element){
+      element.setBounce(0);
+      element.setFriction(1000);
+      element.setSize(32,64,32,32);
+      element.width = 32;
+      element.setDepth(1);
+      element.setDensity(100);
+      element.setFixedRotation();
+      //Initialize with starting velocity
+      element.setVelocityX(Phaser.Math.Between(-1, 1));
+      element.setVelocityY(Phaser.Math.Between(-1, 1));
+    })
 
+
+    this.matter.world.on('collisionstart', function(event, bodyA, bodyB){
+      if (bodyA == this.enemyGroup && bodyB == this.worldLayer){
+        bodyA.stop();
+      }
     });
-    this.physics.add.collider(this.enemyGroup, worldLayer, function(s1){
-      var b1 = s1.body;
-      b1.stop();
-    });
-    if (danger){
-      this.physics.add.collider(this.player, this.enemyGroup, this.gameOver,null, this);
-      //this.physics.add.collider(this.enemyGroup,this.crateGroup);
-      this.physics.add.overlap(this.player, this.enemyGroup, this.gameOver, null, this);
+    this.crateGroup = ObjectGenerator(map, 'enemyPoint','crate',3,this);
+    this.crateGroup.forEach(function(element){
+      element.setBounce(0);
+      element.setFriction(1000);
+      element.setDepth(1);
+      element.setDensity(50);
 
-    }else{
-      this.physics.add.collider(this.player, this.enemyGroup);
-      //this.physics.add.collider(this.enemyGroup,this.crateGroup);
-      this.physics.add.overlap(this.player, this.enemyGroup);
+    })
+    this.LcrateGroup = ObjectGenerator(map, 'LCratePoint','Lcrate',4,this);
+    this.LcrateGroup.forEach(function(element){
+      element.setBounce(0);
+      element.setFriction(1000);
+      element.setDepth(1);
+      element.setDensity(100);
 
-    }
+    })
+    this.spillGroup = ObjectGenerator(map,'spillPoint','spill',5,this);
+    this.spillGroup.forEach(function(element){
+      element.setStatic(element, true);
+      element.setScale(0.7);
 
-    this.physics.add.collider(this.enemyGroup);
-
-    for(var i = 0; i < enemy.length; i++){
-      this.enemyGroup.add(enemy[i]);
-      enemy[i]
-      .body
-      .CollideWorldBounds = true;
-      enemy[i]
-      .body.bounce.set(0.1);
-      enemy[i]
-      .body.setDrag(100);
-      enemy[i]
-      .body.setSize(32,64,32,32);
-      enemy[i]
-      .body.width = 32;
-      enemy[i]
+    })
+    //this.physics.add.collider(this.enemyGroup);
+    AllCollision(danger,this);
+    /*for(var i = 0; i < enemy.length; i++){
+      var proto = this.matter.add.sprite(enemy[i].x, enemy[i].y, 'Cook');
+      proto
+      .setBounce(0.1);
+      proto
+      .setFriction(100);
+      proto
+      .setSize(32,64,32,32);
+      proto
+      .width = 32;
+      proto
       .setDepth(1);
 
       //Initialize with starting velocity
-      enemy[i]
-      .body.setVelocityX(Phaser.Math.Between(-100, 100));
-      enemy[i]
-      .body.setVelocityY(Phaser.Math.Between(-100, 100));
+      proto
+      .setVelocityX(Phaser.Math.Between(-100, 100));
+      proto
+      .setVelocityY(Phaser.Math.Between(-100, 100));
+      this.enemyGroup += proto
 
-    }
+    }*/
     //waterspill attributes
+    /*
     var spill = map.createFromObjects('Objects','spillPoint', {key: 'spill'});
     this.spillGroup = this.physics.add.group();
     this.spillGroup.children.iterate(function(child) {
@@ -291,7 +313,7 @@ export default class DefaultScene extends Phaser.Scene {
     });
     this.physics.add.overlap(this.player, this.spillGroup, this.slip, null, this);
 
-    this.physics.add.collider(this.spillGroup, worldLayer);
+    this.physics.add.collider(this.spillGroup, this.worldLayer);
     this.physics.add.overlap(this.enemyGroup, this.spillGroup, this.slip, null, this);
 
 
@@ -315,7 +337,7 @@ export default class DefaultScene extends Phaser.Scene {
       child.setImmoveable(false);
       child.refreshBody();
     });
-    this.physics.add.collider(this.LcrateGroup, worldLayer, function(s1){
+    this.physics.add.collider(this.LcrateGroup, this.worldLayer, function(s1){
       var b1 = s1.body;
       b1.stop();
     });
@@ -337,6 +359,7 @@ export default class DefaultScene extends Phaser.Scene {
         Lcrate[i].body.setSize(32,64);
       }
     }
+
     //small Crate attributes
     var crate = map.createFromObjects('Objects','cratePoint', {key: 'crate'});
     this.crateGroup = this.physics.add.group();
@@ -344,7 +367,7 @@ export default class DefaultScene extends Phaser.Scene {
       child.setImmoveable(false);
       child.refreshBody();
     });
-    this.physics.add.collider(this.crateGroup, worldLayer, function(s1){
+    this.physics.add.collider(this.crateGroup, this.worldLayer, function(s1){
       var b1 = s1.body;
       b1.stop();
     });
@@ -373,7 +396,7 @@ export default class DefaultScene extends Phaser.Scene {
       this.physics.add.overlap(this.player, this.crackGroup);
     }
     //this.physics.add.collider(this.enemyGroup, this.crackGroup);
-    this.physics.add.collider(this.crackGroup, worldLayer);
+    this.physics.add.collider(this.crackGroup, this.worldLayer);
     for (var i = 0; i < crack.length; i++){
       this.crackGroup.add(crack[i]);
       crack[i]
@@ -390,7 +413,7 @@ export default class DefaultScene extends Phaser.Scene {
     //NPC attributes
     var NPC = map.createFromObjects('Objects','NPCPoint', {key: "onion"});
     this.NPCGroup = this.physics.add.group();
-    this.physics.add.collider(this.NPCGroup, worldLayer);
+    this.physics.add.collider(this.NPCGroup, this.worldLayer);
     this.physics.add.collider(this.player, this.NPCGroup);
     this.physics.add.collider(this.NPCGroup,this.crateGroup);
     this.physics.add.collider(this.NPCGroup,this.LcrateGroup);
@@ -414,7 +437,7 @@ export default class DefaultScene extends Phaser.Scene {
         .body.setSize(32,32,32,32);
       }
 
-    }
+    }*/
 
 
   }
@@ -422,11 +445,11 @@ export default class DefaultScene extends Phaser.Scene {
   update (next) {
 
     // Update the scene
-
+    /*
     this.NPCCheckSpeed();
     this.enemyCheckSpeed(); //keeps the enemies moving
     this.doorCheck(128);
-
+    */
     if (Math.sin(this.time.now) > 0.5){
       this.enemyView(128);
     }
@@ -440,51 +463,51 @@ export default class DefaultScene extends Phaser.Scene {
       this.music.stop();
       this.scene.start('GameOverScene',{scene: this.level});
     }
-    const speed = 80;
-    //const prevVelocity = this.player.body.velocity.clone();
+    const speed = 1.5;
+    //const prevVelocity = this.player.velocity.clone();
     // Stop any previous movement from the last frame
     if (this.cursors.left.isUp && this.cursors.right.isUp && this.cursors.up.isUp && this.cursors.down.isUp){
-        this.player.body.setVelocity(0);
+        this.player.setVelocity(0);
           this.player.anims.play('idle', true);
           this.player.angle = 0
     }
 
     // Horizontal move4ent
     if (this.cursors.left.isDown) {
-      this.player.body.setVelocityX(-speed);
+      this.player.setVelocityX(-speed);
       this.player.anims.play('walk', true);
       this.player.flipX = true;
       this.player.angle = 0;
-      this.player.body.setSize(22,32,32,32);
+      this.player.setSize(22,32,32,32);
     } else if (this.cursors.right.isDown) {
-      this.player.body.setVelocityX(speed);
+      this.player.setVelocityX(speed);
       this.player.anims.play('walk', true);
       this.player.flipX = false;
       this.player.angle = 0;
-      this.player.body.setSize(22,32,32,32);
+      this.player.setSize(22,32,32,32);
     }
 
     // Vertical movement
     if (this.cursors.up.isDown) {
-      this.player.body.setVelocityY(-speed);
+      this.player.setVelocityY(-speed);
       this.player.anims.play('walk', true);
       this.player.angle = 90;
-      this.player.body.setSize(32,22,32,32);
+      this.player.setSize(32,22,32,32);
     } else if (this.cursors.down.isDown) {
-      this.player.body.setVelocityY(speed);
+      this.player.setVelocityY(speed);
       this.player.anims.play('walk', true);
       this.player.angle = 270;
-      this.player.body.setSize(32,22,32,32);
+      this.player.setSize(32,22,32,32);
     }
 
     // Normalize and scale the velocity so that player can't move faster along a diagonal
-    this.player.body.velocity.normalize().scale(speed);
+    //this.player.normalize().scale(speed);
   }
   import_test(){
     console.log("import successful")
   }
   enemyView(distance){
-    var enemies = this.enemyGroup.getChildren();
+    var enemies = this.enemyGroup;
     for ( var i = 0; i < enemies.length; i++){
       if (Phaser.Math.Distance.Between(this.player.x, this.player.y, enemies[i].x, enemies[i].y ) <= distance){
         this.enemyChase(enemies[i]);
@@ -497,7 +520,7 @@ export default class DefaultScene extends Phaser.Scene {
   }
 
   doorCheck(distance){
-    var win = this.winGroup.getChildren();
+    var win = this.winGroup;
     if (this.door == false){
       for ( var i = 0; i < win.length; i++){
         let dist = Phaser.Math.Distance.Between(this.player.x, this.player.y, win[i].x, win[i].y )
@@ -621,13 +644,15 @@ enemyChase(enemy){
   }
 
   displace(){
-    var int = Math.random() < 0.6 ? 40 : 30;
+    var int = Math.random() < 0.6 ? 80 : 60;
     var plusOrMinus = Math.random() < 0.6 ? -1 : 1;
     //console.log(int)
     return (int * plusOrMinus);
   }
   slip(s1,s2){
-    s2.body.enable = false;
+    console.log(s1,s2)
+    console.log("slip")
+    console.log(s2.position.x,s2.position.y)
     var initialTime = 1
     var timedEvent = this.time.addEvent({ delay: 1000, callback: spillcountDown});
     this.splashfx.play({
@@ -639,7 +664,7 @@ enemyChase(enemy){
       initialTime -= 1; // One second
       //console.log(initialTime)
       if (initialTime == 0){
-        s2.body.enable = true;
+
 
       }
     }
@@ -647,8 +672,8 @@ enemyChase(enemy){
     var y = this.displace()
     this.tweens.add({
     targets: s1,
-    x: s2.x + x,
-    y: s2.y + y,
+    x: s2.position.x + x,
+    y: s2.position.y + y,
     ease: "Elastic",
     duration: 1000
   });
