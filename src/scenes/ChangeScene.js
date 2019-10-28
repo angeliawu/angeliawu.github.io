@@ -14,6 +14,10 @@ function addSceneEventListeners(that, scene){
       function(){
         that.music.stop();
         that.scene.stop(scene);
+        that.pausefx.play({
+          volume:.3,
+          loop:false
+        });
         that.scene.start(scene);
       }
   )
@@ -22,6 +26,10 @@ function addSceneEventListeners(that, scene){
       function() {
         that.music.stop();
         that.scene.stop(scene);
+        that.pausefx.play({
+          volume:.3,
+          loop:false
+        });
         that.scene.start('Boot');
       }
   )
@@ -30,8 +38,16 @@ function addSceneEventListeners(that, scene){
       function() {
         if (that.music.stop != true){
           that.music.stop();
+          that.pausefx.play({
+            volume:.3,
+            loop:false
+          });
         }else{
           that.music.start();
+          that.pausefx.play({
+            volume:.3,
+            loop:false
+          });
         }
 
       }
@@ -41,6 +57,10 @@ function addSceneEventListeners(that, scene){
       function() {
         that.music.stop();
         console.log(scene);
+        that.pausefx.play({
+          volume:.3,
+          loop:false
+        });
         that.scene.sleep();
         that.scene.run(scene);
         that.music.play();

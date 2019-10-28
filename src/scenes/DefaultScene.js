@@ -20,7 +20,10 @@ export default class DefaultScene extends Phaser.Scene {
     this.load.tilemapTiledJSON(mapkey, mapPath);
     this.load.image("crate", "./assets/resized/crate.png");
     this.load.image("Lcrate", "./assets/resized/Lcrate.png");
-    this.load.audio("theme","./assets/sounds/InGame.wav");
+    //different song for tutorial
+    this.load.audio("tutorial","./assets/sounds/Tutorial.wav");
+    this.load.audio("InGame","./assets/sounds/InGame2.wav");
+    this.load.audio("pausefx","./assets/sounds/Kindlich Text.mp3");
     this.load.audio("splash","./assets/sounds/splash.wav");
     this.load.audio("doorfx","./assets/sounds/Door.wav");
     //Loads potato player sprite
@@ -73,15 +76,26 @@ export default class DefaultScene extends Phaser.Scene {
     //Add change scene event listeners
     ChangeScene.addSceneEventListeners(this, this.level);
     //add music
-    this.music= this.sound.add('theme');
+    var level=this.level
+    if (level=='tutorial'){
+      this.music=this.sound.add('tutorial')
+      this.music.play({
+        volume:.3,
+        loop: true
+      });
+    } else{
+    this.music= this.sound.add('InGame');
     this.music.play({
       volume:.3,
       loop:true
-    });
+    });}
+    //different song for tutorial
+
 
     //preset sound effects
     this.splashfx=this.sound.add('splash');
     this.doorfx=this.sound.add('doorfx');
+    this.pausefx=this.sound.add('pausefx');
     //load map
     this.gameWin = false;
     this.gameLose = false;
@@ -138,6 +152,10 @@ export default class DefaultScene extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
     const camera = this.cameras.main;
     camera.startFollow(this.player);
+    //pause game
+    //this.pausekey=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+
+
 
     // Constrain the camera so that it isn't allowed to move outside the width/height of tilemap
     camera.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -420,9 +438,8 @@ export default class DefaultScene extends Phaser.Scene {
   }
 
   update (next) {
-
     // Update the scene
-
+    var musicmuted=this.music.mute; //For muting
     this.NPCCheckSpeed();
     this.enemyCheckSpeed(); //keeps the enemies moving
     this.doorCheck(128);

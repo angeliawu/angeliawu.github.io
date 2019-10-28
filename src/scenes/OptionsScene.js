@@ -16,7 +16,8 @@ export default class OptionsScene extends Phaser.Scene
   {
     //Preload assets
     this.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1/webfont.js');
-    this.load.audio('theme','./assets/sounds/InGame.wav');
+    this.load.audio('InGame','./assets/sounds/InGame2.wav');
+    this.load.audio("pausefx","./assets/sounds/Kindlich Text.mp3");
     this.load.image("optionsTitle", "./assets/fullSized/Options Title.png");
 
     //Declare variables for center of the scene
@@ -30,13 +31,13 @@ export default class OptionsScene extends Phaser.Scene
     ChangeScene.addSceneEventListeners(this, this.source)
 
     //Add music
-    this.music = this.sound.add('theme');
+    this.music = this.sound.add('InGame');
     this.music.play
     ({
       volume:.3,
       loop:true
     });
-
+    this.pausefx=this.sound.add('pausefx');
     //Create the scenes
     WebFont.load
     ({
