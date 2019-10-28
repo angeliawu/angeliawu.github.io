@@ -15,6 +15,6 @@ function ObjectGenerator(map, pointName, key, collisionGroup, that, config){
     //console.log(group)
     obj[i].destroy();
   }
-  console.log(group)
+  //console.log(group)
   return group
 }
