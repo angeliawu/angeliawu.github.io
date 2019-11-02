@@ -10,13 +10,13 @@ export default class DefaultScene extends Phaser.Scene {
   init (data) {
     // Initialization code goes here
     this.level = data.level;
-    //console.log(this.level);
+    //(this.level);
   }
 
 
   preload (mapkey, mapPath) {
     // Preload assets
-    ////console.log("Level1")
+    ////("Level1")
     this.load.image("tiles", "./assets/tilemaps/newTileset.png");
     this.load.tilemapTiledJSON(mapkey, mapPath);
     this.load.image("crate", "./assets/resized/crate.png");
@@ -140,12 +140,12 @@ export default class DefaultScene extends Phaser.Scene {
     this.player.setFriction(100)
     this.player.body.label = "Potato";
     this.player.setDepth(10);
-    //console.log(this.player.body.label)
-    //console.log("player log")
-    //console.log(this.player);
+    //(this.player.body.label)
+    //("player log")
+    //(this.player);
 
     //this.matter.add.collider(this.player, this.worldLayer);
-    //console.log(this.player.x, this.player.y)
+    //(this.player.x, this.player.y)
     this.cursors = this.input.keyboard.createCursorKeys();
     const camera = this.cameras.main;
     camera.startFollow(this.player);
@@ -232,7 +232,7 @@ export default class DefaultScene extends Phaser.Scene {
 
     //enemy attributes
     this.enemyGroup = ObjectGenerator(map, 'enemyPoint', 'Cook',2,this);
-    //console.log(this.enemyGroup);
+    //(this.enemyGroup);
     this.enemyGroup.forEach(function(element){
       element.setBounce(0);
       element.setFriction(10);
@@ -261,19 +261,21 @@ export default class DefaultScene extends Phaser.Scene {
       element.setFriction(1000);
       element.setDepth(1);
       element.setDensity(100);
-      element.setFixedRotation();
+      //element.setFixedRotation();
 
     });
     this.spillGroup = ObjectGenerator(map,'spillPoint','spill',5,this);
     this.spillGroup.forEach(function(element){
       element.setStatic(element, true);
       element.setScale(0.5);
+      element.setSensor(true);
     });
     //this.physics.add.collider(this.enemyGroup);
     this.crackGroup = ObjectGenerator(map,'crackPoint','crack',6, this);
     this.crackGroup.forEach(function(element){
       element.setStatic(element, true);
       element.setScale(0.7);
+      element.setSensor(true);
     });
     this.NPCGroup = ObjectGenerator(map, 'NPCPoint', 'onion', 7, this);
     this.NPCGroup.forEach(function(element){
@@ -292,14 +294,8 @@ export default class DefaultScene extends Phaser.Scene {
   update (next) {
 
     // Update the scene
-    this.playerSpeedCheck();
-    this.NPCCheckSpeed();
-    this.enemyCheckSpeed(); //keeps the enemies moving
-    this.doorCheck(128);
-    //console.log(this.player.body.velocity.x, this.player.body.velocity.y)
-    if (Math.sin(this.time.now) > 0.5){
-      this.enemyView(256);
-    }
+
+
 
     if(this.gameWin){
       this.music.stop();
@@ -310,6 +306,14 @@ export default class DefaultScene extends Phaser.Scene {
       this.music.stop();
       this.scene.start('GameOverScene',{scene: this.level});
     }
+    this.NPCCheckSpeed();
+    this.enemyCheckSpeed(); //keeps the enemies moving
+    this.doorCheck(128);
+    //(this.player.body.velocity.x, this.player.body.velocity.y)
+    if (Math.sin(this.time.now) > 0.5){
+      this.enemyView(256);
+    }
+    this.playerSpeedCheck();
     const speed = 1.5;
     //const prevVelocity = this.player.body.velocity.clone();
     // Stop any previous movement from the last frame
@@ -347,208 +351,213 @@ export default class DefaultScene extends Phaser.Scene {
       this.player.setSize(32,22,32,32);
     }
 
+
     // Normalize and scale the velocity so that player can't move faster along a diagonal
     //this.player.normalize().scale(speed);
   }
-  import_test(){
-    //console.log("import successful")
-  }
-  enemyView(distance){
-    var enemies = this.enemyGroup;
-    for ( var i = 0; i < enemies.length; i++){
-      if (Phaser.Math.Distance.Between(this.player.x, this.player.y, enemies[i].x, enemies[i].y ) <= distance){
-        this.enemyChase(enemies[i]);
 
-
-      }/*else {
-        this.enemyWander(enemies[i]);
-      }*/
+    import_test(){
+      //("import successful")
     }
-  }
+    enemyView(distance){
+      var enemies = this.enemyGroup;
+      for ( var i = 0; i < enemies.length; i++){
+        if (Phaser.Math.Distance.Between(this.player.x, this.player.y, enemies[i].x, enemies[i].y ) <= distance){
+          this.enemyChase(enemies[i]);
 
-  doorCheck(distance){
-    var win = this.winGroup;
-    if (this.door == false){
-      for ( var i = 0; i < win.length; i++){
-        let dist = Phaser.Math.Distance.Between(this.player.x, this.player.y, win[i].x, win[i].y )
-        if (dist <= distance){
-          ////console.log('detected')
-          win[i].anims.play('door_open')
-          //doorfx
-          this.doorfx.play({
-            volume:.7,
-            loop:false
-          });
-          this.door = true;
-        }
+
+        }/*else {
+          this.enemyWander(enemies[i]);
+        }*/
       }
     }
 
-}
-
- setEnemyFrame(enemy){
-
-    if (enemy.body.velocity.x < 0 && Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)){
-      //enemy.anims.play('cook_walk_right')
-      enemy.anims.play('cook_Cont_right')
-      enemy.flipX = true;
-    } else if(enemy.body.velocity.x > 0 && Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)){
-      //enemy.anims.play('cook_walk_right')
-      enemy.anims.play('cook_Cont_right')
-      enemy.flipX = false;
-    }
-    if (enemy.body.velocity.y < 0 && Math.abs(enemy.body.velocity.x) < Math.abs(enemy.body.velocity.y)){
-      enemy.anims.play('cook_walk_up')
-    } else if(enemy.body.velocity.y > 0 && Math.abs(enemy.body.velocity.x) < Math.abs(enemy.body.velocity.y)){
-      enemy.anims.play('cook_idle')
-    }
-
-}
-enemyChase(enemy){
-  var  i = enemy
-  function degrees(radians) {
-    return radians * 180 / Math.PI;
-  }
-  var angleBetween = Phaser.Math.Angle.Between(i.x, i.y, this.player.x, this.player.y);
-  ////console.log(degrees(angleBetween))
-  i.setVelocityX(Math.cos(angleBetween) * 1.5);
-  i.setVelocityY(Math.sin(angleBetween) * 1.5);
-  this.setEnemyFrame(i);
-
-}
-
-  enemyCheckSpeed(){
-    var enemies = this.enemyGroup;
-    ////console.log(enemies[0].body.velocity);
-    for ( var i = 0; i < enemies.length; i++){
-      if (enemies[i].body.velocity.x == 0 && enemies[i].body.velocity.y == 0){
-        enemies[i].setVelocityX(Phaser.Math.Between(-1, 1));
-        enemies[i].setVelocityY(Phaser.Math.Between(-1, 1));
-        this.setEnemyFrame(enemies[i]);
-      }else{
-        enemies[i].setVelocityX( (Math.random() < 0.6 ? -1 : 1) + Phaser.Math.Between(-0.1, 0.1));
-        enemies[i].setVelocityY((Math.random() < 0.6 ? -1 : 1) + Phaser.Math.Between(-0.1, 0.1));
-
-      }
-    }
-  }
-  NPCCheckSpeed(){
-    var NPCs = this.NPCGroup;
-    for ( var i = 0; i < NPCs.length; i++){
-      var velXFLT = NPCs[i].body.velocity.x
-      var velX = velXFLT.toPrecision(2)
-      var velYFLT = NPCs[i].body.velocity.y
-      var velY = velYFLT.toPrecision(2)
-
-      if (Math.abs(velX) < 0.001){
-        velX = 0;
-      }
-      if (Math.abs(velY) < 0.00045){
-        velY = 0;
-      }
-      console.log(velX, velY)
-      if (velX == 0 && velY == 0){
-        NPCs[i].angle = 0;
-        if (String(NPCs[i].texture.key) === "onion"){
-          NPCs[i].anims.play('onion_idle', true);
-          NPCs[i].flipX = false;
-        }else {
-          NPCs[i].anims.play('tomato_idle', true);
-          NPCs[i].flipX = false;
-        }
-
-      }
-      else if (velX > 0) {
-        if (String(NPCs[i].texture.key) === "onion"){
-          NPCs[i].anims.play('onion_pushed', true);
-        }else {
-          NPCs[i].anims.play('tomato_pushed', true);
-        }
-      }
-      else if (velX < 0) {
-        if (String(NPCs[i].texture.key) === "onion"){
-          NPCs[i].anims.play('onion_pushed', true);
-          NPCs[i].flipX = true;
-        }else {
-          NPCs[i].anims.play('tomato_pushed', true);
-          NPCs[i].flipX = true;
-        }
-      }
-      else if (velY < 0) {
-        if (String(NPCs[i].texture.key) === "onion"){
-          NPCs[i].anims.play('onion_pushed', true);
-          NPCs[i].angle = 90;
-        }else {
-          NPCs[i].anims.play('tomato_pushed', true);
-          NPCs[i].angle = 90;
-        }
-      }
-      else if (velY > 0) {
-        if (String(NPCs[i].texture.key) === "onion"){
-          NPCs[i].anims.play('onion_pushed', true);
-          NPCs[i].angle = 270;
-        }else {
-          NPCs[i].anims.play('tomato_pushed', true);
-          NPCs[i].angle = 270;
+    doorCheck(distance){
+      var win = this.winGroup;
+      if (this.door == false){
+        for ( var i = 0; i < win.length; i++){
+          let dist = Phaser.Math.Distance.Between(this.player.x, this.player.y, win[i].x, win[i].y )
+          if (dist <= distance){
+            ////('detected')
+            win[i].anims.play('door_open')
+            //doorfx
+            this.doorfx.play({
+              volume:.7,
+              loop:false
+            });
+            this.door = true;
+          }
         }
       }
 
-    }
   }
 
-  endScene(player, winPoint){
-    this.gameWin = true;
+   setEnemyFrame(enemy){
+
+      if (enemy.body.velocity.x < 0 && Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)){
+        //enemy.anims.play('cook_walk_right')
+        enemy.anims.play('cook_Cont_right')
+        enemy.flipX = true;
+      } else if(enemy.body.velocity.x > 0 && Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)){
+        //enemy.anims.play('cook_walk_right')
+        enemy.anims.play('cook_Cont_right')
+        enemy.flipX = false;
+      }
+      if (enemy.body.velocity.y < 0 && Math.abs(enemy.body.velocity.x) < Math.abs(enemy.body.velocity.y)){
+        enemy.anims.play('cook_walk_up')
+      } else if(enemy.body.velocity.y > 0 && Math.abs(enemy.body.velocity.x) < Math.abs(enemy.body.velocity.y)){
+        enemy.anims.play('cook_idle')
+      }
+
   }
-  gameOver(player, winPoint){
-    this.gameLose = true;
-  }
-  playerSpeedCheck(){
-    if (this.player.body.velocity.x > 1.5){
-      this.player.setVelocityX(1);
-    }else if (this.player.body.velocity.x < -1.5){
-      this.player.setVelocityX(-1);
+  enemyChase(enemy){
+    var  i = enemy
+    function degrees(radians) {
+      return radians * 180 / Math.PI;
     }
-    if (this.player.body.velocity.y > 1.5){
-      this.player.setVelocityY(1);
-    }else if (this.player.body.velocity.y < -1.5){
-     this.player.setVelocityY(-1);
+    var angleBetween = Phaser.Math.Angle.Between(i.x, i.y, this.player.x, this.player.y);
+    ////(degrees(angleBetween))
+    i.setVelocityX(Math.cos(angleBetween) * 1.5);
+    i.setVelocityY(Math.sin(angleBetween) * 1.5);
+    this.setEnemyFrame(i);
+
+  }
+
+    enemyCheckSpeed(){
+      var enemies = this.enemyGroup;
+      ////(enemies[0].body.velocity);
+      for ( var i = 0; i < enemies.length; i++){
+        if (enemies[i].body.velocity.x == 0 && enemies[i].body.velocity.y == 0){
+          enemies[i].setVelocityX(Phaser.Math.Between(-1, 1));
+          enemies[i].setVelocityY(Phaser.Math.Between(-1, 1));
+          this.setEnemyFrame(enemies[i]);
+        }else{
+          enemies[i].setVelocityX( (Math.random() < 0.6 ? -1 : 1) + Phaser.Math.Between(-0.1, 0.1));
+          enemies[i].setVelocityY((Math.random() < 0.6 ? -1 : 1) + Phaser.Math.Between(-0.1, 0.1));
+
+        }
+      }
     }
-  }
-  displace(){
-    var int = Math.random() < 0.6 ? 80 : 60;
-    var plusOrMinus = Math.random() < 0.6 ? -1 : 1;
-    ////console.log(int)
-    return (int * plusOrMinus);
-  }
-  slip(s1,s2){
-    ////console.log(s1,s2)
-    //console.log("slip")
-    ////console.log(s2.position.x,s2.position.y)
-    var initialTime = 1
-    var timedEvent = this.time.addEvent({ delay: 1000, callback: spillcountDown});
-    this.splashfx.play({
-      volume:.3,
-      loop:false
+    NPCCheckSpeed(){
+      var NPCs = this.NPCGroup;
+      for ( var i = 0; i < NPCs.length; i++){
+        var velXFLT = NPCs[i].body.velocity.x
+        var velX = velXFLT.toPrecision(2)
+        var velYFLT = NPCs[i].body.velocity.y
+        var velY = velYFLT.toPrecision(2)
+
+        if (Math.abs(velX) < 0.001){
+          velX = 0;
+        }
+        if (Math.abs(velY) < 0.00045){
+          velY = 0;
+        }
+        if (velX == 0 && velY == 0){
+          NPCs[i].angle = 0;
+          if (String(NPCs[i].texture.key) === "onion"){
+            NPCs[i].anims.play('onion_idle', true);
+            NPCs[i].flipX = false;
+          }else {
+            NPCs[i].anims.play('tomato_idle', true);
+            NPCs[i].flipX = false;
+          }
+
+        }
+        else if (velX > 0) {
+          if (String(NPCs[i].texture.key) === "onion"){
+            NPCs[i].anims.play('onion_pushed', true);
+          }else {
+            NPCs[i].anims.play('tomato_pushed', true);
+          }
+        }
+        else if (velX < 0) {
+          if (String(NPCs[i].texture.key) === "onion"){
+            NPCs[i].anims.play('onion_pushed', true);
+            NPCs[i].flipX = true;
+          }else {
+            NPCs[i].anims.play('tomato_pushed', true);
+            NPCs[i].flipX = true;
+          }
+        }
+        else if (velY < 0) {
+          if (String(NPCs[i].texture.key) === "onion"){
+            NPCs[i].anims.play('onion_pushed', true);
+            NPCs[i].angle = 90;
+          }else {
+            NPCs[i].anims.play('tomato_pushed', true);
+            NPCs[i].angle = 90;
+          }
+        }
+        else if (velY > 0) {
+          if (String(NPCs[i].texture.key) === "onion"){
+            NPCs[i].anims.play('onion_pushed', true);
+            NPCs[i].angle = 270;
+          }else {
+            NPCs[i].anims.play('tomato_pushed', true);
+            NPCs[i].angle = 270;
+          }
+        }
+
+      }
+    }
+
+    endScene(player, winPoint){
+      this.gameWin = true;
+    }
+    gameOver(player, winPoint){
+      this.gameLose = true;
+    }
+    playerSpeedCheck(){
+      if (this.player.body.velocity.x > 1.5){
+        this.player.setVelocityX(1);
+      }else if (this.player.body.velocity.x < -1.5){
+        this.player.setVelocityX(-1);
+      }
+      if (this.player.body.velocity.y > 1.5){
+        this.player.setVelocityY(1);
+      }else if (this.player.body.velocity.y < -1.5){
+       this.player.setVelocityY(-1);
+      }
+    }
+    displace(){
+      var int = Math.random() < 0.6 ? 30 : 40;
+      var plusOrMinus = Math.random() < 0.6 ? -1 : 1;
+      ////(int)
+      return (int * plusOrMinus);
+    }
+    slip(s1,s2){
+      ////(s1,s2)
+      //("slip")
+      ////(s2.position.x,s2.position.y)
+      var initialTime = 1
+      var timedEvent = this.time.addEvent({ delay: 1000, callback: spillcountDown});
+      this.splashfx.play({
+        volume:.3,
+        loop:false
+      });
+      s1.gameObject.setStatic(true);
+      function spillcountDown ()
+      {
+        initialTime -= 1; // One second
+        ////(initialTime)
+        if (initialTime <= 0){
+
+          s1.gameObject.setStatic(false);
+          timedEvent.remove();
+        }
+      }
+      console.log('bodyA',s1)
+      var x = s2.position.x + this.displace()
+      var y = s2.position.y + this.displace()
+      console.log(x,  y)
+      s1.gameObject.setPosition(x,y)
+      var twn = this.tweens.add({
+      targets: s1,
+      x: x,
+      y: y,
+      ease: "Elastic",
+      duration: 1000
     });
-    function spillcountDown ()
-    {
-      initialTime -= 1; // One second
-      ////console.log(initialTime)
-      if (initialTime == 0){
 
-
-      }
     }
-    var x = this.displace()
-    var y = this.displace()
-    //console.log(s2.position.x + x, s2.position.y + y)
-    this.tweens.add({
-    targets: s1,
-    x: s2.position.x + x,
-    y: s2.position.y + y,
-    ease: "Elastic",
-    duration: 1000
-  });
-  }
-
   }

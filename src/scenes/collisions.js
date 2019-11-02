@@ -5,13 +5,14 @@ function AllCollision(danger,that){
     let pairs = event.pairs;
     pairs.forEach(function(pair){
       if (pair.bodyA.label === "Potato"){
-        console.log(pair.bodyA.label);
+        //console.log(pair.bodyA);
         switch (pair.bodyB.label) {
           case 'Cook':
             that.gameOver();
             break;
           case 'spill':
             that.slip(pair.bodyA, pair.bodyB);
+            console.log('slip')
             break;
           case 'crack':
             that.gameOver();
