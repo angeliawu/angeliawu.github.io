@@ -45,8 +45,8 @@ function AllCollision(danger,that){
       }
     //console.log("bodyA");
     //console.log(pair.bodyA.label);
-    console.log("bodyB");
-    console.log(pair.bodyB.label);
+    //console.log("bodyB");
+    //console.log(pair.bodyB.label);
     });
 
   });

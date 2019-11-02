@@ -249,9 +249,10 @@ export default class DefaultScene extends Phaser.Scene {
     this.crateGroup = ObjectGenerator(map, 'enemyPoint','crate',3,this);
     this.crateGroup.forEach(function(element){
       element.setBounce(0);
-      element.setFriction(100);
+      element.setFriction(1000);
       element.setDepth(1);
-      element.setDensity(50);
+      element.setDensity(100);
+      element.setFixedRotation();
 
     });
     this.LcrateGroup = ObjectGenerator(map, 'LCratePoint','Lcrate',4,this);
@@ -260,6 +261,7 @@ export default class DefaultScene extends Phaser.Scene {
       element.setFriction(1000);
       element.setDepth(1);
       element.setDensity(100);
+      element.setFixedRotation();
 
     });
     this.spillGroup = ObjectGenerator(map,'spillPoint','spill',5,this);
@@ -290,11 +292,11 @@ export default class DefaultScene extends Phaser.Scene {
   update (next) {
 
     // Update the scene
-
+    this.playerSpeedCheck();
     this.NPCCheckSpeed();
     this.enemyCheckSpeed(); //keeps the enemies moving
     this.doorCheck(128);
-
+    //console.log(this.player.body.velocity.x, this.player.body.velocity.y)
     if (Math.sin(this.time.now) > 0.5){
       this.enemyView(256);
     }
@@ -424,8 +426,8 @@ enemyChase(enemy){
         enemies[i].setVelocityY(Phaser.Math.Between(-1, 1));
         this.setEnemyFrame(enemies[i]);
       }else{
-        enemies[i].setVelocityX( 1 + Phaser.Math.Between(-0.1, 0.1));
-        enemies[i].setVelocityY( 1 + Phaser.Math.Between(-0.1, 0.1));
+        enemies[i].setVelocityX( (Math.random() < 0.6 ? -1 : 1) + Phaser.Math.Between(-0.1, 0.1));
+        enemies[i].setVelocityY((Math.random() < 0.6 ? -1 : 1) + Phaser.Math.Between(-0.1, 0.1));
 
       }
     }
@@ -433,8 +435,19 @@ enemyChase(enemy){
   NPCCheckSpeed(){
     var NPCs = this.NPCGroup;
     for ( var i = 0; i < NPCs.length; i++){
-      //console.log(NPCs[i].body.velocity.x, NPCs[i].body.velocity.y)
-      if ((NPCs[i].body.velocity.x <= 0.000011 && NPCs[i].body.velocity.y <= 0.000011) && (NPCs[i].body.velocity.x >= -0.000011 && NPCs[i].body.velocity.y >= -0.000011)){
+      var velXFLT = NPCs[i].body.velocity.x
+      var velX = velXFLT.toPrecision(2)
+      var velYFLT = NPCs[i].body.velocity.y
+      var velY = velYFLT.toPrecision(2)
+
+      if (Math.abs(velX) < 0.001){
+        velX = 0;
+      }
+      if (Math.abs(velY) < 0.00045){
+        velY = 0;
+      }
+      console.log(velX, velY)
+      if (velX == 0 && velY == 0){
         NPCs[i].angle = 0;
         if (String(NPCs[i].texture.key) === "onion"){
           NPCs[i].anims.play('onion_idle', true);
@@ -445,14 +458,14 @@ enemyChase(enemy){
         }
 
       }
-      else if (NPCs[i].body.velocity.x > 0.000011) {
+      else if (velX > 0) {
         if (String(NPCs[i].texture.key) === "onion"){
           NPCs[i].anims.play('onion_pushed', true);
         }else {
           NPCs[i].anims.play('tomato_pushed', true);
         }
       }
-      else if (NPCs[i].body.velocity.x < 0.000011) {
+      else if (velX < 0) {
         if (String(NPCs[i].texture.key) === "onion"){
           NPCs[i].anims.play('onion_pushed', true);
           NPCs[i].flipX = true;
@@ -461,7 +474,7 @@ enemyChase(enemy){
           NPCs[i].flipX = true;
         }
       }
-      else if (NPCs[i].body.velocity.y < 0.000011) {
+      else if (velY < 0) {
         if (String(NPCs[i].texture.key) === "onion"){
           NPCs[i].anims.play('onion_pushed', true);
           NPCs[i].angle = 90;
@@ -470,7 +483,7 @@ enemyChase(enemy){
           NPCs[i].angle = 90;
         }
       }
-      else if (NPCs[i].body.velocity.y > 0.000011) {
+      else if (velY > 0) {
         if (String(NPCs[i].texture.key) === "onion"){
           NPCs[i].anims.play('onion_pushed', true);
           NPCs[i].angle = 270;
@@ -489,7 +502,18 @@ enemyChase(enemy){
   gameOver(player, winPoint){
     this.gameLose = true;
   }
-
+  playerSpeedCheck(){
+    if (this.player.body.velocity.x > 1.5){
+      this.player.setVelocityX(1);
+    }else if (this.player.body.velocity.x < -1.5){
+      this.player.setVelocityX(-1);
+    }
+    if (this.player.body.velocity.y > 1.5){
+      this.player.setVelocityY(1);
+    }else if (this.player.body.velocity.y < -1.5){
+     this.player.setVelocityY(-1);
+    }
+  }
   displace(){
     var int = Math.random() < 0.6 ? 80 : 60;
     var plusOrMinus = Math.random() < 0.6 ? -1 : 1;
