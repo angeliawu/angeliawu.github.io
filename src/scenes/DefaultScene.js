@@ -310,7 +310,7 @@ export default class DefaultScene extends Phaser.Scene {
     this.enemyCheckSpeed(); //keeps the enemies moving
     this.doorCheck(128);
     //(this.player.body.velocity.x, this.player.body.velocity.y)
-    if (Math.sin(this.time.now) > 0.5){
+    if (Math.sin(this.time.now) > 0.3){
       this.enemyView(256);
     }
     this.playerSpeedCheck();
@@ -417,8 +417,8 @@ export default class DefaultScene extends Phaser.Scene {
     }
     var angleBetween = Phaser.Math.Angle.Between(i.x, i.y, this.player.x, this.player.y);
     ////(degrees(angleBetween))
-    i.setVelocityX(Math.cos(angleBetween) * 1.5);
-    i.setVelocityY(Math.sin(angleBetween) * 1.5);
+    i.setVelocityX(Math.cos(angleBetween) * 2);
+    i.setVelocityY(Math.sin(angleBetween) * 2);
     this.setEnemyFrame(i);
 
   }
@@ -427,13 +427,19 @@ export default class DefaultScene extends Phaser.Scene {
       var enemies = this.enemyGroup;
       ////(enemies[0].body.velocity);
       for ( var i = 0; i < enemies.length; i++){
+        if (Math.abs(enemies[i].body.velocity.y) < 0.001){
+          enemies[i].body.setVelocityY = 0;
+        }
+        if (Math.abs(enemies[i].body.velocity.x) < 0.001){
+          enemies[i].body.setVelocityX = 0;
+        }
         if (enemies[i].body.velocity.x == 0 && enemies[i].body.velocity.y == 0){
-          enemies[i].setVelocityX(Phaser.Math.Between(-1, 1));
-          enemies[i].setVelocityY(Phaser.Math.Between(-1, 1));
+          enemies[i].setVelocityX(Phaser.Math.Between(-1.5, 1.5));
+          enemies[i].setVelocityY(Phaser.Math.Between(-1.5, 1.5));
           this.setEnemyFrame(enemies[i]);
         }else{
-          enemies[i].setVelocityX( (Math.random() < 0.6 ? -1 : 1) + Phaser.Math.Between(-0.1, 0.1));
-          enemies[i].setVelocityY((Math.random() < 0.6 ? -1 : 1) + Phaser.Math.Between(-0.1, 0.1));
+          enemies[i].setVelocityX(enemies[i].body.velocity.x);
+          enemies[i].setVelocityY(enemies[i].body.velocity.y);
 
         }
       }
