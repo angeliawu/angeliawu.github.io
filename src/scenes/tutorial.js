@@ -13,7 +13,7 @@ export default class Tutorial extends DefaultScene
   preload()
   {
     //Load the tutorial video
-    this.load.video("TutorialVideo", './assets/Fried or Flight Tutorial.mp4');
+    this.load.video("TutorialVideo", './assets/tutorialVideo');
 
     this.mapKey = 'tutorial';
     this.mapPath = "./assets/tilemaps/tutorial.json";
