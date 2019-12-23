@@ -1,13 +1,13 @@
 export default loadAssets
 
 function loadAssets(mapkey, mapPath, that){
-  that.load.image("tiles", "./assets/tilemaps/newtileset.png");
+  that.load.image("tiles", "./assets/tilemaps/newTileset.png");
   that.load.tilemapTiledJSON(mapkey, mapPath);
   that.load.image("crate", "./assets/resized/crate.png");
   that.load.image("Lcrate", "./assets/resized/lcrate.png");
   //different song for tutorial
   that.load.audio("tutorial","./assets/sounds/tutorial.wav");
-  that.load.audio("InGame","./assets/sounds/ingame2.wav");
+  that.load.audio("InGame","./assets/sounds/inGame2.wav");
   that.load.audio("pausefx","./assets/sounds/kindlichtext.mp3");
   that.load.audio("splash","./assets/sounds/splash.wav");
   that.load.audio("doorfx","./assets/sounds/door.wav");
@@ -20,11 +20,11 @@ function loadAssets(mapkey, mapPath, that){
   });
   that.load.json('Shape', "./assets/resized/shape.json")
 
-  that.load.spritesheet('cookIdle', "./assets/resized/cookidle.png",{
+  that.load.spritesheet('cookIdle', "./assets/resized/cookIdle.png",{
     frameHeight: 60,
     frameWidth: 63
   });
-  that.load.spritesheet('Angry', "./assets/resized/angerygrid.png",{
+  that.load.spritesheet('Angry', "./assets/resized/angeryGrid.png",{
     frameHeight: 63,
     frameWidth: 60
   })
@@ -32,7 +32,7 @@ function loadAssets(mapkey, mapPath, that){
     frameHeight: 63,
     frameWidth: 60
   });
-  that.load.spritesheet('CookAway', "./assets/resized/cookawayanimation.png",{
+  that.load.spritesheet('CookAway', "./assets/resized/cookAwayAnimation.png",{
     frameHeight: 63,
     frameWidth: 60
   });
@@ -59,8 +59,8 @@ function loadAssets(mapkey, mapPath, that){
   that.load.image("crack", "./assets/resized/crack.png");
 
   //Load exit box
-  that.load.image("exit", "./assets/resized/exitsign.png");
-  that.load.image("water","./assets/resized/waterparticle.png");
-  that.load.image("void", "./assets/resized/voidparticle.png")
+  that.load.image("exit", "./assets/resized/exit Sign_bak.png");
+  that.load.image("water","./assets/resized/waterParticle.png");
+  that.load.image("void", "./assets/resized/voidParticle.png")
 
 }
