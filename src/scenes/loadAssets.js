@@ -36,15 +36,15 @@ function loadAssets(mapkey, mapPath, that){
     frameHeight: 63,
     frameWidth: 60
   });
-  that.load.spritesheet('onion', "./assets/resized/Onion_animation2331.png",{
+  that.load.spritesheet('onion', "./assets/resized/onion_animation2331.png",{
     frameHeight: 31,
     frameWidth: 23
   });
-  that.load.spritesheet('tomato', "./assets/resized/Tomato_animation3245.png",{
+  that.load.spritesheet('tomato', "./assets/resized/tomato_animation3245.png",{
     frameHeight: 45,
     frameWidth: 32
   });
-  that.load.spritesheet('door', "./assets/resized/Door_bak.png",{
+  that.load.spritesheet('door', "./assets/resized/door_bak.png",{
     frameHeight: 32,
     frameWidth: 32
   });
@@ -59,7 +59,7 @@ function loadAssets(mapkey, mapPath, that){
   that.load.image("crack", "./assets/resized/crack.png");
 
   //Load exit box
-  that.load.image("exit", "./assets/resized/Exit Sign_bak.png");
+  that.load.image("exit", "./assets/resized/exit Sign_bak.png");
   that.load.image("water","./assets/resized/waterParticle.png");
   that.load.image("void", "./assets/resized/voidParticle.png")
 
