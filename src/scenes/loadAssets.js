@@ -4,13 +4,13 @@ function loadAssets(mapkey, mapPath, that){
   that.load.image("tiles", "./assets/tilemaps/newTileset.png");
   that.load.tilemapTiledJSON(mapkey, mapPath);
   that.load.image("crate", "./assets/resized/crate.png");
-  that.load.image("Lcrate", "./assets/resized/Lcrate.png");
+  that.load.image("Lcrate", "./assets/resized/lcrate.png");
   //different song for tutorial
-  that.load.audio("tutorial","./assets/sounds/Tutorial.wav");
-  that.load.audio("InGame","./assets/sounds/InGame2.wav");
-  that.load.audio("pausefx","./assets/sounds/Kindlich Text.mp3");
+  that.load.audio("tutorial","./assets/sounds/tutorial.wav");
+  that.load.audio("InGame","./assets/sounds/inGame2.wav");
+  that.load.audio("pausefx","./assets/sounds/kindlichtext.mp3");
   that.load.audio("splash","./assets/sounds/splash.wav");
-  that.load.audio("doorfx","./assets/sounds/Door.wav");
+  that.load.audio("doorfx","./assets/sounds/door.wav");
   that.load.audio("chefsfx","./assets/sounds/chefsfx.mp3");
   //Loads potato player sprite
   //that.load.image("potato", "./assets/potato.png");
@@ -20,19 +20,19 @@ function loadAssets(mapkey, mapPath, that){
   });
   that.load.json('Shape', "./assets/resized/shape.json")
 
-  that.load.spritesheet('cookIdle', "./assets/resized/CookIdle.png",{
+  that.load.spritesheet('cookIdle', "./assets/resized/cookIdle.png",{
     frameHeight: 60,
     frameWidth: 63
   });
-  that.load.spritesheet('Angry', "./assets/resized/AngeryGrid.png",{
+  that.load.spritesheet('Angry', "./assets/resized/angeryGrid.png",{
     frameHeight: 63,
     frameWidth: 60
   })
-  that.load.spritesheet('Cookwalk', "./assets/resized/Cookwalk.png",{
+  that.load.spritesheet('Cookwalk', "./assets/resized/cookwalk.png",{
     frameHeight: 63,
     frameWidth: 60
   });
-  that.load.spritesheet('CookAway', "./assets/resized/CookAwayAnimation.png",{
+  that.load.spritesheet('CookAway', "./assets/resized/cookAwayAnimation.png",{
     frameHeight: 63,
     frameWidth: 60
   });
